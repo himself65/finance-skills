@@ -18,10 +18,18 @@ A collection of agent skills for financial analysis and trading.
 
 ## Available Skills
 
+### Analysis & Data
+
 | Skill | Description |
 |---|---|
 | [options-payoff](skills/options-payoff/) | Generate interactive options payoff curve charts with dynamic parameter controls. Supports butterfly, vertical spread, calendar spread, iron condor, straddle, strangle, covered call, and more. |
 | [yfinance-data](skills/yfinance-data/) | Fetch financial and market data using yfinance — stock prices, historical OHLCV, financial statements, options chains, dividends, earnings, analyst recommendations, screener, and more. |
+
+### Research & Sentiment
+
+| Skill | Description |
+|---|---|
+| [twitter](skills/twitter/) | Read-only Twitter/X research via [twitter-cli](https://github.com/jackwener/twitter-cli) — search financial tweets, track analyst commentary, monitor earnings sentiment, and follow market discussions. No API keys needed (uses browser cookies). |
 
 ## Setup
 
