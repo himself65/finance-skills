@@ -1,5 +1,8 @@
 # Finance Skills
 
+> [!WARNING]
+> This project is for educational and informational purposes only. Nothing here constitutes financial advice. Always do your own research and consult a qualified financial advisor before making investment decisions.
+
 A collection of agent skills for financial analysis and trading.
 
 ## Demo
