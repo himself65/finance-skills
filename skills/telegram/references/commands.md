@@ -1,6 +1,6 @@
 # tdl Command Reference (Read-Only)
 
-Complete reference for tdl commands used in the telegram-news skill. Only read operations are documented — this skill does not support write operations.
+Complete reference for tdl commands used in the telegram skill. Only read operations are documented — this skill does not support write operations.
 
 ## Global Flags
 

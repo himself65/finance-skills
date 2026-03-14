@@ -1,5 +1,5 @@
 ---
-name: telegram-news
+name: telegram
 description: >
   Read Telegram channels and groups for financial news and market research using tdl (read-only).
   Use this skill whenever the user wants to read Telegram channels, export messages from financial
