@@ -4,9 +4,14 @@ A collection of agent skills for financial analysis and trading.
 
 ## Demo
 
-### options-payoff — Butterfly Spread
+### options-payoff — Bull Call Spread
 
-![Options Payoff Demo](skills/options-payoff/options-payoff-demo.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/options-payoff-bull-call-spread-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/options-payoff-bull-call-spread.png">
+  <img alt="Options Payoff — Bull Call Spread for MSFT" src="assets/options-payoff-bull-call-spread.png">
+</picture>
+
 
 ## Available Skills
 
