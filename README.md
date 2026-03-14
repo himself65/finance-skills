@@ -5,16 +5,7 @@
 
 A collection of agent skills for financial analysis and trading.
 
-## Demo
-
-### options-payoff — Bull Call Spread
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/options-payoff-bull-call-spread-dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="assets/options-payoff-bull-call-spread.png">
-  <img alt="Options Payoff — Bull Call Spread for MSFT" src="assets/options-payoff-bull-call-spread.png">
-</picture>
-
+See [DEMOS.md](DEMOS.md) for screenshots and examples.
 
 ## Available Skills
 
@@ -30,7 +21,7 @@ A collection of agent skills for financial analysis and trading.
 | Skill | Description | Platform |
 |---|---|---|
 | [discord](skills/discord/) | Read-only Discord research via [discord-cli](https://github.com/jackwener/discord-cli) — search trading server discussions, monitor crypto/market groups, track sentiment in financial communities, and export messages for analysis. Uses local Discord token. | Claude Code |
-| [telegram-news](skills/telegram-news/) | Read-only Telegram channel reader via [tdl](https://github.com/iyear/tdl) — export messages from financial news channels, monitor crypto/market groups, and aggregate Telegram-based news feeds. One-time QR code login. | Claude Code |
+| [telegram](skills/telegram/) | Read-only Telegram channel reader via [tdl](https://github.com/iyear/tdl) — export messages from financial news channels, monitor crypto/market groups, and aggregate Telegram-based news feeds. One-time QR code login. | Claude Code |
 | [twitter](skills/twitter/) | Read-only Twitter/X research via [twitter-cli](https://github.com/jackwener/twitter-cli) — search financial tweets, track analyst commentary, monitor earnings sentiment, and follow market discussions. No API keys needed (uses browser cookies). | Claude Code |
 
 ### Visualization

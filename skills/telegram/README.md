@@ -1,4 +1,4 @@
-# telegram-news
+# telegram
 
 Read-only Telegram skill for financial news and market research using [tdl](https://github.com/iyear/tdl).
 
@@ -31,7 +31,7 @@ Works on **Claude Code** and other CLI-based agents. Does **not** work on Claude
 ## Setup
 
 ```bash
-npx skills add himself65/finance-skills --skill telegram-news
+npx skills add himself65/finance-skills --skill telegram
 ```
 
 See the [main README](../../README.md) for more installation options.
