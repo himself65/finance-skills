@@ -23,7 +23,6 @@ A collection of agent skills for financial analysis and trading.
 | Skill | Description | Platform |
 |---|---|---|
 | [options-payoff](skills/options-payoff/) | Generate interactive options payoff curve charts with dynamic parameter controls. Supports butterfly, vertical spread, calendar spread, iron condor, straddle, strangle, covered call, and more. | Claude.ai or [generative-ui](skills/generative-ui/) |
-| [unusual-whales](skills/unusual-whales/) | Query the [Unusual Whales API](https://unusualwhales.com/public-api) for options flow, dark pool trades, congressional trading, institutional holdings, Greek exposure, volatility, screener, and 100+ endpoints. **Paid API key required.** | Claude Code |
 | [yfinance-data](skills/yfinance-data/) | Fetch financial and market data using yfinance — stock prices, historical OHLCV, financial statements, options chains, dividends, earnings, analyst recommendations, screener, and more. | All platforms |
 
 ### Research & Sentiment
@@ -39,15 +38,11 @@ A collection of agent skills for financial analysis and trading.
 |---|---|---|
 | [generative-ui](skills/generative-ui/) | Design system and guidelines for Claude's built-in generative UI (`show_widget`). Render interactive HTML/SVG widgets inline — charts, diagrams, dashboards, interactive explainers, and more. | Claude.ai built-in |
 
-## Paid API Keys
+### Paid API (subscription required)
 
-Some skills require a paid API subscription:
-
-| Skill | Pricing |
-|---|---|
-| [unusual-whales](skills/unusual-whales/) | Paid API token required — [purchase here](https://unusualwhales.com/pricing?product=api) |
-
-All other skills are free to use (yfinance-data uses public Yahoo Finance data, twitter uses browser cookies, telegram-news uses free tdl CLI, etc.).
+| Skill | Description | Platform |
+|---|---|---|
+| [unusual-whales](skills/unusual-whales/) | Query the [Unusual Whales API](https://unusualwhales.com/public-api) for options flow, dark pool trades, congressional trading, institutional holdings, Greek exposure, volatility, screener, and 100+ endpoints. [Purchase API key](https://unusualwhales.com/pricing?product=api). | Claude Code |
 
 ## Setup
 
