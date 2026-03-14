@@ -14,7 +14,7 @@ A collection of agent skills for financial analysis and trading.
 |---|---|
 | [options-payoff](skills/options-payoff/) | Generate interactive options payoff curve charts with dynamic parameter controls. Supports butterfly, vertical spread, calendar spread, iron condor, straddle, strangle, covered call, and more. |
 | [yfinance-data](skills/yfinance-data/) | Fetch financial and market data using yfinance — stock prices, historical OHLCV, financial statements, options chains, dividends, earnings, analyst recommendations, screener, and more. |
-| [ibkr-mcp](skills/ibkr-mcp/) | Connect to Interactive Brokers via the ibkr_trade_mcp MCP server — retrieve account info, positions, P&L, balances, margins, and place or manage orders. |
+| [ibkr-mcp](skills/ibkr-mcp/) | Read-only access to Interactive Brokers via the ibkr_trade_mcp MCP server — retrieve account info, positions, P&L, balances, and margins. Does NOT place or manage orders. |
 
 ## Setup
 

@@ -2,19 +2,19 @@
 name: ibkr-mcp
 description: >
   Connect to Interactive Brokers via the ibkr_trade_mcp server to retrieve account info,
-  positions, P&L, balances, and place or manage orders.
+  positions, P&L, and balances. READ-ONLY — this skill does NOT place, modify, or cancel orders.
   Use this skill when the user asks about their IBKR account, brokerage positions,
-  portfolio holdings, account balance, buying power, margin, P&L, trade history,
-  or wants to place/cancel/modify orders through Interactive Brokers.
+  portfolio holdings, account balance, buying power, margin, P&L, or trade history.
   Triggers include: "show my positions", "what's in my portfolio", "IBKR account",
   "Interactive Brokers", "my holdings", "account balance", "buying power",
-  "place an order", "cancel order", "trade history", or any request involving
-  a live brokerage account.
+  "trade history", or any request involving a live brokerage account.
 ---
 
 # IBKR MCP Skill
 
-Interact with Interactive Brokers accounts through the [ibkr_trade_mcp](https://github.com/goCyberTrade/ibkr_trade_mcp) MCP server.
+Read-only access to Interactive Brokers accounts through the [ibkr_trade_mcp](https://github.com/goCyberTrade/ibkr_trade_mcp) MCP server.
+
+**This skill is READ-ONLY.** It retrieves account data, positions, and history. It does **NOT** place, modify, or cancel orders. If the user asks to trade, explain that automated order execution is not supported for safety reasons and direct them to use the IBKR platform directly.
 
 **Prerequisites**: The ibkr_trade_mcp server must be running and configured as an MCP server in the user's environment. See [Setup](#setup) below.
 
@@ -107,16 +107,11 @@ Refer to `references/tools_reference.md` for complete tool details. Here's the q
 | Single instrument position | `get_instrument_position` | `accountId`, `conid` |
 | Position info | `get_position_info` | `conid` |
 
-### Trading
+### Lookup (read-only)
 
 | User Request | Tool | Key Parameters |
 |---|---|---|
 | Search for a contract | `get_contract_list` | `symbol` |
-| Place an order | `create_order` | `conid`, `accountId`, + order params |
-| Modify an order | `edit_order` | `orderId`, `accountId`, + fields |
-| Cancel an order | `cancel_order` | `accountId`, `orderId` |
-| Check order impact | `order_whatif` | `conid`, `accountId`, + order params |
-| Confirm order reply | `order_reply` | `id` |
 | View an order | `get_order_info` | `orderId` |
 | List today's orders | `get_order_list` | `accountId` (optional) |
 
@@ -128,18 +123,33 @@ Refer to `references/tools_reference.md` for complete tool details. Here's the q
 
 ---
 
+## PROHIBITED — Do NOT Use These Tools
+
+The following tools execute real trades and must **NEVER** be called:
+
+- `create_order` — Places a live order
+- `edit_order` — Modifies a live order
+- `cancel_order` — Cancels a live order
+- `order_reply` — Confirms order execution
+- `order_whatif` — Simulates an order (safe alone, but do not use as a step toward placing orders)
+
+If the user asks to place, modify, or cancel an order, **refuse** and explain:
+> "Automated trading through AI is dangerous and not supported by this skill. Please place orders directly through the IBKR Trader Workstation, Client Portal, or mobile app."
+
+---
+
 ## Step 4: Present the Data
 
 1. **Positions** — Show as a table: symbol, quantity, market value, avg cost, unrealized P&L, % change
 2. **Account summary** — Highlight net liquidation, buying power, margin used, total P&L
-3. **Orders** — Show status, side, quantity, price, fill status
-4. **Flag important items** — Positions with large unrealized losses, margin warnings, pending orders
+3. **Orders** — Show status, side, quantity, price, fill status (view only)
+4. **Flag important items** — Positions with large unrealized losses, margin warnings
 
 ---
 
 ## Important Notes
 
-- **Order placement is irreversible** — Always use `order_whatif` first to preview impact, and confirm with the user before calling `create_order`
+- **READ-ONLY** — This skill only reads data. It never places, modifies, or cancels orders.
 - **Pagination** — `get_all_position` returns max 100 per page. Increment `pageId` to get more.
 - **Channel parameter** — Always pass `channel: "ibkr"` (the only currently supported channel)
 - **Demo accounts** — For testing, register an IBKR paper trading account at [interactivebrokers.com](https://www.interactivebrokers.com)

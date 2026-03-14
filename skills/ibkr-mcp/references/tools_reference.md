@@ -117,45 +117,12 @@ Historical transaction ledger.
 
 ---
 
-## Trade Tools
+## Lookup Tools (read-only)
 
 ### `get_contract_list`
 Search for contracts by symbol.
 - **Parameters**: `channel`, `symbol` (str)
 - **Returns**: Contract info: conId, symbol, description, secType for all matching contracts
-
-### `create_order`
-Place a new order. **Use `order_whatif` first to preview impact.**
-- **Parameters**: `channel`, `conid` (int), `accountId` (str), plus optional order fields:
-  - `side` — BUY or SELL
-  - `orderType` — MKT, LMT, STP, STP_LIMIT, etc.
-  - `quantity` — number of shares/contracts
-  - `price` — limit price (for LMT/STP_LIMIT)
-  - `auxPrice` — stop price (for STP/STP_LIMIT)
-  - `tif` — time in force: DAY, GTC, IOC, OPG
-  - `outsideRTH` — allow outside regular trading hours (bool)
-  - Plus ~17 additional optional fields for advanced order types
-- **Returns**: Order confirmation or suppression notice requiring `order_reply`
-
-### `order_reply`
-Confirm a suppressed order (after `create_order` or `edit_order` returns a suppression).
-- **Parameters**: `channel`, `id` (str, the reply ID from suppression)
-- **Returns**: Final submission result
-
-### `edit_order`
-Modify an existing order.
-- **Parameters**: `channel`, `orderId` (str), `accountId` (str), plus same optional fields as `create_order`
-- **Returns**: Modified order confirmation or suppression notice
-
-### `cancel_order`
-Cancel an order.
-- **Parameters**: `channel`, `accountId` (str), `orderId` (str)
-- **Returns**: Cancellation confirmation with message and order ID
-
-### `order_whatif`
-Preview order impact without placing it.
-- **Parameters**: Same as `create_order`
-- **Returns**: Estimated commissions, fees, position changes, fund validation status
 
 ### `get_order_info`
 Get details for a specific order.
@@ -176,3 +143,15 @@ List all accounts with details.
 List subaccounts.
 - **Parameters**: `channel`
 - **Returns**: Subaccount info with attributes and parent relationship
+
+---
+
+## PROHIBITED Tools — Do NOT Use
+
+The following tools execute real trades with real money. They must **NEVER** be called by this skill.
+
+- `create_order` — Places a live order
+- `edit_order` — Modifies a live order
+- `cancel_order` — Cancels a live order
+- `order_reply` — Confirms order execution
+- `order_whatif` — Simulates an order
