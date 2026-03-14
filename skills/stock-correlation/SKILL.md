@@ -75,7 +75,7 @@ If ambiguous, default to **Sub-Skill A** (Co-movement Discovery) for single tick
 
 You need 15-30 candidates. **Do not use hardcoded ticker lists** — build the universe dynamically at runtime. See `references/sector_universes.md` for the full implementation. The approach:
 
-1. **Screen same-industry stocks** using `yf.Screener` + `yf.EquityQuery` to find stocks in the same industry as the target
+1. **Screen same-industry stocks** using `yf.screen()` + `yf.EquityQuery` to find stocks in the same industry as the target
 2. **Broaden to sector** if the industry screen returns fewer than 10 peers
 3. **Add thematic/adjacent industries** — read the target's `longBusinessSummary` and screen 1-2 related industries (e.g., a semiconductor company → also screen semiconductor equipment)
 4. **Combine, deduplicate, remove target ticker**
@@ -89,18 +89,10 @@ import numpy as np
 
 def discover_comovement(target_ticker, peer_tickers, period="1y"):
     all_tickers = [target_ticker] + [t for t in peer_tickers if t != target_ticker]
-    data = yf.download(all_tickers, period=period, auto_adjust=True)
+    data = yf.download(all_tickers, period=period, auto_adjust=True, progress=False)
 
-    # Extract close prices
-    closes = pd.DataFrame()
-    for t in all_tickers:
-        try:
-            closes[t] = data[t]["Close"] if len(all_tickers) > 1 else data["Close"]
-        except (KeyError, TypeError):
-            continue
-
-    # Require at least 60 observations
-    closes = closes.dropna(axis=1, thresh=max(60, len(closes) // 2))
+    # Extract close prices — yf.download returns MultiIndex (Price, Ticker) columns
+    closes = data["Close"].dropna(axis=1, thresh=max(60, len(data) // 2))
 
     # Log returns
     returns = np.log(closes / closes.shift(1)).dropna()
@@ -144,11 +136,8 @@ import pandas as pd
 import numpy as np
 
 def return_correlation(ticker_a, ticker_b, period="1y"):
-    data = yf.download([ticker_a, ticker_b], period=period, auto_adjust=True)
-    closes = pd.DataFrame({
-        ticker_a: data[ticker_a]["Close"],
-        ticker_b: data[ticker_b]["Close"],
-    }).dropna()
+    data = yf.download([ticker_a, ticker_b], period=period, auto_adjust=True, progress=False)
+    closes = data["Close"][[ticker_a, ticker_b]].dropna()
 
     returns = np.log(closes / closes.shift(1)).dropna()
     corr = returns[ticker_a].corr(returns[ticker_b])
@@ -216,16 +205,10 @@ import pandas as pd
 import numpy as np
 
 def sector_clustering(tickers, period="1y"):
-    data = yf.download(tickers, period=period, auto_adjust=True)
+    data = yf.download(tickers, period=period, auto_adjust=True, progress=False)
 
-    closes = pd.DataFrame()
-    for t in tickers:
-        try:
-            closes[t] = data[t]["Close"] if len(tickers) > 1 else data["Close"]
-        except (KeyError, TypeError):
-            continue
-
-    closes = closes.dropna(axis=1, thresh=max(60, len(closes) // 2))
+    # yf.download returns MultiIndex (Price, Ticker) columns
+    closes = data["Close"].dropna(axis=1, thresh=max(60, len(data) // 2))
     returns = np.log(closes / closes.shift(1)).dropna()
     corr_matrix = returns.corr()
 
@@ -276,11 +259,8 @@ import pandas as pd
 import numpy as np
 
 def realized_correlation(ticker_a, ticker_b, period="2y", windows=[20, 60, 120]):
-    data = yf.download([ticker_a, ticker_b], period=period, auto_adjust=True)
-    closes = pd.DataFrame({
-        ticker_a: data[ticker_a]["Close"],
-        ticker_b: data[ticker_b]["Close"],
-    }).dropna()
+    data = yf.download([ticker_a, ticker_b], period=period, auto_adjust=True, progress=False)
+    closes = data["Close"][[ticker_a, ticker_b]].dropna()
 
     returns = np.log(closes / closes.shift(1)).dropna()
 
