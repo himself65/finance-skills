@@ -41,4 +41,4 @@ See the [main README](../../README.md) for more installation options.
 
 ## Reference files
 
-- `references/sector_universes.md` — Curated peer lists for major sectors and industries, organized by theme (Semiconductors, Cloud, AI Supply Chain, EV ecosystem, etc.)
+- `references/sector_universes.md` — Dynamic peer universe construction using yfinance Screener API, with fallback strategies

@@ -1,208 +1,141 @@
-# Sector Universes for Correlation Analysis
+# Dynamic Peer Universe Construction
 
-Curated peer lists organized by sector and theme. Use these as the candidate universe when the user provides a single ticker and wants to find correlated stocks.
-
-**How to use**: Look up the target ticker's sector/industry, then use the corresponding peer list. Always combine the sector list with any obvious cross-sector names (e.g., a cloud software company also correlates with cloud infrastructure providers).
+How to build a peer universe at runtime for correlation analysis. **Do not hardcode ticker lists** — fetch them dynamically so results stay current.
 
 ---
 
-## Technology
+## Method 1: Same-Industry Screen (Primary)
 
-### Semiconductors
+Use yfinance's `Screener` + `EquityQuery` to find stocks in the same sector and industry as the target:
 
-**Design / Fabless**
-NVDA, AMD, QCOM, AVGO, MRVL, INTC, MU, TXN, ADI, NXPI, ON, SWKS, QRVO, MCHP, MPWR, LSCC, SMCI
+```python
+import yfinance as yf
+from yfinance import Screener, EquityQuery
 
-**Equipment & Materials**
-ASML, AMAT, LRCX, KLAC, TER, ENTG, MKSI, ONTO
+def get_industry_peers(ticker_symbol, min_market_cap=1_000_000_000, max_results=30):
+    """Find peers in the same industry with similar market cap."""
+    target = yf.Ticker(ticker_symbol)
+    info = target.info
+    sector = info.get("sector", "")
+    industry = info.get("industry", "")
+    market_cap = info.get("marketCap", 0)
 
-**Optical / Photonics**
-LITE, COHR, II-VI, IIVI, IPGP
+    if not industry:
+        return []
 
-**EDA & IP**
-SNPS, CDNS, ARM
+    # Screen for same-industry stocks above minimum market cap
+    query = EquityQuery("and", [
+        EquityQuery("eq", ["industry", industry]),
+        EquityQuery("gt", ["marketcap", min_market_cap]),
+    ])
 
-### Cloud & Infrastructure
+    screener = Screener()
+    screener.set_body(query, size=max_results)
+    result = screener.response
 
-**Hyperscalers / Cloud Platforms**
-AMZN, MSFT, GOOGL, META, ORCL, IBM, CRM
+    peers = []
+    for quote in result.get("quotes", []):
+        symbol = quote.get("symbol", "")
+        if symbol and symbol != ticker_symbol:
+            peers.append(symbol)
 
-**Cloud Infrastructure & DevOps**
-NET, DDOG, SNOW, MDB, ESTC, CFLT, S, CRWD, ZS, OKTA, PANW
+    return peers
+```
 
-**Data Centers & Networking**
-EQIX, DLR, AMT, ANET, CSCO, JNPR, FFIV
+## Method 2: Same-Sector Screen (Broader)
 
-### Software
+When the industry is too narrow (< 5 peers), widen to the full sector:
 
-**Enterprise SaaS**
-CRM, NOW, WDAY, TEAM, HUBS, ZM, DOCU, VEEV, BILL, PAYC
+```python
+def get_sector_peers(ticker_symbol, min_market_cap=5_000_000_000, max_results=30):
+    """Find large-cap peers in the same sector."""
+    target = yf.Ticker(ticker_symbol)
+    info = target.info
+    sector = info.get("sector", "")
 
-**Cybersecurity**
-CRWD, PANW, ZS, FTNT, S, OKTA, CYBR, QLYS, TENB, RPD
+    if not sector:
+        return []
 
-**AI & Data Analytics**
-PLTR, AI, BBAI, PATH, SNOW, DDOG, ESTC, MDB
+    query = EquityQuery("and", [
+        EquityQuery("eq", ["sector", sector]),
+        EquityQuery("gt", ["marketcap", min_market_cap]),
+    ])
 
-### Consumer Tech
+    screener = Screener()
+    screener.set_body(query, size=max_results)
+    result = screener.response
 
-**Big Tech / FAANG+**
-AAPL, MSFT, GOOGL, AMZN, META, NFLX, TSLA, NVDA
+    peers = []
+    for quote in result.get("quotes", []):
+        symbol = quote.get("symbol", "")
+        if symbol and symbol != ticker_symbol:
+            peers.append(symbol)
 
-**Social Media & Advertising**
-META, SNAP, PINS, RDDT, TTD, ROKU, MGNI, PUBM
+    return peers
+```
 
-**E-commerce & Marketplaces**
-AMZN, SHOP, MELI, SE, ETSY, EBAY, W, CPNG, BABA, JD, PDD
+## Method 3: Thematic Expansion
 
----
+For cross-sector correlations (e.g., AI supply chain spans semis + cloud + software), use the target's known business relationships:
 
-## Healthcare & Biotech
+```python
+def get_thematic_peers(ticker_symbol):
+    """Use company description and sector to infer thematic peers."""
+    target = yf.Ticker(ticker_symbol)
+    info = target.info
+    description = info.get("longBusinessSummary", "")
+    sector = info.get("sector", "")
+    industry = info.get("industry", "")
 
-### Large Cap Pharma
-JNJ, PFE, MRK, LLY, ABBV, BMY, AZN, NVO, AMGN, GILD, REGN, VRTX
+    # Return the description and sector info so the model can reason about
+    # which adjacent industries to also screen
+    return {
+        "sector": sector,
+        "industry": industry,
+        "description": description,
+    }
+```
 
-### Biotech
-BIIB, MRNA, BNTX, SGEN, ALNY, BMRN, INCY, EXEL, IONS, SRPT, RARE
+After reading the company description, screen 1-2 adjacent industries. For example:
+- A semiconductor company → also screen "Semiconductor Equipment" and "Electronic Components"
+- A cloud platform → also screen "Software - Infrastructure" and "Information Technology Services"
+- An EV maker → also screen "Auto Parts", "Electrical Equipment", and "Specialty Chemicals" (battery materials)
 
-### Medical Devices
-MDT, ABT, SYK, ISRG, BSX, EW, BDX, ZBH, DXCM, PODD, ALGN
+## Combining Methods
 
-### Health Insurance & Services
-UNH, CI, ELV, HUM, CNC, MOH, CVS, HCA, THC
+Build the full universe by combining all methods:
 
----
+```python
+def build_peer_universe(ticker_symbol):
+    """Build a comprehensive peer universe for correlation analysis."""
+    peers = set()
 
-## Financials
+    # 1. Same industry (narrow)
+    industry_peers = get_industry_peers(ticker_symbol, min_market_cap=1_000_000_000)
+    peers.update(industry_peers)
 
-### Banks (Large Cap)
-JPM, BAC, WFC, C, GS, MS, USB, PNC, TFC, SCHW
+    # 2. If too few, broaden to sector
+    if len(peers) < 10:
+        sector_peers = get_sector_peers(ticker_symbol, min_market_cap=5_000_000_000)
+        peers.update(sector_peers)
 
-### Banks (Regional)
-FITB, KEY, CFG, RF, HBAN, ZION, CMA, SIVB, FRC, WAL, PACW
+    # 3. Add thematic/adjacent industries based on business description
+    # (model should reason about which adjacent industries to screen)
 
-### Insurance
-BRK-B, AIG, MET, PRU, ALL, TRV, PGR, CB, AFL
+    peers.discard(ticker_symbol)
+    return list(peers)
+```
 
-### Fintech & Payments
-V, MA, PYPL, SQ, FIS, FISV, GPN, ADP, COIN, HOOD, SOFI, AFRM
-
-### Asset Management & Exchanges
-BLK, KKR, APO, ARES, BX, CME, ICE, NDAQ, CBOE
-
----
-
-## Energy
-
-### Oil & Gas (Integrated / E&P)
-XOM, CVX, COP, EOG, PXD, DVN, FANG, HES, MPC, VLO, PSX
-
-### Natural Gas
-EQT, AR, RRC, SWN, CHK, CTRA
-
-### Oilfield Services
-SLB, HAL, BKR, FTI, NOV, WFRD
-
-### Renewables & Clean Energy
-ENPH, SEDG, FSLR, RUN, NEE, AES, PLUG, BE, NOVA
-
----
-
-## Industrials
-
-### Aerospace & Defense
-BA, LMT, RTX, NOC, GD, LHX, TDG, HWM, AXON, HII
-
-### Transportation
-UPS, FDX, UNP, CSX, NSC, JBHT, XPO, ODFL, DAL, UAL, AAL, LUV
-
-### Industrial Conglomerates
-GE, HON, MMM, CAT, DE, EMR, ETN, ROK, PH, ITW
-
-### Construction & Engineering
-JCI, LII, TT, CARR, OTIS, SWK, VMC, MLM
-
----
-
-## Consumer
-
-### Retail
-WMT, COST, TGT, HD, LOW, TJX, ROST, DG, DLTR, FIVE
-
-### Food & Beverage
-KO, PEP, MDLZ, KHC, GIS, K, HSY, MKC, STZ, SAM
-
-### Restaurants & Leisure
-MCD, SBUX, CMG, YUM, DPZ, DKNG, MGM, WYNN, LVS, MAR, HLT
-
-### Luxury & Apparel
-NKE, LULU, DECK, ONON, CROX, TPR, RL, PVH, CPRI
-
-### Automotive
-TSLA, F, GM, RIVN, LCID, TM, HMC, STLA, LI, NIO, XPEV
+**Target**: 15-30 peers for a meaningful correlation scan. Too few gives sparse results; too many slows the yfinance download.
 
 ---
 
-## Real Estate (REITs)
+## Fallback: Well-Known Groupings
 
-### Data Center REITs
-EQIX, DLR, AMT, CCI, SBAC
+If the screener is unavailable or rate-limited, ask the model to use its knowledge of well-known groupings:
 
-### Industrial REITs
-PLD, PSA, EXR, CUBE, LSI
+- **Mag 7**: AAPL, MSFT, GOOGL, AMZN, META, NVDA, TSLA
+- **Major indices**: SPY (S&P 500), QQQ (Nasdaq 100), DIA (Dow 30), IWM (Russell 2000)
+- **Sector ETFs**: XLK, XLF, XLE, XLV, XLI, XLP, XLU, XLY, XLC, XLRE, XLB
 
-### Residential REITs
-AVB, EQR, MAA, UDR, CPT, INVH, AMH
-
-### Office & Retail REITs
-SPG, O, VICI, BXP, KIM, REG, FRT
-
----
-
-## Materials & Mining
-
-### Precious Metals
-NEM, GOLD, AEM, WPM, FNV, RGLD, KGC
-
-### Industrial Metals & Mining
-FCX, SCCO, TECK, BHP, RIO, VALE, AA, CLF, NUE, STLD, X
-
-### Chemicals
-LIN, APD, SHW, ECL, DD, PPG, DOW, CE, EMN, CTVA, CF, MOS
-
----
-
-## Utilities
-
-### Electric Utilities
-NEE, SO, DUK, D, AEP, EXC, SRE, XEL, WEC, ES, ED
-
-### Gas Utilities
-NI, ATO, OGS, SPKE
-
----
-
-## Crypto & Digital Assets
-
-COIN, MSTR, MARA, RIOT, CLSK, HUT, BITF, SQ, PYPL, CME
-
----
-
-## Cross-Sector Thematic Groups
-
-These groups capture correlations that span traditional sector boundaries.
-
-### AI Supply Chain (Hardware → Software → Cloud)
-NVDA, AMD, AVGO, MRVL, ASML, AMAT, LRCX, TSM, MSFT, GOOGL, AMZN, META, ORCL, PLTR, SNOW, DDOG, CRM, NOW
-
-### EV & Battery Ecosystem
-TSLA, RIVN, LCID, LI, NIO, XPEV, ALB, SQM, LTHM, PANW, QS, CHPT, BLNK, PLUG, ENPH, SEDG, FSLR
-
-### Interest Rate Sensitive
-JPM, BAC, WFC, GS, SCHW, BLK, SPG, O, EQIX, AMT, PLD, AVB, XLU, TLT, HYG, LQD
-
-### China / Emerging Markets
-BABA, JD, PDD, BIDU, NIO, LI, XPEV, TCOM, BILI, TME, SE, MELI, CPNG, GRAB
-
-### Work-From-Home / Return-to-Office
-ZM, DOCU, CRWD, NET, TEAM, WDAY, VTR, BXP, SPG, SLG, UBER, LYFT
+These ETFs are useful as correlation benchmarks — comparing a stock's correlation to sector ETFs quickly reveals its primary driver.

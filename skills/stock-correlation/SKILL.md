@@ -73,22 +73,12 @@ If ambiguous, default to **Sub-Skill A** (Co-movement Discovery) for single tick
 
 ### A1: Build the peer universe
 
-You need 15-20+ candidates. Combine these sources:
+You need 15-30 candidates. **Do not use hardcoded ticker lists** — build the universe dynamically at runtime. See `references/sector_universes.md` for the full implementation. The approach:
 
-1. **Look up sector/industry** via yfinance:
-
-```python
-import yfinance as yf
-target = yf.Ticker("NVDA")
-info = target.info
-sector = info.get("sector", "")
-industry = info.get("industry", "")
-print(f"Sector: {sector}, Industry: {industry}")
-```
-
-2. **Pull curated peers** from `references/sector_universes.md` — match the ticker to its sector list and also grab any relevant cross-sector thematic groups (e.g., AI Supply Chain for NVDA).
-
-3. **Combine and deduplicate** — merge yfinance sector mates + curated list. Remove the target ticker itself.
+1. **Screen same-industry stocks** using `yf.Screener` + `yf.EquityQuery` to find stocks in the same industry as the target
+2. **Broaden to sector** if the industry screen returns fewer than 10 peers
+3. **Add thematic/adjacent industries** — read the target's `longBusinessSummary` and screen 1-2 related industries (e.g., a semiconductor company → also screen semiconductor equipment)
+4. **Combine, deduplicate, remove target ticker**
 
 ### A2: Compute correlations
 
@@ -389,6 +379,6 @@ After running the appropriate sub-skill, present results clearly:
 
 ## Reference Files
 
-- `references/sector_universes.md` — Curated peer lists for major sectors and industries, organized by theme
+- `references/sector_universes.md` — Dynamic peer universe construction using yfinance Screener API
 
 Read the reference file when you need to build a peer universe for a given ticker.
