@@ -1,0 +1,45 @@
+name: Release Skills
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get short SHA
+        id: sha
+        run: echo "short=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Zip each skill
+        run: |
+          mkdir -p dist
+          for skill_dir in skills/*/; do
+            skill_name=$(basename "$skill_dir")
+            (cd skills && zip -r "../dist/${skill_name}.zip" "$skill_name/")
+            echo "Zipped: $skill_name"
+          done
+
+      - name: Delete existing 'latest' release
+        run: gh release delete latest --yes --cleanup-tag || true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create 'latest' release with skill zips
+        run: |
+          gh release create latest dist/*.zip \
+            --title "Latest Skills (${{ steps.sha.outputs.short }})" \
+            --notes "Auto-generated from main branch.
+
+          Download individual skill zips below and upload them to **Claude.ai → Customize → Skills**.
+
+          Built from commit: ${{ github.sha }}" \
+            --latest
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

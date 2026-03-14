@@ -52,10 +52,12 @@ cp -r skills/options-payoff .claude/skills/options-payoff
 ### Claude.ai (Web / Desktop App)
 
 1. Go to **Settings > Capabilities** and enable **Code execution and file creation**
-2. Download the skill as a zip from GitHub — navigate to the skill folder (e.g., [`skills/options-payoff`](skills/options-payoff/)) and click the **Download ZIP** button
+2. Download the zip for the skill you want from the [latest release](https://github.com/himself65/finance-skills/releases/latest) (e.g., `options-payoff.zip`)
 3. In Claude, go to **Customize > Skills**
 4. Click the **+** button and select **Upload a skill**
 5. Select the zip file — the skill will appear in your skills list
+
+Repeat steps 2–5 for each skill you want to install.
 
 ### Other Agents
 
