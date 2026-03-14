@@ -27,7 +27,7 @@ No API keys needed — authenticates via your logged-in browser session (Chrome,
 
 ## Platform
 
-Works on **all platforms** (Claude Code, etc.).
+Works on **Claude Code** and other CLI-based agents. Does **not** work on Claude.ai — the sandbox restricts network access and binaries required by twitter-cli.
 
 ## Setup
 
