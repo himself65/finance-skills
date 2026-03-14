@@ -20,16 +20,22 @@ A collection of agent skills for financial analysis and trading.
 
 ### Analysis & Data
 
-| Skill | Description |
-|---|---|
-| [options-payoff](skills/options-payoff/) | Generate interactive options payoff curve charts with dynamic parameter controls. Supports butterfly, vertical spread, calendar spread, iron condor, straddle, strangle, covered call, and more. |
-| [yfinance-data](skills/yfinance-data/) | Fetch financial and market data using yfinance — stock prices, historical OHLCV, financial statements, options chains, dividends, earnings, analyst recommendations, screener, and more. |
+| Skill | Description | Platform |
+|---|---|---|
+| [options-payoff](skills/options-payoff/) | Generate interactive options payoff curve charts with dynamic parameter controls. Supports butterfly, vertical spread, calendar spread, iron condor, straddle, strangle, covered call, and more. | Claude.ai required |
+| [yfinance-data](skills/yfinance-data/) | Fetch financial and market data using yfinance — stock prices, historical OHLCV, financial statements, options chains, dividends, earnings, analyst recommendations, screener, and more. | All platforms |
 
 ### Research & Sentiment
 
-| Skill | Description |
-|---|---|
-| [twitter](skills/twitter/) | Read-only Twitter/X research via [twitter-cli](https://github.com/jackwener/twitter-cli) — search financial tweets, track analyst commentary, monitor earnings sentiment, and follow market discussions. No API keys needed (uses browser cookies). |
+| Skill | Description | Platform |
+|---|---|---|
+| [twitter](skills/twitter/) | Read-only Twitter/X research via [twitter-cli](https://github.com/jackwener/twitter-cli) — search financial tweets, track analyst commentary, monitor earnings sentiment, and follow market discussions. No API keys needed (uses browser cookies). | All platforms |
+
+### Visualization
+
+| Skill | Description | Platform |
+|---|---|---|
+| [generative-ui](skills/generative-ui/) | Design system and guidelines for Claude's built-in generative UI (`show_widget`). Render interactive HTML/SVG widgets inline — charts, diagrams, dashboards, interactive explainers, and more. | Claude.ai built-in |
 
 ## Setup
 

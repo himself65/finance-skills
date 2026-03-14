@@ -1,11 +1,13 @@
 ---
 name: generative-ui
 description: >
-  Render interactive HTML/SVG widgets inline using Claude's generative UI system (show_widget tool).
-  Use this skill whenever the user asks to visualize data, create an interactive chart, build a dashboard,
-  render a diagram, draw a flowchart, show a mockup, create an interactive explainer, or produce any
-  visual content beyond plain text or markdown. Triggers include: "show me", "visualize", "draw",
-  "chart", "dashboard", "diagram", "flowchart", "widget", "interactive", "mockup", "illustrate",
+  Design system and guidelines for Claude's built-in generative UI — the show_widget tool that renders
+  interactive HTML/SVG widgets inline in claude.ai conversations. This skill provides the complete
+  Anthropic "Imagine" design system so Claude produces high-quality widgets without needing to call
+  read_me first. Use this skill whenever the user asks to visualize data, create an interactive chart,
+  build a dashboard, render a diagram, draw a flowchart, show a mockup, create an interactive explainer,
+  or produce any visual content beyond plain text or markdown. Triggers include: "show me", "visualize",
+  "draw", "chart", "dashboard", "diagram", "flowchart", "widget", "interactive", "mockup", "illustrate",
   "explain how X works" (with visual), or any request for visual/interactive output. Also triggers
   when the user wants to display financial data visually, create comparison grids, or build tools
   with sliders, toggles, or live-updating displays.
@@ -13,50 +15,30 @@ description: >
 
 # Generative UI Skill
 
-Create rich visual content — SVG diagrams/illustrations and HTML interactive widgets — rendered inline via `visualize:show_widget`. The best output feels like a natural extension of the chat.
+This skill contains the complete design system for Claude's built-in `show_widget` tool — the generative UI feature that renders interactive HTML/SVG widgets inline in claude.ai conversations. The guidelines below are the actual Anthropic "Imagine — Visual Creation Suite" design rules, extracted so you can produce high-quality widgets directly without needing the `read_me` setup call.
+
+**How it works**: On claude.ai, Claude has access to the `show_widget` tool which renders raw HTML/SVG fragments inline in the conversation. This skill provides the design system, templates, and patterns to use it well.
 
 ---
 
-## Step 1: Call `visualize:read_me` First
-
-Before your first `show_widget` call, invoke `visualize:read_me` with the relevant modules. Do NOT mention this call to the user — it is an internal setup step.
-
-```json
-{ "modules": ["chart", "interactive"] }
-```
-
-Available modules:
-
-| Module | Use For |
-|---|---|
-| `diagram` | SVG flowcharts, structural diagrams, illustrative diagrams |
-| `mockup` | UI mockups, forms, cards, dashboards |
-| `interactive` | Interactive explainers with controls |
-| `chart` | Charts and data analysis (includes Chart.js) |
-| `art` | Illustration and generative art |
-
-Pick the closest fit. The module includes all relevant design guidance.
-
----
-
-## Step 2: Pick the Right Visual Type
+## Step 1: Pick the Right Visual Type
 
 Route on the **verb**, not the noun. Same subject, different visual depending on what was asked:
 
-| User says | Type | Tool |
+| User says | Type | Format |
 |---|---|---|
-| "how does X work" | Illustrative diagram | `show_widget` (SVG) |
-| "X architecture" | Structural diagram | `show_widget` (SVG) |
-| "what are the steps" | Flowchart | `show_widget` (SVG) |
-| "explain compound interest" | Interactive explainer | `show_widget` (HTML) |
-| "compare these options" | Comparison grid | `show_widget` (HTML) |
-| "show revenue chart" | Chart.js chart | `show_widget` (HTML) |
-| "create a contact card" | Data record | `show_widget` (HTML) |
-| "draw a sunset" | Art/illustration | `show_widget` (SVG) |
+| "how does X work" | Illustrative diagram | SVG |
+| "X architecture" | Structural diagram | SVG |
+| "what are the steps" | Flowchart | SVG |
+| "explain compound interest" | Interactive explainer | HTML |
+| "compare these options" | Comparison grid | HTML |
+| "show revenue chart" | Chart.js chart | HTML |
+| "create a contact card" | Data record | HTML |
+| "draw a sunset" | Art/illustration | SVG |
 
 ---
 
-## Step 3: Build the Widget
+## Step 2: Build the Widget
 
 ### Structure (strict order)
 
@@ -122,11 +104,12 @@ A global function that sends a message to chat as if the user typed it. Use it w
 
 ---
 
-## Step 4: Call `show_widget`
+## Step 3: Render with `show_widget`
+
+The `show_widget` tool is built into claude.ai — no activation needed. Pass your widget code directly:
 
 ```json
 {
-  "i_have_seen_read_me": true,
   "title": "snake_case_widget_name",
   "widget_code": "<style>...</style>\n<div>...</div>\n<script>...</script>"
 }
@@ -134,17 +117,14 @@ A global function that sends a message to chat as if the user typed it. Use it w
 
 | Parameter | Type | Required | Description |
 |---|---|---|---|
-| `i_have_seen_read_me` | boolean | Yes | Must be `true` — confirms you called `read_me` first |
-| `title` | string | Yes | Snake_case identifier for the widget (used as window title) |
-| `widget_code` | string | Yes | HTML or SVG code. For SVG: raw `<svg>` element. For HTML: content fragment |
-| `width` | number | No | Window width in pixels. Default: 800 |
-| `height` | number | No | Window height in pixels. Default: 600 |
+| `title` | string | Yes | Snake_case identifier for the widget |
+| `widget_code` | string | Yes | HTML or SVG code. For SVG: start with `<svg>`. For HTML: content fragment |
 
-For SVG output: start `widget_code` with `<svg` — it will be auto-detected.
+For SVG output: start `widget_code` with `<svg` — it will be auto-detected and wrapped appropriately.
 
 ---
 
-## Step 5: Chart.js Template
+## Step 4: Chart.js Template
 
 For charts, use `onload` callback pattern to handle script load ordering:
 
@@ -214,7 +194,7 @@ if (window.Chart) initChart();
 
 ---
 
-## Step 6: SVG Diagram Template
+## Step 5: SVG Diagram Template
 
 For flowcharts and diagrams, use SVG with pre-built classes:
 
@@ -256,7 +236,7 @@ For flowcharts and diagrams, use SVG with pre-built classes:
 
 ---
 
-## Step 7: Interactive Explainer Template
+## Step 6: Interactive Explainer Template
 
 For interactive explainers (sliders, live calculations, inline SVG):
 
@@ -289,7 +269,7 @@ Use `sendPrompt()` to let users ask follow-ups: `sendPrompt('What if I increase 
 
 ---
 
-## Step 8: Respond to the User
+## Step 7: Respond to the User
 
 After rendering the widget, briefly explain:
 1. What the widget shows
