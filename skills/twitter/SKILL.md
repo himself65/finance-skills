@@ -19,7 +19,7 @@ Reads Twitter/X for financial research using [twitter-cli](https://github.com/ja
 
 **Important**: This tool uses your browser session cookies. No API keys needed — it authenticates via your logged-in browser session (Chrome, Arc, Edge, Firefox, Brave).
 
-**Claude for macOS limitation**: This skill does not work in Claude for macOS (Claude.app). The app runs code inside a sandboxed Linux VM with no network access, so it cannot download the twitter-cli tool or reach the Twitter API. It also lacks access to the host's browser cookies needed for authentication. Use [Claude Code](https://docs.anthropic.com/en/docs/claude-code) (the CLI) instead, which runs directly on your machine with full network access and browser cookie extraction.
+**Claude for macOS (Cowork) limitation**: This skill does not work in Claude for macOS / Cowork. The app runs code inside a sandboxed Linux VM where network egress is denied by default and routed through a MITM proxy. Even with network egress enabled at [claude.ai/settings/capabilities](https://claude.ai/settings/capabilities), the domain allowlist [may not be applied correctly](https://github.com/anthropics/claude-code/issues/30112). The VM also lacks access to the host's browser cookies needed for authentication. Use [Claude Code](https://docs.anthropic.com/en/docs/claude-code) (the CLI) instead, which runs directly on your machine with full network access and browser cookie extraction.
 
 ---
 
