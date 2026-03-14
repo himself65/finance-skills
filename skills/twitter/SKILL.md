@@ -19,6 +19,25 @@ Reads Twitter/X for financial research using [twitter-cli](https://github.com/ja
 
 **Important**: This tool uses your browser session cookies. No API keys needed — it authenticates via your logged-in browser session (Chrome, Arc, Edge, Firefox, Brave).
 
+**Claude.app limitation**: This skill does not work out-of-the-box in Claude.app (claude.ai). The Claude.app shell runs in a [sandbox](https://github.com/anthropic-experimental/sandbox-runtime) with no network access by default, so it cannot download or install the twitter-cli tool. To enable it, configure your sandbox settings (`~/.srt-settings.json`) to allow the required domains:
+
+```json
+{
+  "network": {
+    "allowedDomains": [
+      "x.com",
+      "*.x.com",
+      "api.x.com",
+      "pypi.org",
+      "*.pypi.org",
+      "files.pythonhosted.org"
+    ]
+  }
+}
+```
+
+Alternatively, use [Claude Code](https://docs.anthropic.com/en/docs/claude-code) (the CLI), which runs without sandbox restrictions.
+
 ---
 
 ## Step 1: Ensure twitter-cli Is Installed and Authenticated
