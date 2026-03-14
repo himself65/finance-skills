@@ -29,6 +29,7 @@ A collection of agent skills for financial analysis and trading.
 
 | Skill | Description | Platform |
 |---|---|---|
+| [telegram-news](skills/telegram-news/) | Read-only Telegram channel reader via [tdl](https://github.com/iyear/tdl) — export messages from financial news channels, monitor crypto/market groups, and aggregate Telegram-based news feeds. One-time QR code login. | Claude Code |
 | [twitter](skills/twitter/) | Read-only Twitter/X research via [twitter-cli](https://github.com/jackwener/twitter-cli) — search financial tweets, track analyst commentary, monitor earnings sentiment, and follow market discussions. No API keys needed (uses browser cookies). | All platforms |
 
 ### Visualization
