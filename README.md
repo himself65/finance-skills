@@ -52,11 +52,7 @@ cp -r skills/options-payoff .claude/skills/options-payoff
 ### Claude.ai (Web / Desktop App)
 
 1. Go to **Settings > Capabilities** and enable **Code execution and file creation**
-2. Zip the skill folder:
-   ```bash
-   cd skills
-   zip -r options-payoff.zip options-payoff/
-   ```
+2. Download the skill as a zip from GitHub — navigate to the skill folder (e.g., [`skills/options-payoff`](skills/options-payoff/)) and click the **Download ZIP** button
 3. In Claude, go to **Customize > Skills**
 4. Click the **+** button and select **Upload a skill**
 5. Select the zip file — the skill will appear in your skills list
