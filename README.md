@@ -17,6 +17,12 @@ See [DEMOS.md](DEMOS.md) for screenshots and examples.
 | [stock-correlation](skills/stock-correlation/) | Analyze stock correlations to find related companies, sector peers, and pair-trading candidates. Routes to sub-skills: co-movement discovery, return correlation, sector clustering, and realized correlation. | All platforms |
 | [yfinance-data](skills/yfinance-data/) | Fetch financial and market data using yfinance — stock prices, historical OHLCV, financial statements, options chains, dividends, earnings, analyst recommendations, screener, and more. | All platforms |
 
+### Geopolitical & Macro Risk
+
+| Skill | Description | Platform |
+|---|---|---|
+| [hormuz-strait](skills/hormuz-strait/) | Real-time Strait of Hormuz monitoring — shipping transits, oil price impact, stranded vessels, insurance risk, diplomatic status, global trade impact, and crisis timeline via the Hormuz Strait Monitor API. | All platforms |
+
 ### Research & Sentiment
 
 | Skill | Description | Platform |
