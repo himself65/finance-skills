@@ -22,11 +22,13 @@ Reads Telegram channels and groups for financial news and market research using 
 
 ## Step 1: Ensure tdl Is Installed
 
-Before running any command, check if tdl is installed:
+**Current environment status:**
 
-```bash
-command -v tdl && tdl version || echo "TDL_NOT_INSTALLED"
 ```
+!`(command -v tdl && tdl version 2>&1 | head -3 || echo "TDL_NOT_INSTALLED") 2>/dev/null`
+```
+
+If the status above shows a version number, tdl is installed — skip to Step 2.
 
 If `TDL_NOT_INSTALLED`, install tdl based on the user's platform:
 
@@ -45,10 +47,10 @@ Ask the user which installation method they prefer. Default to Homebrew on macOS
 
 ## Step 2: Ensure tdl Is Authenticated
 
-Check if the user is logged in:
+**Current auth status:**
 
-```bash
-tdl chat ls --limit 1 2>&1 && echo "AUTH_OK" || echo "AUTH_NEEDED"
+```
+!`(tdl chat ls --limit 1 2>&1 >/dev/null && echo "AUTH_OK" || echo "AUTH_NEEDED") 2>/dev/null`
 ```
 
 If `AUTH_OK`, skip to Step 3.
