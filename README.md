@@ -17,6 +17,12 @@ See [DEMOS.md](DEMOS.md) for screenshots and examples.
 | [stock-correlation](skills/stock-correlation/) | Analyze stock correlations to find related companies, sector peers, and pair-trading candidates. Routes to sub-skills: co-movement discovery, return correlation, sector clustering, and realized correlation. | All platforms |
 | [yfinance-data](skills/yfinance-data/) | Fetch financial and market data using yfinance — stock prices, historical OHLCV, financial statements, options chains, dividends, earnings, analyst recommendations, screener, and more. | All platforms |
 
+### Market Data
+
+| Skill | Description | Platform |
+|---|---|---|
+| [barchart](skills/barchart/) | Read-only Barchart data via [opencli](https://github.com/jackwener/opencli) — stock quotes, options chains with greeks, near-the-money greeks overview, and unusual options flow sorted by volume/OI ratio. Uses Chrome browser session. | Claude Code |
+
 ### Research & Sentiment
 
 | Skill | Description | Platform |
