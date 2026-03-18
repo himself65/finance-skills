@@ -38,7 +38,12 @@ When the user provides a screenshot or text, extract:
 | IV | Shown in greeks panel, or estimate from vega | 20% |
 | Risk-free rate | — | 4.3% |
 
-**Critical for screenshots**: The spot price is the CURRENT price of the underlying index/stock, NOT the strikes. For SPX, check market data — as of March 2026 SPX ≈ 5,500. Never default spot to a strike price value.
+**Critical for screenshots**: The spot price is the CURRENT price of the underlying index/stock, NOT the strikes. Never default spot to a strike price value.
+
+**Current SPX reference price:**
+```
+!`python3 -c "import yfinance as yf; print(f'SPX ≈ {yf.Ticker(\"^GSPC\").fast_info[\"lastPrice\"]:.0f}')" 2>/dev/null || echo "SPX price unavailable — check market data"`
+```
 
 ---
 

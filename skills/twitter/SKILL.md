@@ -23,17 +23,20 @@ Reads Twitter/X for financial research using [twitter-cli](https://github.com/ja
 
 ## Step 1: Ensure twitter-cli Is Installed and Authenticated
 
-Before running any command, install and check auth:
+**Current environment status:**
+
+```
+!`(command -v twitter && twitter status --yaml 2>&1 | head -5 && echo "AUTH_OK" || echo "AUTH_NEEDED") 2>/dev/null || echo "NOT_INSTALLED"`
+```
+
+If the status above shows `AUTH_OK`, skip to Step 2. If `NOT_INSTALLED`, install first:
 
 ```bash
 # Install (requires Python 3.10+)
-command -v twitter || uv tool install twitter-cli
-
-# Check authentication
-twitter status --yaml >/dev/null && echo "AUTH_OK" || echo "AUTH_NEEDED"
+uv tool install twitter-cli
 ```
 
-If `AUTH_OK`, skip to Step 2. If `AUTH_NEEDED`, guide the user:
+If `AUTH_NEEDED`, guide the user:
 
 ### Authentication methods
 

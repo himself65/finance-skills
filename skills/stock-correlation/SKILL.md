@@ -29,14 +29,20 @@ Finds and analyzes correlated stocks using historical price data from Yahoo Fina
 
 ## Step 1: Ensure Dependencies Are Available
 
-Before running any code, install required packages if needed:
+**Current environment status:**
+
+```
+!`python3 -c "import yfinance, pandas, numpy; print(f'yfinance={yfinance.__version__} pandas={pandas.__version__} numpy={numpy.__version__}')" 2>/dev/null || echo "DEPS_MISSING"`
+```
+
+If `DEPS_MISSING`, install required packages before running any code:
 
 ```python
 import subprocess, sys
 subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "yfinance", "pandas", "numpy"])
 ```
 
-Always include this at the top of your script.
+If all dependencies are already installed, skip the install step and proceed directly.
 
 ---
 

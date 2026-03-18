@@ -22,14 +22,20 @@ Fetches financial and market data from Yahoo Finance using the [yfinance](https:
 
 ## Step 1: Ensure yfinance Is Available
 
-Before running any code, install yfinance if needed:
+**Current environment status:**
+
+```
+!`python3 -c "import yfinance; print('yfinance ' + yfinance.__version__ + ' installed')" 2>/dev/null || echo "YFINANCE_NOT_INSTALLED"`
+```
+
+If `YFINANCE_NOT_INSTALLED`, install it before running any code:
 
 ```python
 import subprocess, sys
 subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "yfinance"])
 ```
 
-Always include this at the top of your script.
+If yfinance is already installed, skip the install step and proceed directly.
 
 ---
 

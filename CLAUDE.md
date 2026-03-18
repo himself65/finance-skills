@@ -66,6 +66,22 @@ Skills that require shell access, network calls, or external binaries (e.g., twi
 
 Skills that only use Claude's built-in tools (e.g., `show_widget` for generative-ui) work on **Claude.ai**.
 
+### Dynamic content with `!`command``
+
+Skills can embed shell commands that Claude Code executes at skill invocation time, injecting the output inline. Use this for runtime environment checks (tool installation status, auth state, live data). Syntax: wrap in a fenced code block with `` !`command` ``.
+
+Example — checking if a CLI tool is installed and authenticated:
+```
+!`(command -v mytool && mytool status 2>&1 | head -5 && echo "AUTH_OK" || echo "AUTH_NEEDED") 2>/dev/null || echo "NOT_INSTALLED"`
+```
+
+Guidelines:
+- Use for environment/auth checks so the model skips install/auth steps when unnecessary
+- Use for injecting live data (e.g., current stock prices) to replace hardcoded values
+- Keep commands fast (< 2s) — they run synchronously before the skill loads
+- Always include fallback output (e.g., `|| echo "UNAVAILABLE"`) so the skill degrades gracefully
+- Only works on CLI-based agents (Claude Code) — Claude.ai ignores these
+
 ### Instruction style guidelines
 
 - Organize as numbered steps (## Step 1, Step 2, etc.)
