@@ -39,9 +39,33 @@ See [DEMOS.md](DEMOS.md) for screenshots and examples.
 
 ## Setup
 
-### Claude Code (CLI)
+### Claude Code Plugin (recommended)
 
-**Option A — `npx skills add` (recommended)**
+This repo is a [Claude Code plugin](https://code.claude.com/docs/en/plugins). Install it directly:
+
+**Option A — Plugin marketplace**
+
+Add the marketplace and install:
+
+```bash
+# Add the marketplace
+/plugin marketplace add himself65/finance-skills
+
+# Install the plugin
+/plugin install finance-skills@finance-skills
+```
+
+**Option B — Local plugin (for development)**
+
+```bash
+claude --plugin-dir ./path/to/finance-skills
+```
+
+Once installed, skills are namespaced under `finance-skills:` (e.g., `/finance-skills:options-payoff`).
+
+### Claude Code (Agent Skills)
+
+**Option A — `npx skills add`**
 
 ```bash
 npx skills add himself65/finance-skills
