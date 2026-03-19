@@ -8,7 +8,12 @@ A collection of agent skills for financial analysis and trading, following the [
 
 ## Repository structure
 
+This repo is both a Claude Code plugin and an Agent Skills repository.
+
 ```
+.claude-plugin/
+  plugin.json             # Claude Code plugin manifest
+  marketplace.json        # Plugin marketplace definition
 skills/
   <skill-name>/
     SKILL.md              # Skill definition (frontmatter + body instructions)
