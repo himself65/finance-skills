@@ -1,0 +1,18 @@
+{
+  "name": "finance-skills",
+  "owner": {
+    "name": "himself65"
+  },
+  "metadata": {
+    "description": "Agent skills for financial analysis and trading — options payoff, stock correlations, market data, social media research, and generative UI.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "finance-skills",
+      "source": "./",
+      "description": "Financial analysis and trading skills — options payoff charts, stock correlations, market data via yfinance, Twitter/Discord/Telegram research, and generative UI widgets.",
+      "version": "1.0.0"
+    }
+  ]
+}
