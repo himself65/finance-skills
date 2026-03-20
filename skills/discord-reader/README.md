@@ -1,4 +1,4 @@
-# discord
+# discord-reader
 
 Read-only Discord skill for financial research using [discord-cli](https://github.com/jackwener/discord-cli).
 
@@ -33,7 +33,7 @@ Works on **Claude Code** and other CLI-based agents. Does **not** work on Claude
 ## Setup
 
 ```bash
-npx skills add himself65/finance-skills --skill discord
+npx skills add himself65/finance-skills --skill discord-reader
 ```
 
 See the [main README](../../README.md) for more installation options.
