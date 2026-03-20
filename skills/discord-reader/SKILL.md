@@ -1,5 +1,5 @@
 ---
-name: discord
+name: discord-reader
 description: >
   Read Discord for financial research using the discord-cli tool (read-only).
   Use this skill whenever the user wants to read Discord channels, search for messages

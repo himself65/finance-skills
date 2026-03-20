@@ -1,5 +1,5 @@
 ---
-name: twitter
+name: twitter-reader
 description: >
   Read Twitter/X for financial research using the twitter-cli tool (read-only).
   Use this skill whenever the user wants to read their Twitter feed, search for financial tweets,

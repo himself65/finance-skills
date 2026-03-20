@@ -7,36 +7,6 @@ A collection of agent skills for financial analysis and trading.
 
 See [DEMOS.md](DEMOS.md) for screenshots and examples.
 
-## Available Skills
-
-### Analysis & Data
-
-| Skill | Description | Platform |
-|---|---|---|
-| [options-payoff](skills/options-payoff/) | Generate interactive options payoff curve charts with dynamic parameter controls. Supports butterfly, vertical spread, calendar spread, iron condor, straddle, strangle, covered call, and more. | Claude.ai or [generative-ui](skills/generative-ui/) |
-| [stock-correlation](skills/stock-correlation/) | Analyze stock correlations to find related companies, sector peers, and pair-trading candidates. Routes to sub-skills: co-movement discovery, return correlation, sector clustering, and realized correlation. | All platforms |
-| [yfinance-data](skills/yfinance-data/) | Fetch financial and market data using yfinance — stock prices, historical OHLCV, financial statements, options chains, dividends, earnings, analyst recommendations, screener, and more. | All platforms |
-
-### Geopolitical & Macro Risk
-
-| Skill | Description | Platform |
-|---|---|---|
-| [hormuz-strait](skills/hormuz-strait/) | Real-time Strait of Hormuz monitoring — shipping transits, oil price impact, stranded vessels, insurance risk, diplomatic status, global trade impact, and crisis timeline via the Hormuz Strait Monitor API. | All platforms |
-
-### Research & Sentiment
-
-| Skill | Description | Platform |
-|---|---|---|
-| [discord](skills/discord/) | Read-only Discord research via [discord-cli](https://github.com/jackwener/discord-cli) — search trading server discussions, monitor crypto/market groups, track sentiment in financial communities, and export messages for analysis. Uses local Discord token. | Claude Code |
-| [telegram](skills/telegram/) | Read-only Telegram channel reader via [tdl](https://github.com/iyear/tdl) — export messages from financial news channels, monitor crypto/market groups, and aggregate Telegram-based news feeds. One-time QR code login. | Claude Code |
-| [twitter](skills/twitter/) | Read-only Twitter/X research via [twitter-cli](https://github.com/jackwener/twitter-cli) — search financial tweets, track analyst commentary, monitor earnings sentiment, and follow market discussions. No API keys needed (uses browser cookies). | Claude Code |
-
-### Visualization
-
-| Skill | Description | Platform |
-|---|---|---|
-| [generative-ui](skills/generative-ui/) | Design system and guidelines for Claude's built-in generative UI (`show_widget`). Render interactive HTML/SVG widgets inline — charts, diagrams, dashboards, interactive explainers, and more. | Claude.ai built-in |
-
 ## Setup
 
 ### Claude Code Plugin (recommended)
@@ -112,6 +82,36 @@ The skills in this repo follow the [Agent Skills](https://agentskills.io) open s
 ```bash
 npx skills add himself65/finance-skills -a <agent-name>
 ```
+
+## Available Skills
+
+### Analysis & Data
+
+| Skill | Description | Platform |
+|---|---|---|
+| [options-payoff](skills/options-payoff/) | Generate interactive options payoff curve charts with dynamic parameter controls. Supports butterfly, vertical spread, calendar spread, iron condor, straddle, strangle, covered call, and more. | Claude.ai or [generative-ui](skills/generative-ui/) |
+| [stock-correlation](skills/stock-correlation/) | Analyze stock correlations to find related companies, sector peers, and pair-trading candidates. Routes to sub-skills: co-movement discovery, return correlation, sector clustering, and realized correlation. | All platforms |
+| [yfinance-data](skills/yfinance-data/) | Fetch financial and market data using yfinance — stock prices, historical OHLCV, financial statements, options chains, dividends, earnings, analyst recommendations, screener, and more. | All platforms |
+
+### Geopolitical & Macro Risk
+
+| Skill | Description | Platform |
+|---|---|---|
+| [hormuz-strait](skills/hormuz-strait/) | Real-time Strait of Hormuz monitoring — shipping transits, oil price impact, stranded vessels, insurance risk, diplomatic status, global trade impact, and crisis timeline via the Hormuz Strait Monitor API. | All platforms |
+
+### Research & Sentiment
+
+| Skill | Description | Platform |
+|---|---|---|
+| [discord-reader](skills/discord-reader/) | Read-only Discord research via [discord-cli](https://github.com/jackwener/discord-cli) — search trading server discussions, monitor crypto/market groups, track sentiment in financial communities, and export messages for analysis. Uses local Discord token. | Claude Code |
+| [telegram-reader](skills/telegram-reader/) | Read-only Telegram channel reader via [tdl](https://github.com/iyear/tdl) — export messages from financial news channels, monitor crypto/market groups, and aggregate Telegram-based news feeds. One-time QR code login. | Claude Code |
+| [twitter-reader](skills/twitter-reader/) | Read-only Twitter/X research via [twitter-cli](https://github.com/jackwener/twitter-cli) — search financial tweets, track analyst commentary, monitor earnings sentiment, and follow market discussions. No API keys needed (uses browser cookies). | Claude Code |
+
+### Visualization
+
+| Skill | Description | Platform |
+|---|---|---|
+| [generative-ui](skills/generative-ui/) | Design system and guidelines for Claude's built-in generative UI (`show_widget`). Render interactive HTML/SVG widgets inline — charts, diagrams, dashboards, interactive explainers, and more. | Claude.ai built-in |
 
 ## License
 

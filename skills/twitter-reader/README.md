@@ -1,4 +1,4 @@
-# twitter
+# twitter-reader
 
 Read-only Twitter/X skill for financial research using [twitter-cli](https://github.com/jackwener/twitter-cli).
 
@@ -32,7 +32,7 @@ Works on **Claude Code** and other CLI-based agents. Does **not** work on Claude
 ## Setup
 
 ```bash
-npx skills add himself65/finance-skills --skill twitter
+npx skills add himself65/finance-skills --skill twitter-reader
 ```
 
 See the [main README](../../README.md) for more installation options.
