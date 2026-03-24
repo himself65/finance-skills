@@ -95,6 +95,16 @@ Guidelines:
 - Put lengthy code templates and API references in `references/` files, not inline
 - End with a "Respond to the User" step describing how to present results
 
+## Plugin system
+
+This repo ships as a Claude Code plugin in addition to being an Agent Skills repository:
+
+- `.claude-plugin/plugin.json` — plugin manifest (name, version, keywords). Skills under `skills/` with SKILL.md frontmatter are auto-discovered by the plugin loader; no per-skill registration is needed.
+- `.claude-plugin/marketplace.json` — marketplace listing so users can install via `/plugin marketplace add`.
+- `.agents/` — auto-generated mirror for agent distribution. **Do not edit directly** — this is produced from `skills/` content.
+
+When a skill is invoked as a plugin, it is namespaced as `finance-skills:<skill-name>` (e.g., `/finance-skills:options-payoff`).
+
 ## CI/CD
 
 - **Release workflow** (`.github/workflows/release-skills.yml`): On push to `main`, zips each `skills/*/` directory and publishes them as a GitHub release tagged `latest`. These zips are what users upload to Claude.ai.
