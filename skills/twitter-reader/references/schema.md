@@ -1,61 +1,78 @@
-# Structured Output Schema
+# Output Format Reference
 
-`twitter-cli` uses a shared agent-friendly envelope for all `--yaml` and `--json` output.
+opencli supports multiple output formats for all Twitter commands via the `-f` / `--format` flag.
 
-## Success Envelope
+## Formats
 
-```yaml
-ok: true
-schema_version: "1"
-data: ...
+| Format | Flag | Description |
+|---|---|---|
+| Table | `-f table` | Default. Rich CLI table with bold headers, word wrapping, and a footer showing row count and elapsed time |
+| JSON | `-f json` | Pretty-printed JSON array with 2-space indent |
+| YAML | `-f yaml` | Structured YAML with 120-char line width |
+| Markdown | `-f md` | Pipe-delimited markdown table |
+| CSV | `-f csv` | Comma-separated values with proper quoting and escaping |
+
+## Column Definitions
+
+### Tweet columns (`timeline`, `search`, `bookmarks`)
+
+| Column | Type | Description |
+|---|---|---|
+| `id` | string | Tweet ID |
+| `author` | string | @handle of the tweet author |
+| `text` | string | Tweet text content |
+| `created_at` | string | Timestamp of the tweet |
+| `likes` | number | Like count |
+| `views` | number | View count |
+| `url` | string | Direct URL to the tweet |
+
+### Trending columns (`trending`)
+
+| Column | Type | Description |
+|---|---|---|
+| `rank` | number | Trending rank position |
+| `topic` | string | Trending topic or hashtag |
+| `tweet_count` | number | Number of tweets about the topic |
+
+### Profile columns (`profile`)
+
+| Column | Type | Description |
+|---|---|---|
+| `username` | string | @handle |
+| `name` | string | Display name |
+| `bio` | string | Profile bio/description |
+| `followers_count` | number | Follower count |
+| `following_count` | number | Following count |
+| `tweet_count` | number | Total tweets |
+
+### User list columns (`followers`, `following`)
+
+| Column | Type | Description |
+|---|---|---|
+| `username` | string | @handle |
+| `name` | string | Display name |
+| `bio` | string | Profile bio/description |
+| `followers_count` | number | Follower count |
+
+## JSON Example
+
+```json
+[
+  {
+    "id": "1234567890",
+    "author": "@exampleuser",
+    "text": "Breaking: $AAPL earnings beat expectations...",
+    "created_at": "2026-03-26T14:30:00Z",
+    "likes": 1523,
+    "views": 89000,
+    "url": "https://x.com/exampleuser/status/1234567890"
+  }
+]
 ```
-
-## Error Envelope
-
-```yaml
-ok: false
-schema_version: "1"
-error:
-  code: api_error
-  message: User @foo not found
-```
-
-## Data Shapes by Command
-
-| Command | `data` contains |
-|---------|-----------------|
-| `feed`, `bookmarks`, `search`, `user-posts`, `likes`, `list` | Array of tweet objects |
-| `tweet`, `show` | Single tweet object + replies |
-| `article` | Single tweet object with `articleTitle` and `articleText` fields |
-| `user` | Single user object |
-| `followers`, `following` | Array of user objects |
-| `status` | `{ authenticated: bool, user: {...} }` |
-| `whoami` | `{ user: {...} }` |
-| Write commands (`post`, `like`, etc.) | Confirmation object |
-
-## Article Fields
-
-`twitter article <id> --json` returns the standard tweet object plus:
-
-```yaml
-data:
-  id: "1234567890"
-  articleTitle: "Article Title"
-  articleText: |
-    # Heading
-    Body text...
-```
-
-## Common Error Codes
-
-- `not_authenticated` — no valid credentials found
-- `not_found` — tweet/user does not exist
-- `invalid_input` — bad arguments
-- `rate_limited` — HTTP 429, wait and retry
-- `api_error` — general Twitter API error
 
 ## Notes
 
-- Non-TTY stdout defaults to YAML automatically
-- Tweet and user lists live under `.data`
-- Compact mode (`-c`) uses a different minimal format, not this envelope
+- Table format includes a footer with total row count and elapsed time
+- JSON output is a flat array (no envelope wrapper)
+- CSV properly escapes commas and quotes within fields
+- Markdown format is suitable for pasting into documents or LLM context

@@ -1,7 +1,7 @@
 ---
 name: twitter-reader
 description: >
-  Read Twitter/X for financial research using the twitter-cli tool (read-only).
+  Read Twitter/X for financial research using opencli (read-only).
   Use this skill whenever the user wants to read their Twitter feed, search for financial tweets,
   view bookmarks, look up user profiles, or gather market sentiment from Twitter/X.
   Triggers include: "check my feed", "search Twitter for", "show my bookmarks",
@@ -13,61 +13,53 @@ description: >
 
 # Twitter Skill (Read-Only)
 
-Reads Twitter/X for financial research using [twitter-cli](https://github.com/jackwener/twitter-cli), a command-line tool that accesses Twitter via browser cookie authentication.
+Reads Twitter/X for financial research using [opencli](https://github.com/jackwener/opencli), a universal CLI tool that bridges web services to the terminal via browser session reuse.
 
 **This skill is read-only.** It is designed for financial research: searching market discussions, reading analyst tweets, tracking sentiment, and monitoring financial news on Twitter/X. It does NOT support posting, liking, retweeting, replying, or any write operations.
 
-**Important**: This tool uses your browser session cookies. No API keys needed — it authenticates via your logged-in browser session (Chrome, Arc, Edge, Firefox, Brave).
+**Important**: opencli reuses your existing Chrome login session — no API keys or cookie extraction needed. Just be logged into x.com in Chrome and have the Browser Bridge extension installed.
 
 ---
 
-## Step 1: Ensure twitter-cli Is Installed and Authenticated
+## Step 1: Ensure opencli Is Installed and Ready
 
 **Current environment status:**
 
 ```
-!`(command -v twitter && twitter status --yaml 2>&1 | head -5 && echo "AUTH_OK" || echo "AUTH_NEEDED") 2>/dev/null || echo "NOT_INSTALLED"`
+!`(command -v opencli && opencli doctor 2>&1 | head -5 && echo "READY" || echo "SETUP_NEEDED") 2>/dev/null || echo "NOT_INSTALLED"`
 ```
 
-If the status above shows `AUTH_OK`, skip to Step 2. If `NOT_INSTALLED`, install first:
+If the status above shows `READY`, skip to Step 2. If `NOT_INSTALLED`, install first:
 
 ```bash
-# Install (requires Python 3.10+)
-uv tool install twitter-cli
+# Install opencli globally
+npm install -g @jackwener/opencli
 ```
 
-If `AUTH_NEEDED`, guide the user:
+If `SETUP_NEEDED`, guide the user through setup:
 
-### Authentication methods
+### Setup
 
-**Method A: Browser cookie extraction (recommended)**
+opencli requires a Chrome browser with the Browser Bridge extension:
 
-Ensure user is logged into x.com in Arc/Chrome/Edge/Firefox/Brave. twitter-cli auto-extracts cookies. Verify with:
+1. **Install the Browser Bridge extension** — follow the instructions from `opencli doctor` output
+2. **Login to x.com** in Chrome — opencli reuses your existing browser session
+3. **Verify connectivity:**
 
 ```bash
-twitter whoami
+opencli doctor
 ```
 
-Chrome multi-profile: all profiles are scanned automatically. To specify one:
-```bash
-TWITTER_CHROME_PROFILE="Profile 2" twitter feed
-```
+This auto-starts the daemon, verifies the extension is connected, and checks session health.
 
-**Method B: Environment variables**
-
-```bash
-export TWITTER_AUTH_TOKEN="<auth_token from browser>"
-export TWITTER_CT0="<ct0 from browser>"
-twitter whoami
-```
-
-### Common auth issues
+### Common setup issues
 
 | Symptom | Fix |
 |---------|-----|
-| `No Twitter cookies found` | Login to x.com in browser, or set env vars |
-| `Cookie expired (401/403)` | Re-login to x.com and retry |
-| `Unable to get key for cookie decryption` (macOS) | Run `security unlock-keychain ~/Library/Keychains/login.keychain-db` for SSH, or allow Terminal in Keychain Access |
+| `Extension not connected` | Install Browser Bridge extension in Chrome and ensure it's enabled |
+| `Daemon not running` | Run `opencli doctor` — it auto-starts the daemon |
+| `No session for twitter.com` | Login to x.com in Chrome, then retry |
+| `CSRF token missing` | Refresh x.com in Chrome to regenerate the ct0 cookie |
 
 ---
 
@@ -77,20 +69,17 @@ Match the user's request to one of the read commands below, then use the corresp
 
 | User Request | Command | Key Flags |
 |---|---|---|
-| Auth check | `twitter status` | `--yaml` |
-| Who am I | `twitter whoami` | `--json`, `--yaml` |
-| Home feed / timeline | `twitter feed` | `-t following`, `--max N`, `--full-text`, `--filter` |
-| Search tweets | `twitter search "QUERY"` | `-t Latest`, `--from USER`, `--since DATE`, `--lang`, `--exclude retweets`, `--has links`, `--max N` |
-| Bookmarks | `twitter bookmarks` | `--max N`, `--full-text` |
-| View a specific tweet | `twitter tweet TWEET_ID_OR_URL` | `--full-text` |
-| Open tweet from last list | `twitter show N` | `--full-text`, `--json` |
-| Twitter article | `twitter article ID_OR_URL` | `--markdown`, `--output FILE`, `--json` |
-| List timeline | `twitter list LIST_ID` | `--full-text`, `--max N` |
-| User profile | `twitter user USERNAME` | `--json` |
-| User's tweets | `twitter user-posts USERNAME` | `--max N`, `--full-text`, `-o FILE` |
-| User's likes | `twitter likes USERNAME` | own account only (private since Jun 2024) |
-| Followers | `twitter followers USERNAME` | `--max N` |
-| Following | `twitter following USERNAME` | `--max N` |
+| Setup check | `opencli doctor` | — |
+| Home feed / timeline | `opencli twitter timeline` | `--type following`, `--limit N` |
+| Search tweets | `opencli twitter search "QUERY"` | `--filter top\|live`, `--limit N` |
+| Trending topics | `opencli twitter trending` | `--limit N` |
+| Bookmarks | `opencli twitter bookmarks` | `--limit N` |
+| View a specific thread | `opencli twitter thread TWEET_ID` | — |
+| Twitter article | `opencli twitter article TWEET_ID` | — |
+| User profile | `opencli twitter profile USERNAME` | — |
+| Followers | `opencli twitter followers USERNAME` | `--limit N` |
+| Following | `opencli twitter following USERNAME` | `--limit N` |
+| Notifications | `opencli twitter notifications` | `--limit N` |
 
 ---
 
@@ -99,57 +88,42 @@ Match the user's request to one of the read commands below, then use the corresp
 ### General pattern
 
 ```bash
-# Use --yaml for structured output, -c for compact (token-efficient)
-twitter feed --yaml --max 20
-twitter -c feed --max 10              # Compact: ~80% fewer tokens than --json
+# Use -f json or -f yaml for structured output
+opencli twitter timeline -f json --limit 20
+opencli twitter timeline --type following --limit 20
 
 # Searching for financial topics
-twitter search "$AAPL earnings" -t Latest --max 10 --full-text --yaml
-twitter search "Fed rate decision" --since 2026-03-01 --max 20 --yaml
-twitter search "market crash" --exclude retweets --has links --max 15
+opencli twitter search "$AAPL earnings" --filter live --limit 10 -f json
+opencli twitter search "Fed rate decision" --limit 20 -f yaml
+
+# Trending topics
+opencli twitter trending --limit 20 -f json
 ```
 
 ### Key rules
 
-1. **Check auth first** — run `twitter status --yaml` before any other command
-2. **Use `--yaml` or `--json`** for structured output when processing data programmatically
-3. **Use `-c` / `--compact`** when token efficiency matters (LLM context)
-4. **Use `--full-text`** when the user wants complete tweet content (text is truncated by default in rich tables)
-5. **Use `--max N`** to limit results — start with 10-20 unless the user asks for more
-6. **For search, use filters** — `--from`, `--since`, `--lang`, `--exclude retweets`, `--has links`
-7. **Tweet IDs vs URLs** — both work: `twitter tweet 1234567890` or `twitter tweet https://x.com/user/status/1234567890`
-8. **Use `twitter show N`** to reference tweet #N from the most recent list output
-9. **NEVER execute write operations** — this skill is read-only; do not post, like, retweet, reply, quote, follow, or delete
+1. **Check setup first** — run `opencli doctor` before any other command if unsure about connectivity
+2. **Use `-f json` or `-f yaml`** for structured output when processing data programmatically
+3. **Use `-f csv`** when the user wants spreadsheet-compatible output
+4. **Use `--limit N`** to control result count — start with 10-20 unless the user asks for more
+5. **For search, use `--filter`** — `top` (default) for relevance, `live` for latest tweets
+6. **NEVER execute write operations** — this skill is read-only; do not post, like, retweet, reply, quote, follow, or delete
 
-### Output flags (all read commands)
+### Output format flag (`-f`)
 
-| Flag | Purpose |
-|---|---|
-| `--json` | JSON output |
-| `--yaml` | YAML output (default in non-TTY) |
-| `--full-text` | Show complete tweet text (rich table only) |
-| `-c` / `--compact` | Minimal fields, great for LLM context |
-| `-o FILE` / `--output FILE` | Save output to file |
-| `--input FILE` | Read from previously saved JSON |
+| Format | Flag | Best for |
+|---|---|---|
+| Table | `-f table` (default) | Human-readable terminal output |
+| JSON | `-f json` | Programmatic processing, LLM context |
+| YAML | `-f yaml` | Structured output, readable |
+| Markdown | `-f md` | Documentation, reports |
+| CSV | `-f csv` | Spreadsheet export |
 
-### Structured output envelope
+### Output columns
 
-All `--yaml` and `--json` output uses this envelope (see `references/schema.md`):
+Commands that return tweets typically include: `id`, `author`, `text`, `created_at`, `likes`, `views`, `url`.
 
-```yaml
-ok: true
-schema_version: "1"
-data: ...          # tweet/user lists or single objects
-```
-
-Error responses:
-```yaml
-ok: false
-schema_version: "1"
-error:
-  code: api_error
-  message: "..."
-```
+Profile commands include: `username`, `name`, `bio`, `followers_count`, `following_count`.
 
 ---
 
@@ -158,12 +132,12 @@ error:
 After fetching data, present it clearly for financial research:
 
 1. **Summarize key content** — highlight the most relevant tweets for the user's financial research
-2. **Include attribution** — show @username, tweet text, and engagement metrics (likes, retweets)
-3. **Provide tweet IDs/URLs** when the user might want to read the full thread
+2. **Include attribution** — show @username, tweet text, and engagement metrics (likes, views)
+3. **Provide tweet URLs** when the user might want to read the full thread
 4. **For search results**, group by relevance and highlight key themes, sentiment, or market signals
 5. **For user profiles**, present follower count, bio, and notable recent activity
 6. **Flag sentiment** — note bullish/bearish sentiment, consensus vs contrarian views
-7. **Treat cookies as secrets** — never echo cookie values to stdout
+7. **Treat sessions as private** — never expose browser session details
 
 ---
 
@@ -172,12 +146,10 @@ After fetching data, present it clearly for financial research:
 If something isn't working, run:
 
 ```bash
-twitter doctor
+opencli doctor
 ```
 
-Reports version, OS, browser detection, keychain status, and cookie extraction results.
-
-For verbose diagnostics on any command, add `-v`.
+This checks daemon status, extension connectivity, and browser session health.
 
 ---
 
@@ -185,26 +157,16 @@ For verbose diagnostics on any command, add `-v`.
 
 | Error | Cause | Fix |
 |-------|-------|-----|
-| `No Twitter cookies found` | Not authenticated | Login to x.com in browser, or set env vars |
-| HTTP 401/403 | Cookie expired | Re-login to x.com and retry |
-| HTTP 404 | QueryId rotation | Retry (auto-fallback built in) |
-| HTTP 429 | Rate limited | Wait 15+ minutes, then retry |
-
----
-
-## Proxy Configuration
-
-```bash
-export TWITTER_PROXY=http://127.0.0.1:7890
-# or
-export TWITTER_PROXY=socks5://127.0.0.1:1080
-```
+| `Extension not connected` | Browser Bridge not installed/enabled | Install extension and enable it in Chrome |
+| `No session` | Not logged into x.com | Login to x.com in Chrome |
+| `CSRF token missing` | Cookie expired or page needs refresh | Refresh x.com in Chrome |
+| Rate limited | Too many requests | Wait a few minutes, then retry |
 
 ---
 
 ## Reference Files
 
 - `references/commands.md` — Complete read command reference with all flags, research workflows, and usage examples
-- `references/schema.md` — Structured output schema documentation
+- `references/schema.md` — Output format documentation and column definitions
 
-Read the reference files when you need exact command syntax, research workflow patterns, or schema details.
+Read the reference files when you need exact command syntax, research workflow patterns, or output details.

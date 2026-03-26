@@ -103,9 +103,9 @@ npx skills add himself65/finance-skills -a <agent-name>
 
 | Skill | Description | Platform |
 |---|---|---|
-| [discord-reader](skills/discord-reader/) | Read-only Discord research via [discord-cli](https://github.com/jackwener/discord-cli) — search trading server discussions, monitor crypto/market groups, track sentiment in financial communities, and export messages for analysis. Uses local Discord token. | Claude Code |
+| [discord-reader](skills/discord-reader/) | Read-only Discord research via [opencli](https://github.com/jackwener/opencli) — read trading server messages, search discussions, monitor crypto/market groups, and track sentiment in financial communities. Connects to Discord Desktop via CDP (no token needed). | Claude Code |
 | [telegram-reader](skills/telegram-reader/) | Read-only Telegram channel reader via [tdl](https://github.com/iyear/tdl) — export messages from financial news channels, monitor crypto/market groups, and aggregate Telegram-based news feeds. One-time QR code login. | Claude Code |
-| [twitter-reader](skills/twitter-reader/) | Read-only Twitter/X research via [twitter-cli](https://github.com/jackwener/twitter-cli) — search financial tweets, track analyst commentary, monitor earnings sentiment, and follow market discussions. No API keys needed (uses browser cookies). | Claude Code |
+| [twitter-reader](skills/twitter-reader/) | Read-only Twitter/X research via [opencli](https://github.com/jackwener/opencli) — search financial tweets, track analyst commentary, monitor earnings sentiment, and follow market discussions. No API keys needed (reuses Chrome browser session). | Claude Code |
 
 ### Visualization
 

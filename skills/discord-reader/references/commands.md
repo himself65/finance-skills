@@ -1,240 +1,173 @@
-# discord-cli Command Reference (Read-Only)
+# opencli Discord Command Reference (Read-Only)
 
-Complete read-only reference for [discord-cli](https://github.com/jackwener/discord-cli), scoped to financial research use cases.
+Complete read-only reference for Discord commands in [opencli](https://github.com/jackwener/opencli), scoped to financial research use cases.
 
-Install: `uv tool install kabi-discord-cli` (or `pipx install kabi-discord-cli`)
-Upgrade: `uv tool upgrade kabi-discord-cli`
+Install: `npm install -g @jackwener/opencli`
 
 **This skill is read-only.** Write operations (sending messages, reacting, editing, deleting) are NOT supported in this finance skill.
 
 ---
 
-## Authentication
+## Setup
 
-discord-cli authenticates via a Discord user token extracted from the local Discord client or browser.
+opencli connects to Discord Desktop via Chrome DevTools Protocol (CDP) — no bot account or token extraction needed.
 
-**Auto-extract (recommended):**
+**Requirements:**
+1. Discord Desktop running with `--remote-debugging-port=9232`
+2. `OPENCLI_CDP_ENDPOINT` environment variable set
+
+**Start Discord with CDP:**
 ```bash
-discord auth --save
+# macOS
+/Applications/Discord.app/Contents/MacOS/Discord --remote-debugging-port=9232 &
+
+# Linux
+discord --remote-debugging-port=9232 &
 ```
 
-Extracts the token from the running Discord desktop app or browser session and saves it locally.
-
-**Environment variable:**
+**Set the environment variable:**
 ```bash
-export DISCORD_TOKEN="<token>"
-discord status
+export OPENCLI_CDP_ENDPOINT="http://127.0.0.1:9232"
 ```
 
-**Auth check and identity:**
+**Verify connectivity:**
 ```bash
-discord status                         # Validate token
-discord whoami                         # Current authenticated user
-discord whoami --json                  # JSON output
+opencli discord-app status
 ```
 
 ---
 
-## Discord API Operations
+## Read Operations
 
-### Guilds (Servers)
+### Connection Status
 
 ```bash
-discord dc guilds                      # List all guilds
-discord dc guilds --json               # JSON output
+opencli discord-app status                        # Check CDP connection
+opencli discord-app status -f json                # JSON output
+```
+
+### Servers (Guilds)
+
+```bash
+opencli discord-app servers                       # List all joined servers
+opencli discord-app servers -f json               # JSON output
+opencli discord-app servers -f yaml               # YAML output
 ```
 
 ### Channels
 
-```bash
-discord dc channels GUILD_ID          # List channels in a guild
-discord dc channels GUILD_ID --json   # JSON output
-```
-
-### Server Info
+Lists channels in the **currently active** server in Discord.
 
 ```bash
-discord dc info GUILD_ID              # Guild details
-discord dc info GUILD_ID --json       # JSON output
+opencli discord-app channels                      # List channels in current server
+opencli discord-app channels -f json              # JSON output
 ```
 
 ### Members
 
+Lists online members in the **currently active** server.
+
 ```bash
-discord dc members GUILD_ID           # List members
-discord dc members GUILD_ID --max 50  # Limit count
-discord dc members GUILD_ID --json    # JSON output
+opencli discord-app members                       # List online members
+opencli discord-app members -f json               # JSON output
 ```
 
-### Message History
+### Read Messages
+
+Reads recent messages from the **currently active** channel in Discord.
 
 ```bash
-discord dc history CHANNEL_ID         # Fetch message history
-discord dc history CHANNEL_ID -n 1000 # Limit to 1000 messages
+opencli discord-app read                          # Read last 20 messages (default)
+opencli discord-app read 50                       # Read last 50 messages
+opencli discord-app read 100 -f json              # JSON output
+opencli discord-app read 30 -f yaml               # YAML output
+opencli discord-app read 50 -f csv                # CSV output
 ```
 
-### Sync (Download Messages Locally)
+### Search Messages
+
+Searches messages in the current context using Discord's built-in search (Cmd+F / Ctrl+F).
 
 ```bash
-discord dc sync CHANNEL_ID            # Incremental sync
-discord dc sync CHANNEL_ID -n 5000    # Sync up to 5000 messages
-discord dc sync-all                   # Sync all channels
-discord dc sync-all -n 5000           # Sync all with limit
-```
-
-### Tail (Latest Messages)
-
-```bash
-discord dc tail CHANNEL_ID            # Tail messages (continuous)
-discord dc tail CHANNEL_ID --once     # Fetch latest batch only
-```
-
-### Search (Server-Side)
-
-```bash
-discord dc search GUILD_ID "keyword"                  # Search guild
-discord dc search GUILD_ID "keyword" -c CHANNEL_ID    # Search specific channel
-discord dc search GUILD_ID "keyword" --json            # JSON output
+opencli discord-app search "keyword"              # Search in active channel
+opencli discord-app search "AAPL earnings" -f json  # JSON output
+opencli discord-app search "BTC pump" -f yaml     # YAML output
 ```
 
 ---
 
-## Local Query Commands
+## Output Formats
 
-These commands query the local SQLite database. **Run `discord dc sync` first** to populate local data.
+All commands support the `-f` / `--format` flag:
 
-### Search
+| Format | Flag | Description |
+|---|---|---|
+| Table | `-f table` (default) | Rich CLI table with bold headers, word wrapping, footer with count/elapsed time |
+| JSON | `-f json` | Pretty-printed JSON (2-space indent) |
+| YAML | `-f yaml` | Structured YAML |
+| Markdown | `-f md` | Pipe-delimited markdown tables |
+| CSV | `-f csv` | Comma-separated values with proper quoting/escaping |
 
-```bash
-discord search "keyword"              # Search all synced messages
-discord search "keyword" -c CHANNEL   # Search specific channel
-discord search "keyword" -n 50        # Limit results
-discord search "keyword" --json       # JSON output
-```
+### Output columns by command
 
-### Recent Messages
-
-```bash
-discord recent                        # Recent messages (all channels)
-discord recent -c CHANNEL             # Recent in specific channel
-discord recent --hours 24             # Last 24 hours
-discord recent -n 50                  # Limit results
-discord recent --json                 # JSON output
-```
-
-### Today's Messages
-
-```bash
-discord today                         # All messages from today
-discord today -c CHANNEL              # Today's messages in channel
-discord today --json                  # JSON output
-```
-
-### Statistics
-
-```bash
-discord stats                         # Message stats overview
-discord stats --json                  # JSON output
-```
-
-### Top Senders
-
-```bash
-discord top                           # Top message senders
-discord top -c CHANNEL                # Top senders in channel
-discord top --hours 168               # Top senders in last week
-discord top --json                    # JSON output
-```
-
-### Activity Timeline
-
-```bash
-discord timeline                      # Activity over time
-discord timeline -c CHANNEL           # Timeline for channel
-discord timeline --hours 168          # Last week
-discord timeline --by day             # Group by day
-discord timeline --by hour            # Group by hour
-discord timeline --json               # JSON output
-```
-
----
-
-## Data Export
-
-```bash
-discord export CHANNEL_ID             # Export as text (default)
-discord export CHANNEL_ID -f json     # Export as JSON
-discord export CHANNEL_ID -f text     # Export as plain text
-discord export CHANNEL_ID -o out.json # Save to file
-discord export CHANNEL_ID --hours 24  # Export last 24 hours
-```
-
----
-
-## Output Modes
-
-| Flag / Env | Purpose |
+| Command | Columns |
 |---|---|
-| `--json` | JSON structured output |
-| `--yaml` | YAML structured output (default non-TTY) |
-| `--rich` | Rich terminal-formatted output |
-| `--auto` | Auto-detect (rich for TTY, YAML for non-TTY) |
-| `OUTPUT=yaml` | Set default via environment variable |
+| `channels` | Index, Channel name, Type (Text/Voice/Forum/Announcement/Stage) |
+| `servers` | Index, Server name |
+| `read` | Author, Time, Message |
+| `search` | Index, Author, Message |
+| `members` | Index, Member name, Status |
 
 ---
 
 ## Financial Research Workflows
 
+### Read latest messages from a trading channel
+
+```bash
+# Navigate to the target channel in Discord first, then:
+opencli discord-app read 50 -f json
+```
+
 ### Search for crypto sentiment
 
 ```bash
-discord dc sync CHANNEL_ID -n 2000
-discord search "BTC pump" -n 20 --json
-discord search "ETH merge" -c CHANNEL -n 30 --json
-```
-
-### Monitor trading server activity
-
-```bash
-discord recent -c CHANNEL_ID --hours 12 -n 50 --json
-discord today -c CHANNEL_ID --json
-```
-
-### Track active contributors
-
-```bash
-discord top -c CHANNEL_ID --hours 168 --json
-discord timeline -c CHANNEL_ID --hours 168 --by day --json
+opencli discord-app search "BTC pump" -f json
+opencli discord-app search "ETH breakout" -f json
 ```
 
 ### Search for earnings / market discussion
 
 ```bash
-discord dc search GUILD_ID "earnings call" --json
-discord dc search GUILD_ID "price target" -c CHANNEL_ID --json
-discord search "NVDA" -n 30 --json
+opencli discord-app search "earnings call" -f json
+opencli discord-app search "price target" -f json
+opencli discord-app search "NVDA" -f json
 ```
 
-### Export channel for analysis
+### Survey a trading server
 
 ```bash
-discord export CHANNEL_ID -f json -o trading_chat.json --hours 72
+# 1. List servers
+opencli discord-app servers -f json
+
+# 2. List channels (navigate to target server in Discord)
+opencli discord-app channels -f json
+
+# 3. Read recent messages (navigate to target channel)
+opencli discord-app read 50 -f json
+
+# 4. Search for topics
+opencli discord-app search "market outlook" -f json
 ```
 
-### Daily research workflow
+### Export for analysis
 
 ```bash
-# 1. Sync latest messages
-discord dc sync CHANNEL_ID -n 500
+# CSV for spreadsheet analysis
+opencli discord-app read 100 -f csv > trading_chat.csv
 
-# 2. Check today's activity
-discord today -c CHANNEL_ID --json
-
-# 3. Search for topics of interest
-discord search "fed rate" -n 20 --json
-
-# 4. Review who's most active
-discord top -c CHANNEL_ID --hours 24 --json
+# JSON for programmatic processing
+opencli discord-app read 100 -f json > messages.json
 ```
 
 ---
@@ -243,27 +176,30 @@ discord top -c CHANNEL_ID --hours 24 --json
 
 | Error | Cause | Fix |
 |-------|-------|-----|
-| `Token not found` | Not authenticated | Run `discord auth --save` with Discord open |
-| HTTP 401 | Token expired/invalid | Re-login to Discord and re-extract token |
-| HTTP 403 | No access to resource | Verify server/channel membership |
-| HTTP 429 | Rate limited | Wait a few minutes, then retry |
+| `CDP connection refused` | Discord not running with CDP flag | Start Discord with `--remote-debugging-port=9232` |
+| `OPENCLI_CDP_ENDPOINT not set` | Missing environment variable | `export OPENCLI_CDP_ENDPOINT="http://127.0.0.1:9232"` |
+| `No active channel` | Discord not focused on any channel | Navigate to a channel in the Discord app |
+| Rate limited | Too many requests | Wait a few minutes, then retry |
 
 ---
 
 ## Limitations
 
 - **Read-only in this skill** — write operations are not supported for finance use
+- **Active channel only** — reads from the currently viewed channel in Discord; navigate in the app to switch
 - **No DMs** — direct messages are not supported
 - **No voice channels** — voice/audio not accessible
-- **Single account** — one token at a time
-- **Sync required for local queries** — must run `discord dc sync` before using `search`, `recent`, `today`, etc.
+- **No message history sync** — no local database; reads live from the app
+- **No server-side search** — search uses Discord's in-app Cmd+F / Ctrl+F
+- **Requires Discord Desktop** — the web client is not supported (CDP connects to the Electron app)
 
 ---
 
 ## Best Practices
 
-- **Sync before querying** — local commands require synced data
-- **Keep request volumes reasonable** — use `-n 1000` not `-n 100000`
-- **Use `--once` with tail** — avoid continuous tailing in agent context
-- **Export for analysis** — use `discord export -f json -o FILE` for offline processing
-- **Treat tokens as secrets** — never log or display Discord tokens
+- **Navigate first, then read** — switch to the target channel in Discord before running `read` or `search`
+- **Keep read counts reasonable** — use `read 50` not `read 10000`
+- **Use `-f json`** for programmatic processing and LLM context
+- **Use `-f csv`** when the user wants to analyze data in a spreadsheet
+- **Add CDP startup to your workflow** — use a shell alias or launch script to start Discord with the CDP flag
+- **Treat CDP endpoints as private** — never log or display connection URLs
