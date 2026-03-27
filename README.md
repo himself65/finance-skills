@@ -7,6 +7,12 @@ A collection of agent skills for financial analysis and trading.
 
 See [DEMOS.md](DEMOS.md) for screenshots and examples.
 
+### Paid API (subscription required)
+
+| Skill | Description | Platform |
+|---|---|---|
+| [unusual-whales](skills/unusual-whales/) | Query the [Unusual Whales API](https://unusualwhales.com/public-api) for options flow, dark pool trades, congressional trading, institutional holdings, Greek exposure, volatility, screener, and 100+ endpoints. [Purchase API key](https://unusualwhales.com/pricing?product=api). | Claude Code |
+
 ## Setup
 
 ### Claude Code Plugin (recommended)
