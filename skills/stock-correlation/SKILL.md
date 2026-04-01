@@ -2,21 +2,18 @@
 name: stock-correlation
 description: >
   Analyze stock correlations to find related companies and trading pairs.
-  Use this skill whenever the user asks about correlated stocks, related companies,
-  sector peers, trading pairs, or how two or more stocks move together.
-  Triggers include: "what correlates with NVDA", "find stocks related to AMD",
+  Use when the user asks about correlated stocks, related companies, sector peers,
+  trading pairs, or how two or more stocks move together.
+  Triggers: "what correlates with NVDA", "find stocks related to AMD",
   "correlation between AAPL and MSFT", "what moves with", "sector peers",
   "pair trading", "correlated stocks", "when NVDA drops what else drops",
-  "find me a pair for", "stocks that move together", "beta to", "relative performance",
-  "which stocks follow AMD", "supply chain partners", "correlation matrix",
-  "co-movement", "related tickers", "sympathy plays", "if GOOGL moves what else moves",
-  "semiconductor peers", "compare correlation", "hedging pair",
-  "sector clustering", "realized correlation", "rolling correlation",
-  or any request about finding stocks that move in tandem or inversely.
-  Also triggers when the user mentions well-known pairs like AMD/NVDA, GOOGL/AVGO, LITE/COHR
-  and wants to understand or find similar relationships.
-  Always use this skill even if the user only provides one ticker — infer that they want
-  to find correlated peers.
+  "stocks that move together", "beta to", "relative performance",
+  "supply chain partners", "correlation matrix", "co-movement",
+  "related tickers", "sympathy plays", "semiconductor peers",
+  "hedging pair", "realized correlation", "rolling correlation",
+  or any request about stocks that move in tandem or inversely.
+  Also triggers for well-known pairs like AMD/NVDA, GOOGL/AVGO, LITE/COHR.
+  If only one ticker is provided, infer the user wants correlated peers.
 ---
 
 # Stock Correlation Analysis Skill
