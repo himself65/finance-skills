@@ -1,25 +1,19 @@
 ---
 name: funda-data
 description: >
-  Fetch comprehensive financial data from the Funda AI API (https://api.funda.ai).
-  Covers real-time quotes, historical prices, financial statements, SEC filings, earnings transcripts,
-  analyst estimates, options flow/greeks/GEX, supply chain knowledge graph, social sentiment
-  (Twitter KOL posts, Reddit finance posts), prediction markets (Polymarket), congressional trades,
-  economic indicators, ESG ratings, news, insider/institutional ownership, and more.
-  Use this skill whenever the user asks for financial data that could come from the Funda API,
-  including: stock quotes, company fundamentals, balance sheet, income statement, cash flow,
-  analyst price targets, DCF valuation, options chain, options flow, unusual options activity,
-  GEX/gamma exposure, IV rank, max pain, earnings calendar, dividend calendar, IPO calendar,
-  SEC filings (10-K, 10-Q, 8-K), earnings call transcripts, podcast transcripts,
-  supply chain relationships, suppliers, customers, competitors, bottleneck stocks,
-  congressional/government trading, insider trades, institutional holdings (13F),
-  Reddit sentiment (wallstreetbets, stocks), financial Twitter/KOL tweets,
-  Polymarket prediction markets, treasury rates, GDP, CPI, unemployment, FRED data,
-  ESG scores, commodity prices, forex rates, crypto prices, stock screener,
-  market performance (sector/industry gainers/losers), ETF/fund holdings,
-  news and press releases, COT reports, or crowdfunding data.
-  Also triggers when the user mentions "funda", "funda.ai", or "funda API".
-  Always use this skill even if the user only provides a ticker — if Funda API can answer it, use it.
+  Fetch financial data from the Funda AI API (https://api.funda.ai).
+  Covers quotes, historical prices, financials, SEC filings, earnings transcripts,
+  analyst estimates, options flow/greeks/GEX, supply chain graph, social sentiment,
+  prediction markets, congressional trades, economic indicators, ESG, and news.
+  Triggers: stock quotes, fundamentals, balance sheet, income statement, cash flow,
+  analyst targets, DCF, options chain/flow/unusual activity, GEX, IV rank, max pain,
+  earnings/dividend/IPO calendar, SEC filings (10-K/10-Q/8-K), transcripts,
+  supply chain (suppliers/customers/competitors), congressional trading,
+  insider trades, institutional holdings (13F), Reddit/Twitter sentiment,
+  Polymarket, treasury rates, GDP, CPI, FRED data, ESG scores,
+  commodity/forex/crypto prices, stock screener, sector performance,
+  ETF holdings, news, COT reports. Also triggers for "funda" or "funda.ai".
+  If only a ticker is provided and Funda API can answer, use this skill.
 ---
 
 # Funda Data API Skill
