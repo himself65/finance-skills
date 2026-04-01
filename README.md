@@ -89,6 +89,9 @@ npx skills add himself65/finance-skills -a <agent-name>
 
 | Skill | Description | Platform |
 |---|---|---|
+| [earnings-preview](skills/earnings-preview/) | Generate a pre-earnings briefing — upcoming date, consensus EPS/revenue estimates, historical beat/miss track record, analyst sentiment, and key metrics to watch. | All platforms |
+| [earnings-recap](skills/earnings-recap/) | Post-earnings analysis — actual vs estimated EPS, surprise %, stock price reaction, quarterly financial trends, and margin trajectory. | All platforms |
+| [estimate-analysis](skills/estimate-analysis/) | Deep-dive into analyst estimates — EPS/revenue distributions, revision trends, revision breadth, growth projections vs peers, and historical accuracy. | All platforms |
 | [options-payoff](skills/options-payoff/) | Generate interactive options payoff curve charts with dynamic parameter controls. Supports butterfly, vertical spread, calendar spread, iron condor, straddle, strangle, covered call, and more. | Claude.ai or [generative-ui](skills/generative-ui/) |
 | [stock-correlation](skills/stock-correlation/) | Analyze stock correlations to find related companies, sector peers, and pair-trading candidates. Routes to sub-skills: co-movement discovery, return correlation, sector clustering, and realized correlation. | All platforms |
 | [yfinance-data](skills/yfinance-data/) | Fetch financial and market data using yfinance — stock prices, historical OHLCV, financial statements, options chains, dividends, earnings, analyst recommendations, screener, and more. | All platforms |
