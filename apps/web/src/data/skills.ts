@@ -5,6 +5,8 @@ export type SkillCategory =
   | "sentiment"
   | "visualization";
 
+export type SkillBadge = "new" | "paid";
+
 export interface Skill {
   name: string;
   title: string;
@@ -12,6 +14,7 @@ export interface Skill {
   category: SkillCategory;
   platform: "cli" | "claude-ai" | "both";
   tags: string[];
+  badge?: SkillBadge;
 }
 
 export const categoryLabels: Record<SkillCategory, string> = {
@@ -31,6 +34,7 @@ export const skills: Skill[] = [
     category: "analysis",
     platform: "cli",
     tags: ["Predictive", "EPS"],
+    badge: "new",
   },
   {
     name: "earnings-recap",
@@ -40,6 +44,7 @@ export const skills: Skill[] = [
     category: "analysis",
     platform: "cli",
     tags: ["Post-Earnings", "Reaction"],
+    badge: "new",
   },
   {
     name: "estimate-analysis",
@@ -49,6 +54,7 @@ export const skills: Skill[] = [
     category: "analysis",
     platform: "cli",
     tags: ["Revisions", "Trends"],
+    badge: "new",
   },
   {
     name: "yfinance-data",
@@ -67,6 +73,7 @@ export const skills: Skill[] = [
     category: "data",
     platform: "cli",
     tags: ["API", "Options Flow"],
+    badge: "paid",
   },
   {
     name: "options-payoff",

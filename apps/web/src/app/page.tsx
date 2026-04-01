@@ -93,8 +93,20 @@ export default function Home() {
                 className="flex items-center justify-between gap-4 py-4 hover:bg-bg-hover -mx-4 px-4 rounded transition-colors group"
               >
                 <div className="min-w-0">
-                  <span className="font-medium text-sm group-hover:text-accent transition-colors">
-                    {skill.name}
+                  <span className="flex items-center gap-2">
+                    <span className="font-medium text-sm group-hover:text-accent transition-colors">
+                      {skill.name}
+                    </span>
+                    {skill.badge === "new" && (
+                      <span className="text-[10px] font-semibold uppercase tracking-wider bg-accent/15 text-accent px-1.5 py-0.5 rounded">
+                        New
+                      </span>
+                    )}
+                    {skill.badge === "paid" && (
+                      <span className="text-[10px] font-semibold uppercase tracking-wider bg-yellow/15 text-yellow px-1.5 py-0.5 rounded">
+                        Paid
+                      </span>
+                    )}
                   </span>
                   <p className="text-xs text-text-muted mt-0.5 truncate">
                     {skill.description}

@@ -51,9 +51,21 @@ export default async function SkillDetailPage({
         </p>
 
         {/* Title */}
-        <h1 className="text-3xl font-bold tracking-tight text-balance mb-3">
-          {skill.name}
-        </h1>
+        <div className="flex items-center gap-3 mb-3">
+          <h1 className="text-3xl font-bold tracking-tight text-balance">
+            {skill.name}
+          </h1>
+          {skill.badge === "new" && (
+            <span className="text-xs font-semibold uppercase tracking-wider bg-accent/15 text-accent px-2 py-1 rounded">
+              New
+            </span>
+          )}
+          {skill.badge === "paid" && (
+            <span className="text-xs font-semibold uppercase tracking-wider bg-yellow/15 text-yellow px-2 py-1 rounded">
+              Paid
+            </span>
+          )}
+        </div>
 
         {/* Install commands */}
         <div className="flex flex-wrap gap-2 mb-8">
