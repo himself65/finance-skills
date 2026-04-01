@@ -2,19 +2,16 @@
 name: earnings-recap
 description: >
   Generate a post-earnings analysis for any stock using Yahoo Finance data.
-  Use this skill whenever the user wants to review what happened after a company reported earnings,
-  understand the beat/miss result, see how the stock reacted, or get a quick recap of recent earnings.
-  Triggers include: "AAPL earnings recap", "how did TSLA earnings go", "MSFT earnings results",
-  "did NVDA beat earnings", "earnings recap", "post-earnings analysis",
-  "earnings surprise", "what happened with GOOGL earnings",
-  "earnings reaction", "stock moved after earnings", "earnings report summary",
-  "EPS beat or miss", "revenue beat or miss", "after earnings",
-  "earnings results", "quarterly results for", "how were earnings",
-  "AMZN reported last night", "earnings call recap",
-  any mention of reviewing or summarizing earnings that already happened,
-  or any request about a company's most recent earnings outcome.
-  Always use this skill when the user references a past earnings event,
-  even if they just say something like "AAPL reported" or "how did they do".
+  Use when the user wants to review what happened after earnings,
+  understand beat/miss results, see stock reaction, or get an earnings recap.
+  Triggers: "AAPL earnings recap", "how did TSLA earnings go", "MSFT earnings results",
+  "did NVDA beat earnings", "post-earnings analysis", "earnings surprise",
+  "what happened with GOOGL earnings", "earnings reaction",
+  "stock moved after earnings", "EPS beat or miss", "revenue beat or miss",
+  "quarterly results for", "how were earnings", "AMZN reported last night",
+  "earnings call recap", or any request about a company's recent earnings outcome.
+  Use this skill when the user references a past earnings event,
+  even if they just say "AAPL reported" or "how did they do".
 ---
 
 # Earnings Recap Skill

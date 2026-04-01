@@ -2,23 +2,19 @@
 name: estimate-analysis
 description: >
   Deep-dive into analyst estimates and revision trends for any stock using Yahoo Finance data.
-  Use this skill whenever the user wants to understand the direction of analyst estimates,
-  how EPS or revenue forecasts have changed over time, compare estimate distributions,
+  Use when the user wants to understand analyst estimate direction,
+  how EPS or revenue forecasts changed over time, compare estimate distributions,
   or analyze growth projections across periods.
-  Triggers include: "estimate analysis for AAPL", "analyst estimate trends for NVDA",
+  Triggers: "estimate analysis for AAPL", "analyst estimate trends for NVDA",
   "EPS revisions for TSLA", "how have estimates changed for MSFT",
   "estimate revisions", "EPS trend", "revenue estimates",
   "consensus changes", "analyst estimates", "estimate distribution",
-  "growth estimates for", "how many analysts cover",
-  "are estimates going up or down", "estimate momentum",
-  "revision trend", "earnings estimate history",
-  "forward estimates", "next quarter estimates",
-  "annual estimates", "FY estimates", "estimate spread",
-  "bull case vs bear case estimates", "estimate range",
-  any mention of analyzing, tracking, or comparing analyst estimates/revisions,
-  or any request about understanding where analyst forecasts are heading.
-  Always use this skill when the user asks about estimates beyond a simple lookup —
-  if they want context, trends, or analysis of the numbers, this is the right skill.
+  "growth estimates for", "estimate momentum", "revision trend",
+  "forward estimates", "next quarter estimates", "annual estimates",
+  "estimate spread", "bull vs bear estimates", "estimate range",
+  or any request about tracking or comparing analyst estimates/revisions.
+  Use this skill when the user asks about estimates beyond a simple lookup —
+  if they want context, trends, or analysis, this is the right skill.
 ---
 
 # Estimate Analysis Skill
