@@ -1,0 +1,14 @@
+name: Skill Lint
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: himself65/skill-lint@v1
+        with:
+          path: 'skills'
