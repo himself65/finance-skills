@@ -93,6 +93,12 @@ npx skills add himself65/finance-skills -a <agent-name>
 | [stock-correlation](skills/stock-correlation/) | Analyze stock correlations to find related companies, sector peers, and pair-trading candidates. Routes to sub-skills: co-movement discovery, return correlation, sector clustering, and realized correlation. | All platforms |
 | [yfinance-data](skills/yfinance-data/) | Fetch financial and market data using yfinance — stock prices, historical OHLCV, financial statements, options chains, dividends, earnings, analyst recommendations, screener, and more. | All platforms |
 
+### Paid Data Providers
+
+| Skill | Description | Platform |
+|---|---|---|
+| [funda-data](skills/funda-data/) | Query the [Funda AI](https://funda.ai) API for comprehensive financial data — real-time quotes, fundamentals, options flow/greeks/GEX (Unusual Whales), supply chain knowledge graph, social sentiment (Twitter KOLs, Reddit), Polymarket, congressional trades, SEC filings, earnings transcripts, economic indicators, and 60+ endpoints. Requires a paid API key. | Claude Code |
+
 ### Geopolitical & Macro Risk
 
 | Skill | Description | Platform |
