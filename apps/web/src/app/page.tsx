@@ -1,0 +1,117 @@
+import { skills } from "@/data/skills";
+import { Link } from "next-view-transitions";
+
+export default function Home() {
+  return (
+    <div className="min-h-screen">
+      {/* Nav */}
+      <nav className="border-b border-border px-6 py-3" style={{ viewTransitionName: "site-nav" }}>
+        <div className="max-w-3xl mx-auto flex items-center gap-2 text-sm">
+          <span className="font-semibold">Finance Skills</span>
+        </div>
+      </nav>
+
+      <main className="max-w-3xl mx-auto px-6" style={{ viewTransitionName: "page-content" }}>
+        {/* Header */}
+        <div className="py-10">
+          <p className="text-sm text-text-muted mb-2">
+            <span>skills</span>
+            <span className="mx-1.5">/</span>
+            <span className="text-text-secondary">himself65</span>
+            <span className="mx-1.5">/</span>
+            <span className="text-text-secondary">finance-skills</span>
+          </p>
+          <h1 className="text-3xl font-bold tracking-tight text-balance">
+            himself65/finance-skills
+          </h1>
+          <p className="mt-3 text-text-secondary leading-relaxed max-w-xl">
+            Agent skills for financial analysis and trading. Earnings reports,
+            market data, options strategies, risk monitoring, and sentiment
+            analysis — installable into Claude Code, Claude.ai, and other
+            AI agents.
+          </p>
+          <div className="flex items-center gap-4 mt-4 text-sm text-text-secondary">
+            <span>{skills.length} skills</span>
+            <a
+              href="https://github.com/himself65/finance-skills"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 hover:text-text transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent rounded"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+              </svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        {/* Usage */}
+        <div className="pb-8 space-y-4">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-text-muted">
+            Usage
+          </h2>
+          <div className="space-y-3">
+            <div>
+              <p className="text-xs text-text-muted mb-1.5">Install all skills</p>
+              <div className="inline-flex items-center gap-2 bg-bg-elevated border border-border rounded-lg px-4 py-2.5 font-mono text-sm text-text-secondary">
+                <span className="text-text-muted">$</span>
+                <span>npx skills add himself65/finance-skills</span>
+              </div>
+            </div>
+            <div>
+              <p className="text-xs text-text-muted mb-1.5">Install a single skill</p>
+              <div className="inline-flex items-center gap-2 bg-bg-elevated border border-border rounded-lg px-4 py-2.5 font-mono text-sm text-text-secondary">
+                <span className="text-text-muted">$</span>
+                <span>npx skills add himself65/finance-skills --skill earnings-preview</span>
+              </div>
+            </div>
+            <div>
+              <p className="text-xs text-text-muted mb-1.5">Or install as a Claude Code plugin</p>
+              <div className="inline-flex items-center gap-2 bg-bg-elevated border border-border rounded-lg px-4 py-2.5 font-mono text-sm text-text-secondary">
+                <span className="text-text-muted">$</span>
+                <span>claude plugin add himself65/finance-skills</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Skills table */}
+        <div className="border-t border-border">
+          {/* Header row */}
+          <div className="flex items-center justify-between px-0 py-3 text-xs uppercase tracking-wider text-text-muted">
+            <span>Skill</span>
+            <span>Platform</span>
+          </div>
+
+          {/* Skill rows */}
+          <div className="divide-y divide-border">
+            {skills.map((skill) => (
+              <Link
+                key={skill.name}
+                href={`/skills/${skill.name}`}
+                className="flex items-center justify-between gap-4 py-4 hover:bg-bg-hover -mx-4 px-4 rounded transition-colors group"
+              >
+                <div className="min-w-0">
+                  <span className="font-medium text-sm group-hover:text-accent transition-colors">
+                    {skill.name}
+                  </span>
+                  <p className="text-xs text-text-muted mt-0.5 truncate">
+                    {skill.description}
+                  </p>
+                </div>
+                <span className="text-sm text-text-muted tabular-nums shrink-0">
+                  {skill.platform === "cli"
+                    ? "CLI"
+                    : skill.platform === "claude-ai"
+                    ? "Claude.ai"
+                    : "All"}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
