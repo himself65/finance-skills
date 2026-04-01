@@ -93,6 +93,11 @@ npx skills add himself65/finance-skills -a <agent-name>
 | [stock-correlation](skills/stock-correlation/) | Analyze stock correlations to find related companies, sector peers, and pair-trading candidates. Routes to sub-skills: co-movement discovery, return correlation, sector clustering, and realized correlation. | All platforms |
 | [yfinance-data](skills/yfinance-data/) | Fetch financial and market data using yfinance — stock prices, historical OHLCV, financial statements, options chains, dividends, earnings, analyst recommendations, screener, and more. | All platforms |
 
+### Paid Data Providers
+
+| Skill | Description | Platform |
+|---|---|---|
+
 ### Geopolitical & Macro Risk
 
 | Skill | Description | Platform |
