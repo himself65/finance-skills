@@ -94,6 +94,16 @@ export const skills: Skill[] = [
     tags: ["Correlation", "Pairs"],
   },
   {
+    name: "stock-liquidity",
+    title: "Stock Liquidity",
+    description:
+      "Analyze stock liquidity — bid-ask spreads, volume profiles, order book depth, market impact estimates, Amihud illiquidity ratio, and turnover ratios.",
+    category: "analysis",
+    platform: "cli",
+    tags: ["Liquidity", "Spreads", "Volume"],
+    badge: "new",
+  },
+  {
     name: "hormuz-strait",
     title: "Hormuz Strait Monitor",
     description:
@@ -118,7 +128,7 @@ export const skills: Skill[] = [
       "Read-only Twitter/X access for financial research — search tweets, view bookmarks, and gather market sentiment.",
     category: "sentiment",
     platform: "cli",
-    tags: ["Social", "Read-Only"],
+    tags: ["Social"],
   },
   {
     name: "telegram-reader",
@@ -127,7 +137,7 @@ export const skills: Skill[] = [
       "Read-only Telegram channel access for financial news — export messages, search channels, monitor market intelligence.",
     category: "sentiment",
     platform: "cli",
-    tags: ["Social", "Read-Only"],
+    tags: ["Social"],
   },
   {
     name: "discord-reader",
@@ -136,7 +146,7 @@ export const skills: Skill[] = [
       "Read-only Discord access for financial research — trading servers, crypto channels, and community sentiment.",
     category: "sentiment",
     platform: "cli",
-    tags: ["Social", "Read-Only"],
+    tags: ["Social"],
   },
   {
     name: "finance-sentiment",

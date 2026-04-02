@@ -68,6 +68,7 @@ npx skills add himself65/finance-skills -a <agent-name>
 | [estimate-analysis](skills/estimate-analysis/) | Deep-dive into analyst estimates — EPS/revenue distributions, revision trends, revision breadth, growth projections vs peers, and historical accuracy. | All platforms |
 | [options-payoff](skills/options-payoff/) | Generate interactive options payoff curve charts with dynamic parameter controls. Supports butterfly, vertical spread, calendar spread, iron condor, straddle, strangle, covered call, and more. | Claude.ai or [generative-ui](skills/generative-ui/) |
 | [stock-correlation](skills/stock-correlation/) | Analyze stock correlations to find related companies, sector peers, and pair-trading candidates. Routes to sub-skills: co-movement discovery, return correlation, sector clustering, and realized correlation. | All platforms |
+| [stock-liquidity](skills/stock-liquidity/) | Analyze stock liquidity — bid-ask spreads, volume profiles, order book depth estimates, market impact modeling (square-root model), Amihud illiquidity ratio, and turnover ratios using Yahoo Finance data. | All platforms |
 | [yfinance-data](skills/yfinance-data/) | Fetch financial and market data using yfinance — stock prices, historical OHLCV, financial statements, options chains, dividends, earnings, analyst recommendations, screener, and more. | All platforms |
 
 ### Paid Data Providers
