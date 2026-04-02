@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "scripts": {
+    "bump": "ccbump"
+  },
+  "devDependencies": {
+    "ccbump": "^0.1.0"
+  }
+}
