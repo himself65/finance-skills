@@ -100,14 +100,16 @@ Guidelines:
 This repo ships as a Claude Code plugin in addition to being an Agent Skills repository:
 
 - `.claude-plugin/plugin.json` — plugin manifest (name, version, keywords). Skills under `skills/` with SKILL.md frontmatter are auto-discovered by the plugin loader; no per-skill registration is needed.
-- `.claude-plugin/marketplace.json` — marketplace listing so users can install via `/plugin marketplace add`.
+- `.claude-plugin/marketplace.json` — marketplace listing metadata.
 - `.agents/` — auto-generated mirror for agent distribution. **Do not edit directly** — this is produced from `skills/` content.
+
+Users install the plugin via `npx plugins add himself65/finance-skills`. Individual skills can be installed via `npx skills add himself65/finance-skills --skill <name>`.
 
 When a skill is invoked as a plugin, it is namespaced as `finance-skills:<skill-name>` (e.g., `/finance-skills:options-payoff`).
 
 ## CI/CD
 
-- **Release workflow** (`.github/workflows/release-skills.yml`): On push to `main`, zips each `skills/*/` directory and publishes them as a GitHub release tagged `latest`. These zips are what users upload to Claude.ai.
+- **Release workflow** (`.github/workflows/release-skills.yml`): On push to `main`, zips each `skills/*/` directory and publishes them as a GitHub release tagged `latest`. These zips can be uploaded to Claude.ai for web/desktop users.
 
 ## Important constraints
 
