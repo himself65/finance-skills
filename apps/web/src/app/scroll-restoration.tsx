@@ -26,7 +26,7 @@ export function ScrollRestoration() {
       if (saved !== undefined) {
         // Wait for the view transition animation to finish (300ms total)
         // before restoring, so the transition doesn't override scroll.
-        setTimeout(() => window.scrollTo(0, saved), 350);
+        setTimeout(() => window.scrollTo({ top: saved, behavior: "smooth" }), 350);
       }
       prevPathname.current = pathname;
     }
