@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Fira_Code } from "next/font/google";
 import { ViewTransitions } from "next-view-transitions";
+import { ScrollRestoration } from "./scroll-restoration";
 import "./globals.css";
 
 const inter = Inter({
@@ -27,7 +28,10 @@ export default function RootLayout({
   return (
     <ViewTransitions>
       <html lang="en" className={`${inter.variable} ${firaCode.variable} antialiased`} style={{ colorScheme: "dark" }}>
-        <body className="font-sans min-h-screen">{children}</body>
+        <body className="font-sans min-h-screen">
+          <ScrollRestoration />
+          {children}
+        </body>
       </html>
     </ViewTransitions>
   );
