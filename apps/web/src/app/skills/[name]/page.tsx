@@ -26,7 +26,7 @@ export default async function SkillDetailPage({
       {/* Nav */}
       <nav className="border-b border-border px-6 py-3" style={{ viewTransitionName: "site-nav" }}>
         <div className="max-w-5xl mx-auto flex items-center gap-2 text-sm">
-          <Link href="/" className="font-semibold hover:text-accent transition-colors">
+          <Link href="/" scroll={false} className="font-semibold hover:text-accent transition-colors">
             Finance Skills
           </Link>
         </div>
@@ -35,15 +35,15 @@ export default async function SkillDetailPage({
       <main className="max-w-5xl mx-auto px-6 py-8" style={{ viewTransitionName: "page-content" }}>
         {/* Breadcrumb */}
         <p className="text-sm text-text-muted mb-4">
-          <Link href="/" className="hover:text-text-secondary transition-colors">
+          <Link href="/" scroll={false} className="hover:text-text-secondary transition-colors">
             skills
           </Link>
           <span className="mx-1.5">/</span>
-          <Link href="/" className="hover:text-text-secondary transition-colors">
+          <Link href="/" scroll={false} className="hover:text-text-secondary transition-colors">
             himself65
           </Link>
           <span className="mx-1.5">/</span>
-          <Link href="/" className="hover:text-text-secondary transition-colors">
+          <Link href="/" scroll={false} className="hover:text-text-secondary transition-colors">
             finance-skills
           </Link>
           <span className="mx-1.5">/</span>
