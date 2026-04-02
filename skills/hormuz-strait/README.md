@@ -34,6 +34,10 @@ Works on **all platforms** (Claude Code, Claude.ai, and other agents). Only requ
 ## Setup
 
 ```bash
+# As a plugin (recommended — installs all skills)
+npx plugins add himself65/finance-skills
+
+# Or install just this skill
 npx skills add himself65/finance-skills --skill hormuz-strait
 ```
 

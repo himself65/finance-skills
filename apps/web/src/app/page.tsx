@@ -53,6 +53,13 @@ export default function Home() {
           </h2>
           <div className="space-y-3">
             <div>
+              <p className="text-xs text-text-muted mb-1.5">Install as a plugin (recommended)</p>
+              <div className="inline-flex items-center gap-2 bg-bg-elevated border border-border rounded-lg px-4 py-2.5 font-mono text-sm text-text-secondary">
+                <span className="text-text-muted">$</span>
+                <span>npx plugins add himself65/finance-skills</span>
+              </div>
+            </div>
+            <div>
               <p className="text-xs text-text-muted mb-1.5">Install all skills</p>
               <div className="inline-flex items-center gap-2 bg-bg-elevated border border-border rounded-lg px-4 py-2.5 font-mono text-sm text-text-secondary">
                 <span className="text-text-muted">$</span>
@@ -64,13 +71,6 @@ export default function Home() {
               <div className="inline-flex items-center gap-2 bg-bg-elevated border border-border rounded-lg px-4 py-2.5 font-mono text-sm text-text-secondary">
                 <span className="text-text-muted">$</span>
                 <span>npx skills add himself65/finance-skills --skill earnings-preview</span>
-              </div>
-            </div>
-            <div>
-              <p className="text-xs text-text-muted mb-1.5">Or install as a Claude Code plugin</p>
-              <div className="inline-flex items-center gap-2 bg-bg-elevated border border-border rounded-lg px-4 py-2.5 font-mono text-sm text-text-secondary">
-                <span className="text-text-muted">$</span>
-                <span>claude plugin add himself65/finance-skills</span>
               </div>
             </div>
           </div>

@@ -71,7 +71,7 @@ export default async function SkillDetailPage({
         <div className="flex flex-wrap gap-2 mb-8">
           <div className="inline-flex items-center gap-2 bg-bg-elevated border border-border rounded-lg px-3 py-2 font-mono text-xs text-text-secondary">
             <span className="text-text-muted">$</span>
-            npx skills add https://github.com/himself65/finance-skills --skill {skill.name}
+            npx plugins add himself65/finance-skills
           </div>
         </div>
 
@@ -162,7 +162,7 @@ export default async function SkillDetailPage({
                 Install
               </p>
               <div className="space-y-1.5 text-xs text-text-secondary font-mono">
-                <p>claude plugin add finance-skills</p>
+                <p>npx plugins add himself65/finance-skills</p>
               </div>
             </div>
           </div>
