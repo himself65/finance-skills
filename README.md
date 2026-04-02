@@ -101,6 +101,7 @@ npx skills add himself65/finance-skills -a <agent-name>
 | Skill | Description | Platform |
 |---|---|---|
 | [funda-data](skills/funda-data/) | Query the [Funda AI](https://funda.ai) API for comprehensive financial data — real-time quotes, fundamentals, options flow/greeks/GEX (Unusual Whales), supply chain knowledge graph, social sentiment (Twitter KOLs, Reddit), Polymarket, congressional trades, SEC filings, earnings transcripts, economic indicators, and 60+ endpoints. Requires a paid API key. | Claude Code |
+| [finance-sentiment](skills/finance-sentiment/) | Structured stock sentiment research via the Adanos Finance API — compare Reddit, X.com, news, and Polymarket using buzz, bullish percentage, mentions or trades, and trend. Requires `ADANOS_API_KEY`. | Claude Code |
 
 ### Geopolitical & Macro Risk
 
@@ -113,7 +114,6 @@ npx skills add himself65/finance-skills -a <agent-name>
 | Skill | Description | Platform |
 |---|---|---|
 | [discord-reader](skills/discord-reader/) | Read-only Discord research via [opencli](https://github.com/jackwener/opencli) — read trading server messages, search discussions, monitor crypto/market groups, and track sentiment in financial communities. Connects to Discord Desktop via CDP (no token needed). | Claude Code |
-| [finance-sentiment](skills/finance-sentiment/) | Structured stock sentiment research via the Adanos Finance API — compare Reddit, X.com, news, and Polymarket using buzz, bullish percentage, mentions or trades, and trend. Requires `ADANOS_API_KEY`. | Claude Code |
 | [telegram-reader](skills/telegram-reader/) | Read-only Telegram channel reader via [tdl](https://github.com/iyear/tdl) — export messages from financial news channels, monitor crypto/market groups, and aggregate Telegram-based news feeds. One-time QR code login. | Claude Code |
 | [twitter-reader](skills/twitter-reader/) | Read-only Twitter/X research via [opencli](https://github.com/jackwener/opencli) — search financial tweets, track analyst commentary, monitor earnings sentiment, and follow market discussions. No API keys needed (reuses Chrome browser session). | Claude Code |
 

@@ -143,7 +143,7 @@ export const skills: Skill[] = [
     title: "Finance Sentiment",
     description:
       "Structured stock sentiment research — compare Reddit, X.com, news, and Polymarket using buzz, bullish %, mentions, and trend via the Adanos Finance API.",
-    category: "sentiment",
+    category: "data",
     platform: "cli",
     tags: ["Cross-Source", "API"],
     badge: "paid",
