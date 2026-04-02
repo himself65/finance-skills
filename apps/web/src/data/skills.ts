@@ -94,6 +94,16 @@ export const skills: Skill[] = [
     tags: ["Correlation", "Pairs"],
   },
   {
+    name: "stock-liquidity",
+    title: "Stock Liquidity",
+    description:
+      "Analyze stock liquidity — bid-ask spreads, volume profiles, order book depth, market impact estimates, Amihud illiquidity ratio, and turnover ratios.",
+    category: "analysis",
+    platform: "cli",
+    tags: ["Liquidity", "Spreads", "Volume"],
+    badge: "new",
+  },
+  {
     name: "hormuz-strait",
     title: "Hormuz Strait Monitor",
     description:
