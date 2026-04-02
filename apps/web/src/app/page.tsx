@@ -1,5 +1,8 @@
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
 import { skills } from "@/data/skills";
-import { SkillList } from "./skill-list";
+
+const SkillList = dynamic(() => import("./skill-list").then((mod) => mod.SkillList));
 
 export default function Home() {
   return (
@@ -76,9 +79,11 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Skills by category with badge filter */}
+        {/* Skills by category with filter */}
         <div className="border-t border-border pt-6">
-          <SkillList skills={skills} />
+          <Suspense>
+            <SkillList skills={skills} />
+          </Suspense>
         </div>
       </main>
     </div>

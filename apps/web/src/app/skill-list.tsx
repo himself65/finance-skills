@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Link } from "next-view-transitions";
 import { motion, AnimatePresence, LayoutGroup } from "motion/react";
 import type { Skill, SkillCategory } from "@/data/skills";
@@ -24,8 +25,16 @@ const categoryFilters: { value: CategoryFilter; label: string }[] = [
   })),
 ];
 
+function isValidCategory(value: string | null): value is SkillCategory {
+  return value !== null && categoryOrder.includes(value as SkillCategory);
+}
+
 export function SkillList({ skills }: { skills: Skill[] }) {
-  const [activeFilter, setActiveFilter] = useState<CategoryFilter>("all");
+  const searchParams = useSearchParams();
+  const initialCategory = searchParams.get("category");
+  const [activeFilter, setActiveFilter] = useState<CategoryFilter>(
+    isValidCategory(initialCategory) ? initialCategory : "all"
+  );
 
   const filtered =
     activeFilter === "all"
@@ -50,7 +59,7 @@ export function SkillList({ skills }: { skills: Skill[] }) {
               <button
                 key={f.value}
                 onClick={() => setActiveFilter(f.value)}
-                className={`relative z-10 px-3 py-1.5 text-xs font-medium rounded-full transition-colors duration-200 ${
+                className={`relative z-10 px-3 py-1.5 text-xs font-medium rounded-full transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
                   activeFilter === f.value
                     ? "text-white"
                     : "bg-bg-elevated text-text-secondary border border-border hover:border-text-muted"
