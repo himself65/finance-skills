@@ -100,6 +100,7 @@ npx skills add himself65/finance-skills -a <agent-name>
 
 | Skill | Description | Platform |
 |---|---|---|
+| [finance-sentiment](skills/finance-sentiment/) | Structured stock sentiment research via the Adanos Finance API — compare Reddit, X.com, news, and Polymarket using buzz, bullish percentage, mentions or trades, and trend. Requires `ADANOS_API_KEY`. | Claude Code |
 
 ### Geopolitical & Macro Risk
 
