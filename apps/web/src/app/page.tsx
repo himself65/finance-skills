@@ -1,5 +1,8 @@
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
 import { skills } from "@/data/skills";
-import { Link } from "next-view-transitions";
+
+const SkillList = dynamic(() => import("./skill-list").then((mod) => mod.SkillList));
 
 export default function Home() {
   return (
@@ -76,52 +79,11 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Skills table */}
-        <div className="border-t border-border">
-          {/* Header row */}
-          <div className="flex items-center justify-between px-0 py-3 text-xs uppercase tracking-wider text-text-muted">
-            <span>Skill</span>
-            <span>Platform</span>
-          </div>
-
-          {/* Skill rows */}
-          <div className="divide-y divide-border">
-            {skills.map((skill) => (
-              <Link
-                key={skill.name}
-                href={`/skills/${skill.name}`}
-                className="flex items-center justify-between gap-4 py-4 hover:bg-bg-hover -mx-4 px-4 rounded transition-colors group"
-              >
-                <div className="min-w-0">
-                  <span className="flex items-center gap-2">
-                    <span className="font-medium text-sm group-hover:text-accent transition-colors">
-                      {skill.name}
-                    </span>
-                    {skill.badge === "new" && (
-                      <span className="text-[10px] font-semibold uppercase tracking-wider bg-accent/15 text-accent px-1.5 py-0.5 rounded">
-                        New
-                      </span>
-                    )}
-                    {skill.badge === "paid" && (
-                      <span className="text-[10px] font-semibold uppercase tracking-wider bg-yellow/15 text-yellow px-1.5 py-0.5 rounded">
-                        Paid
-                      </span>
-                    )}
-                  </span>
-                  <p className="text-xs text-text-muted mt-0.5 truncate">
-                    {skill.description}
-                  </p>
-                </div>
-                <span className="text-sm text-text-muted tabular-nums shrink-0">
-                  {skill.platform === "cli"
-                    ? "CLI"
-                    : skill.platform === "claude-ai"
-                    ? "Claude.ai"
-                    : "All"}
-                </span>
-              </Link>
-            ))}
-          </div>
+        {/* Skills by category with filter */}
+        <div className="border-t border-border pt-6">
+          <Suspense>
+            <SkillList skills={skills} />
+          </Suspense>
         </div>
       </main>
     </div>

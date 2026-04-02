@@ -26,7 +26,7 @@ export default async function SkillDetailPage({
       {/* Nav */}
       <nav className="border-b border-border px-6 py-3" style={{ viewTransitionName: "site-nav" }}>
         <div className="max-w-5xl mx-auto flex items-center gap-2 text-sm">
-          <Link href="/" scroll={false} className="font-semibold hover:text-accent transition-colors">
+          <Link href="/" scroll={false} className="font-semibold hover:text-accent transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent rounded">
             Finance Skills
           </Link>
         </div>
@@ -35,15 +35,15 @@ export default async function SkillDetailPage({
       <main className="max-w-5xl mx-auto px-6 py-8" style={{ viewTransitionName: "page-content" }}>
         {/* Breadcrumb */}
         <p className="text-sm text-text-muted mb-4">
-          <Link href="/" scroll={false} className="hover:text-text-secondary transition-colors">
+          <Link href="/" scroll={false} className="hover:text-text-secondary transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent rounded">
             skills
           </Link>
           <span className="mx-1.5">/</span>
-          <Link href="/" scroll={false} className="hover:text-text-secondary transition-colors">
+          <Link href="/" scroll={false} className="hover:text-text-secondary transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent rounded">
             himself65
           </Link>
           <span className="mx-1.5">/</span>
-          <Link href="/" scroll={false} className="hover:text-text-secondary transition-colors">
+          <Link href="/" scroll={false} className="hover:text-text-secondary transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent rounded">
             finance-skills
           </Link>
           <span className="mx-1.5">/</span>
@@ -97,6 +97,13 @@ export default async function SkillDetailPage({
                 </p>
 
                 <div className="flex gap-2 flex-wrap">
+                  <Link
+                    href={`/?category=${skill.category}`}
+                    scroll={false}
+                    className="text-xs border border-border rounded px-2 py-0.5 text-text-secondary hover:border-accent hover:text-accent transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                  >
+                    {categoryLabels[skill.category]}
+                  </Link>
                   {skill.tags.map((tag) => (
                     <span
                       key={tag}
@@ -142,7 +149,13 @@ export default async function SkillDetailPage({
               <p className="text-xs uppercase tracking-wider text-text-muted mb-1.5">
                 Category
               </p>
-              <p className="text-sm">{categoryLabels[skill.category]}</p>
+              <Link
+                href={`/?category=${skill.category}`}
+                scroll={false}
+                className="text-sm text-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent rounded"
+              >
+                {categoryLabels[skill.category]}
+              </Link>
             </div>
             <div>
               <p className="text-xs uppercase tracking-wider text-text-muted mb-1.5">
