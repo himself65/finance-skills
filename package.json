@@ -3,7 +3,8 @@
   "scripts": {
     "bump": "ccbump"
   },
+  "packageManager": "pnpm@10.33.0",
   "devDependencies": {
-    "ccbump": "^0.1.0"
+    "ccbump": "^0.1.3"
   }
 }
