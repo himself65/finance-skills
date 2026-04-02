@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "motion": "^12.38.0",
     "next": "16.2.2",
     "next-view-transitions": "^0.3.5",
     "react": "19.2.4",

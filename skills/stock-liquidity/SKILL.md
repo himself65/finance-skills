@@ -3,19 +3,15 @@ name: stock-liquidity
 description: >
   Analyze stock liquidity using bid-ask spreads, volume profiles, order book depth,
   market impact estimates, and turnover ratios via Yahoo Finance data.
-  Use this skill whenever the user asks about a stock's liquidity, trading costs,
-  bid-ask spread, market depth, volume analysis, order book, slippage, market impact,
-  turnover ratio, or how easy/hard it is to trade a stock without moving the price.
-  Triggers include: "how liquid is AAPL", "bid-ask spread for TSLA", "volume analysis",
-  "order book depth", "market impact of a large order", "turnover ratio", "slippage estimate",
-  "trading cost analysis", "can I trade 100k shares without moving the price",
-  "liquidity comparison between stocks", "spread analysis", "is this stock liquid enough",
-  "average daily volume", "ADTV", "illiquidity ratio", "Amihud illiquidity",
-  "volume profile", "how much would it cost to trade X shares", "execution cost estimate",
-  "effective spread", "liquidity score", "relative spread", "dollar volume",
-  or any request about how easily a stock can be bought or sold.
-  Also triggers when the user mentions penny stocks, small caps, or thinly traded securities
-  in a context where liquidity matters.
+  Use this skill whenever the user asks about liquidity, trading costs, bid-ask spread,
+  market depth, volume analysis, slippage, market impact, turnover ratio, or how
+  easy/hard it is to trade a stock without moving the price.
+  Triggers: "how liquid is AAPL", "bid-ask spread", "volume analysis", "order book depth",
+  "market impact of a large order", "turnover ratio", "slippage estimate",
+  "can I trade 100k shares without moving the price", "liquidity comparison",
+  "spread analysis", "ADTV", "Amihud illiquidity", "dollar volume",
+  "execution cost estimate", "liquidity score", penny stocks, small caps,
+  or thinly traded securities.
 ---
 
 # Stock Liquidity Analysis Skill
