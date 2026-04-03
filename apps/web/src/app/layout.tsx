@@ -15,6 +15,7 @@ const firaCode = Fira_Code({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://finance-skills.vercel.app"),
   title: "Finance Skills",
   description:
     "Financial analysis skills for AI agents — earnings, market data, risk monitoring, and more.",
