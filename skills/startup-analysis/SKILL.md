@@ -43,6 +43,18 @@ Before analyzing, collect as much public information as possible about the start
 
 If certain data isn't publicly available (e.g., revenue for private companies), note the gap and infer what you can from indirect signals (hiring pace, customer logos, web traffic proxies, job postings).
 
+### When information is insufficient
+
+Many startups — especially early-stage or niche ones — have limited public presence. If web search does not return enough information to produce a meaningful analysis (e.g., you can't determine what the company does, who founded it, or how it's funded), **ask the user to provide the company's website URL** before proceeding. The company website is often the single most information-dense source, and reading it directly (about page, pricing page, team page, blog) can fill most gaps.
+
+You can also ask the user for:
+- The company's website or landing page URL
+- A Crunchbase, LinkedIn, or PitchBook link
+- Any pitch deck, job listing, or press article they have
+- Specific context they already know (e.g., "they just raised a Series A from Sequoia")
+
+It is better to ask for a URL and produce an accurate analysis than to guess and produce a misleading one.
+
 ---
 
 ## Step 2: Determine Which Perspectives to Cover
