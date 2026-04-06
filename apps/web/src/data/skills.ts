@@ -149,6 +149,16 @@ export const skills: Skill[] = [
     tags: ["Social"],
   },
   {
+    name: "linkedin-reader",
+    title: "LinkedIn Reader",
+    description:
+      "Read-only LinkedIn access for financial research — professional market commentary, analyst posts, and finance job search.",
+    category: "sentiment",
+    platform: "cli",
+    tags: ["Social", "Jobs"],
+    badge: "new",
+  },
+  {
     name: "finance-sentiment",
     title: "Finance Sentiment",
     description:
