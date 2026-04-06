@@ -202,6 +202,7 @@ function getExamplePrompt(name: string): string {
     "linkedin-reader": "what are analysts saying on LinkedIn about NVDA",
     "yc-reader": "show me YC fintech companies that are hiring",
     "startup-analysis": "analyze LangChain as a potential investment",
+    "saas-valuation-compression": "analyze Vercel valuation compression from Series D to E",
   };
   return prompts[name] || `use ${name}`;
 }
@@ -235,6 +236,8 @@ function getExampleOutput(name: string): string {
       "Fetching YC fintech companies from yc-oss API and filtering for hiring...",
     "startup-analysis":
       "Researching LangChain — gathering funding data, team info, market position for 3-perspective analysis...",
+    "saas-valuation-compression":
+      "Searching Vercel funding rounds, ARR estimates, and macro SaaS multiples — computing compression metrics...",
   };
   return outputs[name] || "Processing...";
 }

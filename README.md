@@ -37,6 +37,7 @@ npx skills add himself65/finance-skills -a <agent-name>
 | [earnings-recap](skills/earnings-recap/) | Post-earnings analysis — actual vs estimated EPS, price reaction, margin trends | All |
 | [estimate-analysis](skills/estimate-analysis/) | Analyst estimate deep-dive — revision trends, growth projections, historical accuracy | All |
 | [options-payoff](skills/options-payoff/) | Interactive options payoff charts with dynamic controls | Claude.ai |
+| [saas-valuation-compression](skills/saas-valuation-compression/) | SaaS valuation compression analysis — ARR multiples, cause attribution, peer comparisons | All |
 | [startup-analysis](skills/startup-analysis/) | Multi-perspective startup analysis — VC investor, job applicant, and CEO/founder viewpoints | Claude Code |
 | [stock-correlation](skills/stock-correlation/) | Correlation analysis — sector peers, co-movement, pair-trading candidates | All |
 | [stock-liquidity](skills/stock-liquidity/) | Liquidity analysis — spreads, volume profiles, market impact, Amihud ratio | All |

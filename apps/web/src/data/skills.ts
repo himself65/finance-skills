@@ -188,6 +188,16 @@ export const skills: Skill[] = [
     tags: ["Cross-Source", "API"],
     badge: "paid",
   },
+  {
+    name: "saas-valuation-compression",
+    title: "SaaS Valuation Compression",
+    description:
+      "Analyze round-to-round valuation compression for SaaS companies — ARR multiples, macro attribution, AI narrative premium, and peer comparisons with inline visualizations.",
+    category: "analysis",
+    platform: "both",
+    tags: ["SaaS", "Valuation", "VC"],
+    badge: "new",
+  },
 ];
 
 export function getSkill(name: string): Skill | undefined {
