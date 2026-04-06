@@ -199,6 +199,7 @@ function getExamplePrompt(name: string): string {
     "twitter-reader": "search Twitter for NVDA sentiment",
     "telegram-reader": "read my crypto Telegram channels",
     "discord-reader": "search Discord for AAPL discussion",
+    "linkedin-reader": "what are analysts saying on LinkedIn about NVDA",
   };
   return prompts[name] || `use ${name}`;
 }
@@ -226,6 +227,8 @@ function getExampleOutput(name: string): string {
     "telegram-reader": "Listing subscribed Telegram channels via tdl...",
     "discord-reader":
       "Searching AAPL mentions in connected Discord servers...",
+    "linkedin-reader":
+      "Reading LinkedIn feed for NVDA analyst commentary via opencli...",
   };
   return outputs[name] || "Processing...";
 }

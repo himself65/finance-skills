@@ -59,6 +59,7 @@ npx skills add himself65/finance-skills -a <agent-name>
 | Skill | Description | Platform |
 |---|---|---|
 | [discord-reader](skills/discord-reader/) | Read-only Discord research via [opencli](https://github.com/jackwener/opencli) | Claude Code |
+| [linkedin-reader](skills/linkedin-reader/) | Read-only LinkedIn feed & job search via [opencli](https://github.com/jackwener/opencli) | Claude Code |
 | [telegram-reader](skills/telegram-reader/) | Read-only Telegram channel reader via [tdl](https://github.com/iyear/tdl) | Claude Code |
 | [twitter-reader](skills/twitter-reader/) | Read-only Twitter/X research via [opencli](https://github.com/jackwener/opencli) | Claude Code |
 
