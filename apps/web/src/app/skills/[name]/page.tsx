@@ -200,6 +200,8 @@ function getExamplePrompt(name: string): string {
     "telegram-reader": "read my crypto Telegram channels",
     "discord-reader": "search Discord for AAPL discussion",
     "linkedin-reader": "what are analysts saying on LinkedIn about NVDA",
+    "yc-reader": "show me YC fintech companies that are hiring",
+    "startup-analysis": "analyze LangChain as a potential investment",
   };
   return prompts[name] || `use ${name}`;
 }
@@ -229,6 +231,10 @@ function getExampleOutput(name: string): string {
       "Searching AAPL mentions in connected Discord servers...",
     "linkedin-reader":
       "Reading LinkedIn feed for NVDA analyst commentary via opencli...",
+    "yc-reader":
+      "Fetching YC fintech companies from yc-oss API and filtering for hiring...",
+    "startup-analysis":
+      "Researching LangChain — gathering funding data, team info, market position for 3-perspective analysis...",
   };
   return outputs[name] || "Processing...";
 }

@@ -104,6 +104,16 @@ export const skills: Skill[] = [
     badge: "new",
   },
   {
+    name: "startup-analysis",
+    title: "Startup Analysis",
+    description:
+      "Multi-perspective startup analysis — evaluate any company from VC investor, job applicant, and CEO/founder viewpoints with detailed frameworks.",
+    category: "analysis",
+    platform: "cli",
+    tags: ["Startups", "Due Diligence"],
+    badge: "new",
+  },
+  {
     name: "hormuz-strait",
     title: "Hormuz Strait Monitor",
     description:
@@ -156,6 +166,16 @@ export const skills: Skill[] = [
     category: "sentiment",
     platform: "cli",
     tags: ["Social", "Jobs"],
+    badge: "new",
+  },
+  {
+    name: "yc-reader",
+    title: "YC Reader",
+    description:
+      "Y Combinator company data — browse batches, filter by industry/tag, track hiring, and research the YC startup ecosystem.",
+    category: "data",
+    platform: "cli",
+    tags: ["YC", "Startups"],
     badge: "new",
   },
   {

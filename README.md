@@ -37,6 +37,7 @@ npx skills add himself65/finance-skills -a <agent-name>
 | [earnings-recap](skills/earnings-recap/) | Post-earnings analysis — actual vs estimated EPS, price reaction, margin trends | All |
 | [estimate-analysis](skills/estimate-analysis/) | Analyst estimate deep-dive — revision trends, growth projections, historical accuracy | All |
 | [options-payoff](skills/options-payoff/) | Interactive options payoff charts with dynamic controls | Claude.ai |
+| [startup-analysis](skills/startup-analysis/) | Multi-perspective startup analysis — VC investor, job applicant, and CEO/founder viewpoints | Claude Code |
 | [stock-correlation](skills/stock-correlation/) | Correlation analysis — sector peers, co-movement, pair-trading candidates | All |
 | [stock-liquidity](skills/stock-liquidity/) | Liquidity analysis — spreads, volume profiles, market impact, Amihud ratio | All |
 | [yfinance-data](skills/yfinance-data/) | Market data via yfinance — prices, financials, options, dividends, earnings | All |
@@ -62,6 +63,7 @@ npx skills add himself65/finance-skills -a <agent-name>
 | [linkedin-reader](skills/linkedin-reader/) | Read-only LinkedIn feed & job search via [opencli](https://github.com/jackwener/opencli) | Claude Code |
 | [telegram-reader](skills/telegram-reader/) | Read-only Telegram channel reader via [tdl](https://github.com/iyear/tdl) | Claude Code |
 | [twitter-reader](skills/twitter-reader/) | Read-only Twitter/X research via [opencli](https://github.com/jackwener/opencli) | Claude Code |
+| [yc-reader](skills/yc-reader/) | Y Combinator company data via [yc-oss/api](https://github.com/yc-oss/api) | Claude Code |
 
 ### Visualization
 
