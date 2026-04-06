@@ -1,17 +1,16 @@
 ---
 name: startup-analysis
 description: >
-  Analyze a startup from three distinct perspectives: VC investor, job applicant, and CEO/founder.
-  Use this skill whenever the user wants to evaluate a startup company, assess whether to invest in
-  or join a startup, do due diligence on a company, evaluate a job offer from a startup, understand
+  Analyze a startup from three perspectives: VC investor, job applicant, and CEO/founder.
+  Use this skill whenever the user wants to evaluate a startup, assess whether to invest in
+  or join a startup, do due diligence, evaluate a job offer from a startup, understand
   a startup's competitive position, or assess company health and trajectory.
-  Triggers include: "analyze this startup", "should I join [company]", "is [company] a good investment",
+  Triggers: "analyze this startup", "should I join [company]", "is [company] a good investment",
   "evaluate [company]", "due diligence on [company]", "what do you think of [startup]",
-  "tell me about [company] as an investment", "should I take this startup job offer",
-  "how healthy is [company]", "startup assessment", "company analysis", "evaluate this company",
-  "is [company] worth joining", "what's the outlook for [company]", "research [company] for me",
-  any mention of evaluating, analyzing, or assessing a startup or tech company from investment,
-  career, or strategic perspectives — even if the user doesn't specify a perspective, provide all three.
+  "should I take this startup job offer", "how healthy is [company]", "startup assessment",
+  "company analysis", "is [company] worth joining", "what's the outlook for [company]",
+  "research [company] for me", any mention of evaluating or assessing a startup or tech company
+  from investment, career, or strategic perspectives — provide all three perspectives by default.
 ---
 
 # Startup Analysis
