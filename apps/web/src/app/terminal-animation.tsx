@@ -228,7 +228,7 @@ function TerminalWindow({
         ref={windowRef}
         className="relative flex flex-col overflow-hidden transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]"
         style={{
-          minHeight,
+          height: minHeight,
           transform: hasAnimated ? "translateY(0)" : "translateY(2rem)",
         }}
       >
@@ -242,12 +242,12 @@ function TerminalWindow({
       ref={windowRef}
       className="relative flex flex-col overflow-hidden rounded-xl border border-border bg-bg-elevated transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]"
       style={{
-        minHeight,
+        height: minHeight,
         transform: hasAnimated ? "translateY(0)" : "translateY(2rem)",
       }}
     >
       {/* Title bar */}
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-border">
+      <div className="flex shrink-0 items-center gap-2 px-4 py-3 border-b border-border">
         <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
         <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
         <span className="w-3 h-3 rounded-full bg-[#28c840]" />
@@ -294,8 +294,15 @@ function TerminalContent() {
     activeTab,
   } = useTerminalAnimation();
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [visibleLines]);
+
   return (
-    <div className="flex-1 px-5 py-4 font-mono text-sm leading-6">
+    <div ref={scrollRef} className="flex-1 overflow-y-auto px-5 py-4 font-mono text-sm leading-6">
       {/* Command line */}
       <div className="text-text-secondary">
         <span className="text-text-muted">$ </span>
