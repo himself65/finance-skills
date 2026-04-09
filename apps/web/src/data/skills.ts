@@ -3,6 +3,7 @@ export type SkillCategory =
   | "data"
   | "risk"
   | "sentiment"
+  | "strategy"
   | "visualization";
 
 export type SkillBadge = "new" | "paid";
@@ -22,6 +23,7 @@ export const categoryLabels: Record<SkillCategory, string> = {
   data: "Market Data",
   risk: "Risk",
   sentiment: "Sentiment",
+  strategy: "Trading Strategy",
   visualization: "Visualization",
 };
 
@@ -187,6 +189,16 @@ export const skills: Skill[] = [
     platform: "cli",
     tags: ["Cross-Source", "API"],
     badge: "paid",
+  },
+  {
+    name: "sepa-strategy",
+    title: "SEPA Strategy",
+    description:
+      "Mark Minervini's SEPA strategy analysis — trend template, VCP patterns, precise entry points, position sizing, and risk management for growth stocks.",
+    category: "strategy",
+    platform: "both",
+    tags: ["Minervini", "VCP", "Swing Trading"],
+    badge: "new",
   },
   {
     name: "saas-valuation-compression",
