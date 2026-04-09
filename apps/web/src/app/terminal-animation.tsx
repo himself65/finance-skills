@@ -59,149 +59,39 @@ function useTerminalAnimation() {
 // Tab data
 // ---------------------------------------------------------------------------
 
+const accent = "var(--color-accent)";
+const muted = "var(--color-text-muted)";
+const secondary = "var(--color-text-secondary)";
+const green = "var(--color-green)";
+
 const terminalTabs: TabContent[] = [
   {
     label: "plugin",
     command: "npx plugins add himself65/finance-skills",
     lines: [
-      { text: "", delay: 80 },
-      {
-        text: "  Resolving plugin himself65/finance-skills...",
-        color: "var(--color-text-muted)",
-        delay: 400,
-      },
-      {
-        text: "  Found 27 skills across 6 categories",
-        color: "var(--color-accent)",
-        delay: 300,
-      },
-      { text: "", delay: 80 },
-      {
-        text: "  Installing plugin...",
-        color: "var(--color-text-muted)",
-        delay: 500,
-      },
-      {
-        text: "  ✓ Plugin registered in .claude/settings.json",
-        color: "var(--color-green)",
-        delay: 200,
-      },
-      { text: "", delay: 80 },
-      {
-        text: "  Available categories:",
-        color: "var(--color-text-secondary)",
-        delay: 200,
-      },
-      {
-        text: "    Analysis · Market Data · Risk · Sentiment · Strategy · Visualization",
-        color: "var(--color-text-muted)",
-        delay: 100,
-      },
-      { text: "", delay: 150 },
-      {
-        text: "  Done. All 27 skills are now available.",
-        color: "var(--color-green)",
-        delay: 300,
-      },
-    ],
-  },
-  {
-    label: "skills",
-    command: "npx skills add himself65/finance-skills",
-    lines: [
-      { text: "", delay: 80 },
-      {
-        text: "  Fetching skill registry...",
-        color: "var(--color-text-muted)",
-        delay: 400,
-      },
-      { text: "", delay: 80 },
-      {
-        text: "  Installing 27 skills:",
-        color: "var(--color-text-secondary)",
-        delay: 200,
-      },
-      {
-        text: "  ✓ earnings-preview",
-        color: "var(--color-green)",
-        delay: 120,
-      },
-      {
-        text: "  ✓ estimate-consensus",
-        color: "var(--color-green)",
-        delay: 80,
-      },
-      {
-        text: "  ✓ options-payoff",
-        color: "var(--color-green)",
-        delay: 80,
-      },
-      {
-        text: "  ✓ yfinance-reader",
-        color: "var(--color-green)",
-        delay: 80,
-      },
-      {
-        text: "  ✓ hormuz-strait-monitor",
-        color: "var(--color-green)",
-        delay: 80,
-      },
-      {
-        text: "  ✓ sepa-strategy  ... and 21 more",
-        color: "var(--color-green)",
-        delay: 80,
-      },
-      { text: "", delay: 150 },
-      {
-        text: "  27 skills installed to .claude/skills/",
-        color: "var(--color-text-secondary)",
-        delay: 300,
-      },
-    ],
-  },
-  {
-    label: "single",
-    command: "npx skills add himself65/finance-skills --skill earnings-preview",
-    lines: [
-      { text: "", delay: 80 },
-      {
-        text: "  Resolving skill earnings-preview...",
-        color: "var(--color-text-muted)",
-        delay: 400,
-      },
-      { text: "", delay: 80 },
-      {
-        text: "  earnings-preview",
-        color: "var(--color-text-secondary)",
-        delay: 200,
-      },
-      {
-        text: "    Category:  Analysis",
-        color: "var(--color-text-muted)",
-        delay: 100,
-      },
-      {
-        text: "    Platform:  CLI",
-        color: "var(--color-text-muted)",
-        delay: 80,
-      },
-      {
-        text: "    Size:      4.2 kB",
-        color: "var(--color-text-muted)",
-        delay: 80,
-      },
-      { text: "", delay: 150 },
-      {
-        text: "  ✓ Installed to .claude/skills/earnings-preview/",
-        color: "var(--color-green)",
-        delay: 300,
-      },
-      { text: "", delay: 100 },
-      {
-        text: "  Try it: ask Claude about upcoming earnings for any ticker",
-        color: "var(--color-text-muted)",
-        delay: 200,
-      },
+      { text: "", delay: 200 },
+      { text: "┌   plugins", color: secondary, delay: 100 },
+      { text: "◇  Source: https://github.com/himself65/finance-skills", color: muted, delay: 300 },
+      { text: "│", color: muted, delay: 60 },
+      { text: "●  Repository cloned", color: green, delay: 400 },
+      { text: "│", color: muted, delay: 60 },
+      { text: "◇  Found 1 plugin(s)", color: muted, delay: 300 },
+      { text: "│", color: muted, delay: 60 },
+      { text: "│  finance-skills  19 skills  Financial analysis and trading skills", color: secondary, delay: 100 },
+      { text: "│", color: muted, delay: 60 },
+      { text: "│  Targets:  Claude Code", color: muted, delay: 80 },
+      { text: "│  Scope:    user", color: muted, delay: 80 },
+      { text: "│", color: muted, delay: 60 },
+      { text: "◆  Install? Y", color: secondary, delay: 500 },
+      { text: "◇  Preparing plugins for Claude Code...", color: muted, delay: 400 },
+      { text: "│", color: muted, delay: 60 },
+      { text: "◇  Adding marketplace", color: muted, delay: 200 },
+      { text: "●  Marketplace added", color: green, delay: 300 },
+      { text: "│", color: muted, delay: 60 },
+      { text: "◇  Installing finance-skills@finance-skills...", color: muted, delay: 400 },
+      { text: "●  Installed finance-skills@finance-skills", color: green, delay: 300 },
+      { text: "│", color: muted, delay: 60 },
+      { text: "●  Done.  Restart your agent tools to load the plugins.", color: green, delay: 200 },
     ],
   },
 ];
