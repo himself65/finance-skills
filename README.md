@@ -38,11 +38,16 @@ npx skills add himself65/finance-skills -a <agent-name>
 | [estimate-analysis](skills/estimate-analysis/) | Analyst estimate deep-dive — revision trends, growth projections, historical accuracy | All |
 | [options-payoff](skills/options-payoff/) | Interactive options payoff charts with dynamic controls | Claude.ai |
 | [saas-valuation-compression](skills/saas-valuation-compression/) | SaaS valuation compression analysis — ARR multiples, cause attribution, peer comparisons | All |
-| [sepa-strategy](skills/sepa-strategy/) | SEPA strategy analysis — Minervini's trend template, VCP patterns, entry points, position sizing | All |
 | [startup-analysis](skills/startup-analysis/) | Multi-perspective startup analysis — VC investor, job applicant, and CEO/founder viewpoints | Claude Code |
 | [stock-correlation](skills/stock-correlation/) | Correlation analysis — sector peers, co-movement, pair-trading candidates | All |
 | [stock-liquidity](skills/stock-liquidity/) | Liquidity analysis — spreads, volume profiles, market impact, Amihud ratio | All |
 | [yfinance-data](skills/yfinance-data/) | Market data via yfinance — prices, financials, options, dividends, earnings | All |
+
+### Trading Strategy
+
+| Skill | Description | Platform |
+|---|---|---|
+| [sepa-strategy](skills/sepa-strategy/) | SEPA strategy analysis — Minervini's trend template, VCP patterns, entry points, position sizing | All |
 
 ### Paid Data Providers
 
