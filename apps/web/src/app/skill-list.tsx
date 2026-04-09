@@ -12,6 +12,7 @@ const categoryOrder: SkillCategory[] = [
   "data",
   "risk",
   "sentiment",
+  "strategy",
   "visualization",
 ];
 
