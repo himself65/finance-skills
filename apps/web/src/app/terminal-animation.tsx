@@ -94,51 +94,6 @@ const terminalTabs: TabContent[] = [
       { text: "●  Done.  Restart your agent tools to load the plugins.", color: green, delay: 200 },
     ],
   },
-  {
-    label: "single",
-    command: "npx skills add himself65/finance-skills --skill earnings-preview",
-    lines: [
-      { text: "", delay: 80 },
-      {
-        text: "  Resolving skill earnings-preview...",
-        color: "var(--color-text-muted)",
-        delay: 400,
-      },
-      { text: "", delay: 80 },
-      {
-        text: "  earnings-preview",
-        color: "var(--color-text-secondary)",
-        delay: 200,
-      },
-      {
-        text: "    Category:  Analysis",
-        color: "var(--color-text-muted)",
-        delay: 100,
-      },
-      {
-        text: "    Platform:  CLI",
-        color: "var(--color-text-muted)",
-        delay: 80,
-      },
-      {
-        text: "    Size:      4.2 kB",
-        color: "var(--color-text-muted)",
-        delay: 80,
-      },
-      { text: "", delay: 150 },
-      {
-        text: "  ✓ Installed to .claude/skills/earnings-preview/",
-        color: "var(--color-green)",
-        delay: 300,
-      },
-      { text: "", delay: 100 },
-      {
-        text: "  Try it: ask Claude about upcoming earnings for any ticker",
-        color: "var(--color-text-muted)",
-        delay: 200,
-      },
-    ],
-  },
 ];
 
 // ---------------------------------------------------------------------------
