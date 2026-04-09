@@ -43,6 +43,12 @@ npx skills add himself65/finance-skills -a <agent-name>
 | [stock-liquidity](skills/stock-liquidity/) | Liquidity analysis — spreads, volume profiles, market impact, Amihud ratio | All |
 | [yfinance-data](skills/yfinance-data/) | Market data via yfinance — prices, financials, options, dividends, earnings | All |
 
+### Trading Strategy
+
+| Skill | Description | Platform |
+|---|---|---|
+| [sepa-strategy](skills/sepa-strategy/) | SEPA strategy analysis — Minervini's trend template, VCP patterns, entry points, position sizing | All |
+
 ### Paid Data Providers
 
 | Skill | Description | Platform |
