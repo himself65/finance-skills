@@ -55,6 +55,15 @@ body {
   animation: 200ms ease-out 100ms both slide-in;
 }
 
+/* Caret blink for terminal animation */
+@keyframes caret-blink {
+  0%, 70% { opacity: 1; }
+  71%, 100% { opacity: 0; }
+}
+.animate-caret-blink {
+  animation: caret-blink 1s step-end infinite;
+}
+
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(*),

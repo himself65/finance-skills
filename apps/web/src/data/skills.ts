@@ -36,7 +36,6 @@ export const skills: Skill[] = [
     category: "analysis",
     platform: "cli",
     tags: ["Predictive", "EPS"],
-    badge: "new",
   },
   {
     name: "earnings-recap",
@@ -46,7 +45,6 @@ export const skills: Skill[] = [
     category: "analysis",
     platform: "cli",
     tags: ["Post-Earnings", "Reaction"],
-    badge: "new",
   },
   {
     name: "estimate-analysis",
@@ -56,7 +54,6 @@ export const skills: Skill[] = [
     category: "analysis",
     platform: "cli",
     tags: ["Revisions", "Trends"],
-    badge: "new",
   },
   {
     name: "yfinance-data",
