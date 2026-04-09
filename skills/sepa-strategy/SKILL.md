@@ -6,7 +6,7 @@ description: >
   VCP (Volatility Contraction Pattern), Stage 2 uptrend, stage analysis, pivot point breakout,
   or asks about growth stock screening criteria. Also triggers when the user wants to evaluate
   whether a stock meets swing trading entry criteria, check moving average alignment (bullish
-  stacking: price > 50MA > 150MA > 200MA), assess breakout quality with volume confirmation,
+  stacking: price above 50MA above 150MA above 200MA), assess breakout quality with volume confirmation,
   calculate position sizing based on risk percentage, or identify consolidation patterns like
   cup-with-handle, flat base, bull flag, or high tight flag. Use this skill even when the user
   simply asks "should I buy this stock" or "is this a good setup" in the context of growth/momentum
