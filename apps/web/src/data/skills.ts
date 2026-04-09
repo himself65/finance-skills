@@ -189,6 +189,16 @@ export const skills: Skill[] = [
     badge: "paid",
   },
   {
+    name: "sepa-strategy",
+    title: "SEPA Strategy",
+    description:
+      "Mark Minervini's SEPA strategy analysis — trend template, VCP patterns, precise entry points, position sizing, and risk management for growth stocks.",
+    category: "analysis",
+    platform: "both",
+    tags: ["Minervini", "VCP", "Swing Trading"],
+    badge: "new",
+  },
+  {
     name: "saas-valuation-compression",
     title: "SaaS Valuation Compression",
     description:

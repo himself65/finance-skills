@@ -1,6 +1,7 @@
 import { skills, getSkill, categoryLabels } from "@/data/skills";
 import { notFound } from "next/navigation";
 import { Link } from "next-view-transitions";
+import { SepaStudyGuide } from "./sepa-study-guide";
 
 export function generateStaticParams() {
   return skills.map((s) => ({ name: s.name }));
@@ -135,6 +136,9 @@ export default async function SkillDetailPage({
                 </div>
               </div>
             </div>
+
+            {/* Skill-specific study guide */}
+            {skill.name === "sepa-strategy" && <SepaStudyGuide />}
           </div>
 
           {/* Sidebar */}
@@ -203,6 +207,7 @@ function getExamplePrompt(name: string): string {
     "yc-reader": "show me YC fintech companies that are hiring",
     "startup-analysis": "analyze LangChain as a potential investment",
     "saas-valuation-compression": "analyze Vercel valuation compression from Series D to E",
+    "sepa-strategy": "analyze NVDA using SEPA strategy — is it a good setup?",
   };
   return prompts[name] || `use ${name}`;
 }
@@ -238,6 +243,8 @@ function getExampleOutput(name: string): string {
       "Researching LangChain — gathering funding data, team info, market position for 3-perspective analysis...",
     "saas-valuation-compression":
       "Searching Vercel funding rounds, ARR estimates, and macro SaaS multiples — computing compression metrics...",
+    "sepa-strategy":
+      "Running SEPA analysis — checking Stage 2, trend template (8 conditions), VCP pattern, fundamentals, entry point...",
   };
   return outputs[name] || "Processing...";
 }
