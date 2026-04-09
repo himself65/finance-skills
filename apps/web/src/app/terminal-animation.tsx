@@ -345,6 +345,26 @@ function TerminalContent() {
 // Composed export
 // ---------------------------------------------------------------------------
 
+function computeHeight(
+  tabs: TabContent[],
+  variant: "standalone" | "card" | undefined
+): string {
+  const maxLines = Math.max(...tabs.map((t) => t.lines.length));
+  // 1 command line + output lines + 1 trailing cursor line
+  const totalLines = maxLines + 2;
+  // leading-6 = 1.5rem per line, py-4 = 2rem padding, mt-1 = 0.25rem cursor
+  let height = totalLines * 1.5 + 2 + 0.25;
+  if (variant !== "card") {
+    // Title bar: py-3 (1.5rem) + dots/text line (~1rem) + border
+    height += 2.75;
+  }
+  if (tabs.length > 1) {
+    // Tab list: pt-3 + button height ≈ 2.5rem
+    height += 2.5;
+  }
+  return `${height}rem`;
+}
+
 export function TerminalAnimation({
   tabs = terminalTabs,
   minHeight,
@@ -354,9 +374,12 @@ export function TerminalAnimation({
   minHeight?: string;
   variant?: "standalone" | "card";
 } = {}) {
+  const resolvedHeight =
+    minHeight && minHeight !== "auto" ? minHeight : computeHeight(tabs, variant);
+
   return (
     <TerminalAnimationRoot tabs={tabs}>
-      <TerminalWindow minHeight={minHeight} variant={variant}>
+      <TerminalWindow minHeight={resolvedHeight} variant={variant}>
         <TerminalTabList />
         <TerminalContent />
       </TerminalWindow>
