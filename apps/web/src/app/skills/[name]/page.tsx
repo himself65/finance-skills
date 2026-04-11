@@ -14,12 +14,6 @@ export function generateStaticParams() {
   return skills.map((s) => ({ name: s.name }));
 }
 
-const platformLabel: Record<string, string> = {
-  cli: "CLI",
-  "claude-ai": "Claude.ai",
-  both: "All Platforms",
-};
-
 export default async function SkillDetailPage({
   params,
 }: {
@@ -137,12 +131,6 @@ export default async function SkillDetailPage({
 
           {/* Sidebar */}
           <div className="lg:w-56 shrink-0 space-y-6">
-            <div>
-              <p className="text-xs uppercase tracking-wider text-text-muted mb-1.5">
-                Platform
-              </p>
-              <p className="text-sm">{platformLabel[skill.platform]}</p>
-            </div>
             <div>
               <p className="text-xs uppercase tracking-wider text-text-muted mb-1.5">
                 Category

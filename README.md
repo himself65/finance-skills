@@ -31,52 +31,52 @@ npx skills add himself65/finance-skills -a <agent-name>
 
 ### Analysis & Data
 
-| Skill | Description | Platform |
-|---|---|---|
-| [earnings-preview](skills/earnings-preview/) | Pre-earnings briefing — consensus estimates, beat/miss history, analyst sentiment | All |
-| [earnings-recap](skills/earnings-recap/) | Post-earnings analysis — actual vs estimated EPS, price reaction, margin trends | All |
-| [estimate-analysis](skills/estimate-analysis/) | Analyst estimate deep-dive — revision trends, growth projections, historical accuracy | All |
-| [options-payoff](skills/options-payoff/) | Interactive options payoff charts with dynamic controls | Claude.ai |
-| [saas-valuation-compression](skills/saas-valuation-compression/) | SaaS valuation compression analysis — ARR multiples, cause attribution, peer comparisons | All |
-| [startup-analysis](skills/startup-analysis/) | Multi-perspective startup analysis — VC investor, job applicant, and CEO/founder viewpoints | Claude Code |
-| [stock-correlation](skills/stock-correlation/) | Correlation analysis — sector peers, co-movement, pair-trading candidates | All |
-| [stock-liquidity](skills/stock-liquidity/) | Liquidity analysis — spreads, volume profiles, market impact, Amihud ratio | All |
-| [yfinance-data](skills/yfinance-data/) | Market data via yfinance — prices, financials, options, dividends, earnings | All |
+| Skill | Description |
+|---|---|
+| [earnings-preview](skills/earnings-preview/) | Pre-earnings briefing — consensus estimates, beat/miss history, analyst sentiment |
+| [earnings-recap](skills/earnings-recap/) | Post-earnings analysis — actual vs estimated EPS, price reaction, margin trends |
+| [estimate-analysis](skills/estimate-analysis/) | Analyst estimate deep-dive — revision trends, growth projections, historical accuracy |
+| [options-payoff](skills/options-payoff/) | Interactive options payoff charts with dynamic controls |
+| [saas-valuation-compression](skills/saas-valuation-compression/) | SaaS valuation compression analysis — ARR multiples, cause attribution, peer comparisons |
+| [startup-analysis](skills/startup-analysis/) | Multi-perspective startup analysis — VC investor, job applicant, and CEO/founder viewpoints |
+| [stock-correlation](skills/stock-correlation/) | Correlation analysis — sector peers, co-movement, pair-trading candidates |
+| [stock-liquidity](skills/stock-liquidity/) | Liquidity analysis — spreads, volume profiles, market impact, Amihud ratio |
+| [yfinance-data](skills/yfinance-data/) | Market data via yfinance — prices, financials, options, dividends, earnings |
 
 ### Trading Strategy
 
-| Skill | Description | Platform |
-|---|---|---|
-| [sepa-strategy](skills/sepa-strategy/) | SEPA strategy analysis — Minervini's trend template, VCP patterns, entry points, position sizing | All |
+| Skill | Description |
+|---|---|
+| [sepa-strategy](skills/sepa-strategy/) | SEPA strategy analysis — Minervini's trend template, VCP patterns, entry points, position sizing |
 
 ### Paid Data Providers
 
-| Skill | Description | Platform |
-|---|---|---|
-| [funda-data](skills/funda-data/) | [Funda AI](https://funda.ai) API — real-time quotes, fundamentals, options flow, sentiment, SEC filings, and 60+ endpoints | Claude Code |
-| [finance-sentiment](skills/finance-sentiment/) | Stock sentiment research via Adanos Finance API — Reddit, X.com, news, Polymarket | Claude Code |
+| Skill | Description |
+|---|---|
+| [funda-data](skills/funda-data/) | [Funda AI](https://funda.ai) API — real-time quotes, fundamentals, options flow, sentiment, SEC filings, and 60+ endpoints |
+| [finance-sentiment](skills/finance-sentiment/) | Stock sentiment research via Adanos Finance API — Reddit, X.com, news, Polymarket |
 
 ### Geopolitical & Macro Risk
 
-| Skill | Description | Platform |
-|---|---|---|
-| [hormuz-strait](skills/hormuz-strait/) | Strait of Hormuz monitoring — shipping, oil impact, insurance risk, crisis timeline | All |
+| Skill | Description |
+|---|---|
+| [hormuz-strait](skills/hormuz-strait/) | Strait of Hormuz monitoring — shipping, oil impact, insurance risk, crisis timeline |
 
 ### Research & Sentiment
 
-| Skill | Description | Platform |
-|---|---|---|
-| [discord-reader](skills/discord-reader/) | Read-only Discord research via [opencli](https://github.com/jackwener/opencli) | Claude Code |
-| [linkedin-reader](skills/linkedin-reader/) | Read-only LinkedIn feed & job search via [opencli](https://github.com/jackwener/opencli) | Claude Code |
-| [telegram-reader](skills/telegram-reader/) | Read-only Telegram channel reader via [tdl](https://github.com/iyear/tdl) | Claude Code |
-| [twitter-reader](skills/twitter-reader/) | Read-only Twitter/X research via [opencli](https://github.com/jackwener/opencli) | Claude Code |
-| [yc-reader](skills/yc-reader/) | Y Combinator company data via [yc-oss/api](https://github.com/yc-oss/api) | Claude Code |
+| Skill | Description |
+|---|---|
+| [discord-reader](skills/discord-reader/) | Read-only Discord research via [opencli](https://github.com/jackwener/opencli) |
+| [linkedin-reader](skills/linkedin-reader/) | Read-only LinkedIn feed & job search via [opencli](https://github.com/jackwener/opencli) |
+| [telegram-reader](skills/telegram-reader/) | Read-only Telegram channel reader via [tdl](https://github.com/iyear/tdl) |
+| [twitter-reader](skills/twitter-reader/) | Read-only Twitter/X research via [opencli](https://github.com/jackwener/opencli) |
+| [yc-reader](skills/yc-reader/) | Y Combinator company data via [yc-oss/api](https://github.com/yc-oss/api) |
 
 ### Visualization
 
-| Skill | Description | Platform |
-|---|---|---|
-| [generative-ui](skills/generative-ui/) | Generative UI design system for Claude's `show_widget` | Claude.ai |
+| Skill | Description |
+|---|---|
+| [generative-ui](skills/generative-ui/) | Generative UI design system for Claude's `show_widget` |
 
 ## License
 
