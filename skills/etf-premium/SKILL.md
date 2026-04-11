@@ -4,19 +4,13 @@ description: >
   Calculate ETF premium or discount relative to Net Asset Value (NAV) using Yahoo Finance data.
   Use this skill whenever the user asks about an ETF's premium or discount, NAV comparison,
   whether an ETF is trading above or below its fair value, or wants to compare market price vs NAV.
-  Triggers: "ETF premium", "ETF discount", "NAV premium", "NAV discount",
-  "is SPY trading at a premium", "AGG premium to NAV", "ETF fair value",
-  "market price vs NAV", "ETF mispricing", "is this ETF overpriced",
-  "ETF arbitrage opportunity", "compare ETF NAV", "premium discount analysis",
-  "BITO premium", "IBIT premium", "GLD premium to NAV", "bond ETF discount",
-  "ETF NAV difference", "trading above NAV", "trading below NAV",
-  "closed-end fund premium", "CEF discount", "ETF Z-score",
-  "ETF premium screener", "which ETFs have biggest discount",
+  Triggers: "ETF premium", "ETF discount", "NAV premium", "is SPY trading at a premium",
+  "AGG premium to NAV", "market price vs NAV", "ETF mispricing", "BITO premium",
+  "IBIT premium", "bond ETF discount", "trading above/below NAV", "ETF premium screener",
+  "which ETFs have biggest discount", "compare ETF NAV", "ETF arbitrage",
   or any request involving the gap between an ETF's market price and its underlying value.
-  Also triggers when comparing multiple ETFs by premium/discount, or when analyzing
-  leveraged, inverse, international, bond, commodity, or crypto ETFs where
-  premium/discount is a known concern. Use even if the user just asks "is [ETF] a good deal"
-  in contexts where NAV comparison would be informative.
+  Also triggers when analyzing leveraged, inverse, international, bond, commodity,
+  or crypto ETFs where premium/discount is a known concern.
 ---
 
 # ETF Premium/Discount Analysis Skill
