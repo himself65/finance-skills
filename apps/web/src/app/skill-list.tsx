@@ -4,49 +4,48 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Link } from "next-view-transitions";
 import { motion, AnimatePresence, LayoutGroup } from "motion/react";
-import type { Skill, SkillCategory } from "@/data/skills";
-import { categoryLabels } from "@/data/skills";
+import type { Skill, PluginGroup } from "@/data/skills";
+import { pluginGroupLabels, categoryLabels } from "@/data/skills";
 
-const categoryOrder: SkillCategory[] = [
-  "analysis",
-  "data",
-  "risk",
-  "sentiment",
-  "strategy",
-  "visualization",
+const pluginOrder: PluginGroup[] = [
+  "market-analysis",
+  "social-readers",
+  "data-providers",
+  "startup-tools",
+  "ui-tools",
 ];
 
-type CategoryFilter = "all" | SkillCategory;
+type PluginFilter = "all" | PluginGroup;
 
-const categoryFilters: { value: CategoryFilter; label: string }[] = [
+const pluginFilters: { value: PluginFilter; label: string }[] = [
   { value: "all", label: "All" },
-  ...categoryOrder.map((cat) => ({
-    value: cat as CategoryFilter,
-    label: categoryLabels[cat],
+  ...pluginOrder.map((p) => ({
+    value: p as PluginFilter,
+    label: pluginGroupLabels[p],
   })),
 ];
 
-function isValidCategory(value: string | null): value is SkillCategory {
-  return value !== null && categoryOrder.includes(value as SkillCategory);
+function isValidPlugin(value: string | null): value is PluginGroup {
+  return value !== null && pluginOrder.includes(value as PluginGroup);
 }
 
 export function SkillList({ skills }: { skills: Skill[] }) {
   const searchParams = useSearchParams();
-  const initialCategory = searchParams.get("category");
-  const [activeFilter, setActiveFilter] = useState<CategoryFilter>(
-    isValidCategory(initialCategory) ? initialCategory : "all"
+  const initialPlugin = searchParams.get("plugin");
+  const [activeFilter, setActiveFilter] = useState<PluginFilter>(
+    isValidPlugin(initialPlugin) ? initialPlugin : "all"
   );
 
   const filtered =
     activeFilter === "all"
       ? skills
-      : skills.filter((s) => s.category === activeFilter);
+      : skills.filter((s) => s.plugin === activeFilter);
 
-  const grouped = categoryOrder
-    .map((cat) => ({
-      category: cat,
-      label: categoryLabels[cat],
-      skills: filtered.filter((s) => s.category === cat),
+  const grouped = pluginOrder
+    .map((p) => ({
+      plugin: p,
+      label: pluginGroupLabels[p],
+      skills: filtered.filter((s) => s.plugin === p),
     }))
     .filter((g) => g.skills.length > 0);
 
@@ -56,7 +55,7 @@ export function SkillList({ skills }: { skills: Skill[] }) {
       <div className="sticky top-0 z-20 bg-bg/80 backdrop-blur-md flex items-center gap-3 py-3 -mx-6 px-6">
         <LayoutGroup>
           <div className="relative flex items-center gap-2 flex-wrap">
-            {categoryFilters.map((f) => (
+            {pluginFilters.map((f) => (
               <button
                 key={f.value}
                 onClick={() => setActiveFilter(f.value)}
@@ -88,12 +87,12 @@ export function SkillList({ skills }: { skills: Skill[] }) {
         </motion.span>
       </div>
 
-      {/* Category sections */}
+      {/* Plugin sections */}
       <div className="pb-16">
         <AnimatePresence mode="popLayout" initial={false}>
           {grouped.map((group) => (
             <motion.section
-              key={group.category}
+              key={group.plugin}
               layout
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
@@ -125,6 +124,9 @@ export function SkillList({ skills }: { skills: Skill[] }) {
                         <span className="flex items-center gap-2">
                           <span className="font-medium text-sm group-hover:text-accent transition-colors">
                             {skill.name}
+                          </span>
+                          <span className="text-[10px] border border-border rounded px-1.5 py-0.5 text-text-muted">
+                            {categoryLabels[skill.category]}
                           </span>
                           {skill.badge === "new" && (
                             <span className="text-[10px] font-semibold uppercase tracking-wider bg-accent/15 text-accent px-1.5 py-0.5 rounded">
