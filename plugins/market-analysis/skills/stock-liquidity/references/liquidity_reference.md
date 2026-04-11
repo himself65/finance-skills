@@ -338,6 +338,69 @@ This is a heuristic, not a formal measure. It's useful for quick comparisons but
 
 ---
 
+## Options Spread Analysis
+
+Analyze near-the-money options spreads from the nearest expiration to gauge derivatives liquidity:
+
+```python
+def options_spread_analysis(ticker_symbol):
+    ticker = yf.Ticker(ticker_symbol)
+    expirations = ticker.options
+    if not expirations:
+        return None
+
+    # Use nearest expiration
+    chain = ticker.option_chain(expirations[0])
+    for label, df in [("Calls", chain.calls), ("Puts", chain.puts)]:
+        atm = pd.concat([df[df["inTheMoney"]].tail(3), df[~df["inTheMoney"]].head(3)])
+        atm["spread"] = atm["ask"] - atm["bid"]
+        atm["spread_pct"] = (atm["spread"] / ((atm["ask"] + atm["bid"]) / 2) * 100).round(2)
+    return chain
+```
+
+---
+
+## Order Book Depth Proxy
+
+Yahoo Finance does not provide full Level 2 data. Use this function to gather available depth signals:
+
+```python
+def order_book_proxy(ticker_symbol):
+    ticker = yf.Ticker(ticker_symbol)
+    info = ticker.info
+
+    # Top of book
+    top_of_book = {
+        "bid": info.get("bid"),
+        "ask": info.get("ask"),
+        "bid_size": info.get("bidSize"),
+        "ask_size": info.get("askSize"),
+    }
+
+    # Intraday volume distribution (5-min bars, last 5 days)
+    intraday = ticker.history(period="5d", interval="5m")
+    if not intraday.empty:
+        intraday_copy = intraday.copy()
+        intraday_copy["time"] = intraday_copy.index.time
+        vol_by_time = intraday_copy.groupby("time")["Volume"].mean()
+        # Normalize to percentage of daily volume
+        total = vol_by_time.sum()
+        vol_pct = (vol_by_time / total * 100).round(2) if total > 0 else vol_by_time
+
+    # Options open interest as depth proxy
+    expirations = ticker.options
+    if expirations:
+        chain = ticker.option_chain(expirations[0])
+        total_call_oi = chain.calls["openInterest"].sum()
+        total_put_oi = chain.puts["openInterest"].sum()
+        total_call_volume = chain.calls["volume"].sum()
+        total_put_volume = chain.puts["volume"].sum()
+
+    return top_of_book, vol_pct if not intraday.empty else None
+```
+
+---
+
 ## Edge Cases and Gotchas
 
 ### Zero-Volume Days
