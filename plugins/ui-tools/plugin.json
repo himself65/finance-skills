@@ -1,6 +1,6 @@
 {
-  "name": "finance-startup-tools",
-  "description": "Multi-perspective startup analysis frameworks for VC investors, job applicants, and founders.",
+  "name": "finance-ui-tools",
+  "description": "Generative UI design system for rendering interactive HTML/SVG widgets in Claude conversations.",
   "version": "5.0.0",
   "author": {
     "name": "himself65"
@@ -10,9 +10,10 @@
   "license": "MIT",
   "keywords": [
     "finance",
-    "startups",
-    "due-diligence",
-    "vc",
-    "analysis"
+    "generative-ui",
+    "widgets",
+    "show-widget",
+    "visualization",
+    "design-system"
   ]
 }

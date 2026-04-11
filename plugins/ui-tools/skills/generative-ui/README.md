@@ -34,7 +34,7 @@ Works on **Claude.ai** (built-in `show_widget` tool).
 
 ```bash
 # As a plugin (recommended — installs all skills)
-npx plugins add himself65/finance-skills --plugin finance-startup-tools
+npx plugins add himself65/finance-skills --plugin finance-ui-tools
 
 # Or install just this skill
 npx skills add himself65/finance-skills --skill generative-ui

@@ -36,7 +36,7 @@ For unlisted strategies, the skill uses `custom` mode — decomposing into indiv
 
 ## Platform
 
-Works on **Claude.ai** (via the built-in `show_widget` tool) or with the [generative-ui](../../../startup-tools/skills/generative-ui/) skill on Claude Code.
+Works on **Claude.ai** (via the built-in `show_widget` tool) or with the [generative-ui](../../../ui-tools/skills/generative-ui/) skill on Claude Code.
 
 ## Setup
 

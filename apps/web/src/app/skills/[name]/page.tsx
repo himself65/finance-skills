@@ -92,12 +92,15 @@ export default async function SkillDetailPage({
 
                 <div className="flex gap-2 flex-wrap">
                   <Link
-                    href={`/?category=${skill.category}`}
+                    href={`/?plugin=${skill.plugin}`}
                     scroll={false}
                     className="text-xs border border-border rounded px-2 py-0.5 text-text-secondary hover:border-accent hover:text-accent transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                   >
-                    {categoryLabels[skill.category]}
+                    {pluginGroupLabels[skill.plugin]}
                   </Link>
+                  <span className="text-xs border border-border rounded px-2 py-0.5 text-text-secondary">
+                    {categoryLabels[skill.category]}
+                  </span>
                   {skill.tags.map((tag) => (
                     <span
                       key={tag}
@@ -133,23 +136,15 @@ export default async function SkillDetailPage({
           <div className="lg:w-56 shrink-0 space-y-6">
             <div>
               <p className="text-xs uppercase tracking-wider text-text-muted mb-1.5">
-                Category
+                Plugin
               </p>
               <Link
-                href={`/?category=${skill.category}`}
+                href={`/?plugin=${skill.plugin}`}
                 scroll={false}
                 className="text-sm text-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent rounded"
               >
-                {categoryLabels[skill.category]}
-              </Link>
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-wider text-text-muted mb-1.5">
-                Plugin
-              </p>
-              <span className="text-sm text-text-secondary">
                 {pluginGroupLabels[skill.plugin]}
-              </span>
+              </Link>
             </div>
             <div>
               <p className="text-xs uppercase tracking-wider text-text-muted mb-1.5">
