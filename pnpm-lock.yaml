@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       ccbump:
-        specifier: ^0.1.3
-        version: 0.1.3(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)
+        specifier: ^0.2.1
+        version: 0.2.1(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)
 
   apps/web:
     dependencies:
@@ -995,8 +995,8 @@ packages:
   caniuse-lite@1.0.30001784:
     resolution: {integrity: sha512-WU346nBTklUV9YfUl60fqRbU5ZqyXlqvo1SgigE1OAXK5bFL8LL9q1K7aap3N739l4BvNqnkm3YrGHiY9sfUQw==}
 
-  ccbump@0.1.3:
-    resolution: {integrity: sha512-TxGWWU5yikH4gJ2lEfsIlxzCInQSP7gNOe0f8QX6nrWFKmxRppqFS/rzIhDp6bUL26cq6JrrY4nlGYdY4axjVQ==}
+  ccbump@0.2.1:
+    resolution: {integrity: sha512-5RahJ08pyV4qUSz6UObjQzZI8Cc4S9hk4BmWiJRvTLLu3XsC9t2pLKSXBmwzGkZSPW5q07hfxdLxsU0hJlt78g==}
     hasBin: true
 
   chalk@4.1.2:
@@ -3126,7 +3126,7 @@ snapshots:
 
   caniuse-lite@1.0.30001784: {}
 
-  ccbump@0.1.3(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2):
+  ccbump@0.2.1(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2):
     dependencies:
       cac: 6.7.14
       kleur: 4.1.5
