@@ -294,6 +294,35 @@ const mockSessions: Record<string, MockSession> = {
     ],
   },
 
+  "etf-premium": {
+    prompt: "is BITO trading at a premium to NAV?",
+    lines: [
+      gap(),
+      thinking("Reading skill: etf-premium"),
+      gap(),
+      tool("Bash", "python3 etf_premium.py BITO", 400),
+      out("Fetching market price and NAV from Yahoo Finance..."),
+      gap(),
+      reply("## BITO — Premium/Discount Analysis"),
+      gap(),
+      reply("Market Price:   $10.06"),
+      reply("NAV:            $9.90"),
+      reply("Premium:        +1.57%  ($0.16/share)"),
+      reply("Bid-Ask Spread: 0.20%  → premium is real, not noise"),
+      gap(),
+      reply("Peer Comparison (Digital Assets category):"),
+      reply("  BITO   +1.57%  ◄ lowest premium"),
+      reply("  GBTC   +1.64%"),
+      reply("  ARKB   +1.75%"),
+      reply("  FBTC   +1.76%"),
+      reply("  IBIT   +1.84%"),
+      reply("  ETHA   +1.99%"),
+      gap(),
+      reply("All crypto ETFs at premium today — category-wide pattern."),
+      reply("Normal range for crypto ETFs: 0.5% to 3.0%."),
+    ],
+  },
+
   "yfinance-data": {
     prompt: "get MSFT financials",
     lines: [

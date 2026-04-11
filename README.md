@@ -36,6 +36,7 @@ npx skills add himself65/finance-skills -a <agent-name>
 | [earnings-preview](skills/earnings-preview/) | Pre-earnings briefing — consensus estimates, beat/miss history, analyst sentiment |
 | [earnings-recap](skills/earnings-recap/) | Post-earnings analysis — actual vs estimated EPS, price reaction, margin trends |
 | [estimate-analysis](skills/estimate-analysis/) | Analyst estimate deep-dive — revision trends, growth projections, historical accuracy |
+| [etf-premium](skills/etf-premium/) | ETF premium/discount vs NAV — market price comparison, peer analysis, category screener |
 | [options-payoff](skills/options-payoff/) | Interactive options payoff charts with dynamic controls |
 | [saas-valuation-compression](skills/saas-valuation-compression/) | SaaS valuation compression analysis — ARR multiples, cause attribution, peer comparisons |
 | [startup-analysis](skills/startup-analysis/) | Multi-perspective startup analysis — VC investor, job applicant, and CEO/founder viewpoints |

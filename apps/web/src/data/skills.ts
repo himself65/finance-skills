@@ -56,6 +56,16 @@ export const skills: Skill[] = [
     tags: ["Revisions", "Trends"],
   },
   {
+    name: "etf-premium",
+    title: "ETF Premium/Discount",
+    description:
+      "Calculate ETF premium or discount vs NAV — single ETF snapshots, peer comparisons, and cross-category screener for 90+ ETFs.",
+    category: "analysis",
+
+    tags: ["ETF", "NAV", "Screener"],
+    badge: "new",
+  },
+  {
     name: "yfinance-data",
     title: "yfinance Data",
     description:
