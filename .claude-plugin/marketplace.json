@@ -5,37 +5,37 @@
   },
   "metadata": {
     "description": "Agent skills for financial analysis and trading — options payoff, stock correlations, market data, social media research, and generative UI.",
-    "version": "5.1.0"
+    "version": "5.1.1"
   },
   "plugins": [
     {
       "name": "finance-market-analysis",
       "source": "./plugins/market-analysis",
       "description": "Stock analysis, earnings, estimates, correlations, liquidity, ETFs, options payoff, and trading strategies via yfinance.",
-      "version": "5.1.0"
+      "version": "5.1.1"
     },
     {
       "name": "finance-social-readers",
       "source": "./plugins/social-readers",
       "description": "Read-only social media and research feeds — Twitter/X, Discord, LinkedIn, Telegram, and Y Combinator.",
-      "version": "5.1.0"
+      "version": "5.1.1"
     },
     {
       "name": "finance-data-providers",
       "source": "./plugins/data-providers",
-      "version": "5.1.0"
+      "version": "5.1.1"
     },
     {
       "name": "finance-startup-tools",
       "source": "./plugins/startup-tools",
       "description": "Multi-perspective startup analysis frameworks for VC investors, job applicants, and founders.",
-      "version": "5.1.0"
+      "version": "5.1.1"
     },
     {
       "name": "finance-ui-tools",
       "source": "./plugins/ui-tools",
       "description": "Generative UI design system for rendering interactive HTML/SVG widgets in Claude conversations.",
-      "version": "5.1.0"
+      "version": "5.1.1"
     }
   ]
 }
