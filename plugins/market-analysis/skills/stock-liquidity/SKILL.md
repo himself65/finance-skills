@@ -198,24 +198,9 @@ def spread_analysis(ticker_symbol):
 
 ### B2: Options spread context
 
-Options data from yfinance includes bid/ask for each strike, which gives a sense of derivatives liquidity:
+Options data from yfinance includes bid/ask for each strike, which gives a sense of derivatives liquidity. Use the nearest expiration, extract near-the-money calls and puts, and compute spread and spread percentage for each.
 
-```python
-def options_spread_analysis(ticker_symbol):
-    ticker = yf.Ticker(ticker_symbol)
-    expirations = ticker.options
-    if not expirations:
-        return None
-
-    # Use nearest expiration
-    chain = ticker.option_chain(expirations[0])
-    for label, df in [("Calls", chain.calls), ("Puts", chain.puts)]:
-        atm = df[df["inTheMoney"]].tail(3).append(df[~df["inTheMoney"]].head(3))
-        atm = pd.concat([df[df["inTheMoney"]].tail(3), df[~df["inTheMoney"]].head(3)])
-        atm["spread"] = atm["ask"] - atm["bid"]
-        atm["spread_pct"] = (atm["spread"] / ((atm["ask"] + atm["bid"]) / 2) * 100).round(2)
-    return chain
-```
+See `references/liquidity_reference.md` § "Options Spread Analysis" for the full code template.
 
 ### B3: Present results
 
@@ -306,44 +291,13 @@ Yahoo Finance does not provide full Level 2 / order book data. Be upfront about 
 
 ### D1: Gather available depth data
 
-```python
-import yfinance as yf
-import pandas as pd
-import numpy as np
+Collect three data points:
 
-def order_book_proxy(ticker_symbol):
-    ticker = yf.Ticker(ticker_symbol)
-    info = ticker.info
+1. **Top of book** — bid, ask, bidSize, askSize from `ticker.info`
+2. **Intraday volume distribution** — 5-min bars over the last 5 days, grouped by time-of-day and normalized to percentage of daily volume
+3. **Options open interest** — total call/put OI and volume from the nearest expiration as a derivatives depth proxy
 
-    # Top of book
-    top_of_book = {
-        "bid": info.get("bid"),
-        "ask": info.get("ask"),
-        "bid_size": info.get("bidSize"),
-        "ask_size": info.get("askSize"),
-    }
-
-    # Intraday volume distribution (5-min bars, last 5 days)
-    intraday = ticker.history(period="5d", interval="5m")
-    if not intraday.empty:
-        intraday_copy = intraday.copy()
-        intraday_copy["time"] = intraday_copy.index.time
-        vol_by_time = intraday_copy.groupby("time")["Volume"].mean()
-        # Normalize to percentage of daily volume
-        total = vol_by_time.sum()
-        vol_pct = (vol_by_time / total * 100).round(2) if total > 0 else vol_by_time
-
-    # Options open interest as depth proxy
-    expirations = ticker.options
-    if expirations:
-        chain = ticker.option_chain(expirations[0])
-        total_call_oi = chain.calls["openInterest"].sum()
-        total_put_oi = chain.puts["openInterest"].sum()
-        total_call_volume = chain.calls["volume"].sum()
-        total_put_volume = chain.puts["volume"].sum()
-
-    return top_of_book, vol_pct if not intraday.empty else None
-```
+See `references/liquidity_reference.md` § "Order Book Depth Proxy" for the full code template.
 
 ### D2: Present results
 
