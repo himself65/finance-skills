@@ -1,0 +1,19 @@
+{
+  "name": "finance-startup-tools",
+  "description": "Startup analysis frameworks and generative UI design system for Claude widgets.",
+  "version": "4.0.1",
+  "author": {
+    "name": "himself65"
+  },
+  "homepage": "https://github.com/himself65/finance-skills",
+  "repository": "https://github.com/himself65/finance-skills",
+  "license": "MIT",
+  "keywords": [
+    "finance",
+    "startups",
+    "due-diligence",
+    "generative-ui",
+    "widgets",
+    "show-widget"
+  ]
+}

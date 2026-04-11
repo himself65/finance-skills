@@ -1,0 +1,20 @@
+{
+  "name": "finance-data-providers",
+  "description": "External API data — sentiment via Adanos, comprehensive data via Funda AI, and Hormuz Strait monitoring.",
+  "version": "4.0.1",
+  "author": {
+    "name": "himself65"
+  },
+  "homepage": "https://github.com/himself65/finance-skills",
+  "repository": "https://github.com/himself65/finance-skills",
+  "license": "MIT",
+  "keywords": [
+    "finance",
+    "sentiment",
+    "api",
+    "funda",
+    "geopolitical",
+    "oil",
+    "data-provider"
+  ]
+}

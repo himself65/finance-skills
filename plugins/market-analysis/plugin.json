@@ -1,0 +1,23 @@
+{
+  "name": "finance-market-analysis",
+  "description": "Stock analysis, earnings, estimates, correlations, liquidity, ETFs, options payoff, and trading strategies via yfinance.",
+  "version": "4.0.1",
+  "author": {
+    "name": "himself65"
+  },
+  "homepage": "https://github.com/himself65/finance-skills",
+  "repository": "https://github.com/himself65/finance-skills",
+  "license": "MIT",
+  "keywords": [
+    "finance",
+    "stocks",
+    "yfinance",
+    "earnings",
+    "options",
+    "correlation",
+    "etf",
+    "trading",
+    "liquidity",
+    "sepa"
+  ]
+}

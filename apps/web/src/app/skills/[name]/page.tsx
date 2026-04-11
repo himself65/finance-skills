@@ -1,4 +1,4 @@
-import { skills, getSkill, categoryLabels } from "@/data/skills";
+import { skills, getSkill, categoryLabels, pluginGroupLabels } from "@/data/skills";
 import type { Skill } from "@/data/skills";
 import { notFound } from "next/navigation";
 import { Link } from "next-view-transitions";
@@ -145,6 +145,14 @@ export default async function SkillDetailPage({
             </div>
             <div>
               <p className="text-xs uppercase tracking-wider text-text-muted mb-1.5">
+                Plugin
+              </p>
+              <span className="text-sm text-text-secondary">
+                {pluginGroupLabels[skill.plugin]}
+              </span>
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-wider text-text-muted mb-1.5">
                 Repository
               </p>
               <a
@@ -161,7 +169,7 @@ export default async function SkillDetailPage({
                 Install
               </p>
               <div className="space-y-1.5 text-xs text-text-secondary font-mono">
-                <p>npx plugins add himself65/finance-skills</p>
+                <p>npx plugins add himself65/finance-skills --plugin finance-{skill.plugin}</p>
               </div>
             </div>
           </div>

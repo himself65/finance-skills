@@ -8,25 +8,38 @@ A collection of agent skills for financial analysis and trading, following the [
 
 ## Repository structure
 
-This repo is both a Claude Code plugin and an Agent Skills repository.
+This repo is both a Claude Code plugin marketplace and an Agent Skills repository. Skills are organized into plugin groups by usage.
 
 ```
 .claude-plugin/
-  plugin.json             # Claude Code plugin manifest
-  marketplace.json        # Plugin marketplace definition
-skills/
-  <skill-name>/
-    SKILL.md              # Skill definition (frontmatter + body instructions)
-    README.md             # Skill documentation for GitHub
-    references/           # Supporting reference files (markdown)
+  marketplace.json        # Marketplace definition — lists all 4 plugins
+plugins/
+  market-analysis/        # Stock analysis, earnings, correlations, options via yfinance
+    plugin.json           # Plugin manifest for this group
+    skills/
+      <skill-name>/
+        SKILL.md
+        README.md
+        references/
+  social-readers/         # Social media research feeds (Twitter, Discord, LinkedIn, Telegram, YC)
+    plugin.json
+    skills/...
+  data-providers/         # External API data (Adanos, Funda AI, Hormuz Strait)
+    plugin.json
+    skills/...
+  startup-tools/          # Startup analysis + generative UI
+    plugin.json
+    skills/...
+workspaces/               # Development workspaces (not distributed)
 .agents/                  # Auto-generated mirror for agent distribution (do not edit directly)
 .github/workflows/
-  release-skills.yml      # Zips each skill and publishes as GitHub release on push to main
+  release-skills.yml      # Zips each skill and publishes as GitHub release on tag
+  skill-lint.yml          # Lints all SKILL.md files
 ```
 
 ## How skills work
 
-Each skill is a self-contained directory under `skills/`. The `SKILL.md` file is what Claude reads at runtime — it tells the model when to activate, what steps to follow, and where to find reference details.
+Each skill is a self-contained directory under `plugins/<group>/skills/`. The `SKILL.md` file is what Claude reads at runtime — it tells the model when to activate, what steps to follow, and where to find reference details.
 
 ### SKILL.md format
 
@@ -58,12 +71,13 @@ Markdown documents in `references/` containing detailed API references, code tem
 
 ## Creating a new skill
 
-1. Create `skills/<skill-name>/` directory
-2. Write `SKILL.md` with YAML frontmatter (`name`, `description`) and step-by-step instructions
-3. Add reference files under `references/` for detailed API docs, code templates, or formulas that would bloat the main instructions
-4. Add a `README.md` for the skill's GitHub page (description, triggers, platform, setup, reference file list)
-5. Update the root `README.md` to list the new skill in the appropriate category table
-6. The skill will be auto-zipped and released on merge to main via GitHub Actions
+1. Choose the appropriate plugin group (`market-analysis`, `social-readers`, `data-providers`, or `startup-tools`)
+2. Create `plugins/<group>/skills/<skill-name>/` directory
+3. Write `SKILL.md` with YAML frontmatter (`name`, `description`) and step-by-step instructions
+4. Add reference files under `references/` for detailed API docs, code templates, or formulas that would bloat the main instructions
+5. Add a `README.md` for the skill's GitHub page (description, triggers, platform, setup, reference file list)
+6. Update the root `README.md` to list the new skill in the appropriate plugin group table
+7. The skill will be auto-zipped and released on tag push via GitHub Actions
 
 ### Platform considerations
 
@@ -97,21 +111,29 @@ Guidelines:
 
 ## Plugin system
 
-This repo ships as a Claude Code plugin in addition to being an Agent Skills repository:
+This repo ships as a Claude Code plugin marketplace containing 4 plugins:
 
-- `.claude-plugin/plugin.json` — plugin manifest (name, version, keywords). Skills under `skills/` with SKILL.md frontmatter are auto-discovered by the plugin loader; no per-skill registration is needed.
-- `.claude-plugin/marketplace.json` — marketplace listing metadata.
-- `.agents/` — auto-generated mirror for agent distribution. **Do not edit directly** — this is produced from `skills/` content.
+| Plugin | Description |
+|---|---|
+| `finance-market-analysis` | Stock analysis, earnings, correlations, options via yfinance |
+| `finance-social-readers` | Social media research feeds (Twitter, Discord, LinkedIn, Telegram, YC) |
+| `finance-data-providers` | External API data (Adanos, Funda AI, Hormuz Strait) |
+| `finance-startup-tools` | Startup analysis + generative UI design system |
 
-Users install the plugin via `npx plugins add himself65/finance-skills`. Individual skills can be installed via `npx skills add himself65/finance-skills --skill <name>`.
+- `.claude-plugin/marketplace.json` — marketplace listing with all 4 plugin entries.
+- `plugins/<group>/plugin.json` — per-plugin manifest (name, version, keywords). Skills under `plugins/<group>/skills/` with SKILL.md frontmatter are auto-discovered by the plugin loader.
+- `.agents/` — auto-generated mirror for agent distribution. **Do not edit directly** — this is produced from `plugins/` content.
 
-When a skill is invoked as a plugin, it is namespaced as `finance-skills:<skill-name>` (e.g., `/finance-skills:options-payoff`).
+Users install all plugins via `npx plugins add himself65/finance-skills`. Individual plugins can be installed via `npx plugins add himself65/finance-skills --plugin <plugin-name>`. Individual skills can be installed via `npx skills add himself65/finance-skills --skill <name>`.
+
+When a skill is invoked as a plugin, it is namespaced as `<plugin-name>:<skill-name>` (e.g., `/finance-market-analysis:options-payoff`).
 
 ## CI/CD
 
-- **Release workflow** (`.github/workflows/release-skills.yml`): On push to `main`, zips each `skills/*/` directory and publishes them as a GitHub release tagged `latest`. These zips can be uploaded to Claude.ai for web/desktop users.
+- **Release workflow** (`.github/workflows/release-skills.yml`): On tag push (`v*`), zips each skill from `plugins/*/skills/*/` and publishes them as a GitHub release. These zips can be uploaded to Claude.ai for web/desktop users.
+- **Lint workflow** (`.github/workflows/skill-lint.yml`): Lints all `SKILL.md` files across all plugin groups.
 
 ## Important constraints
 
 - **No trade execution.** All brokerage-related skills must be read-only. Never allow AI to execute trades.
-- This is a documentation/reference repository — no build system, no package.json, no tests. Quality comes from clear, accurate skill instructions.
+- This is a documentation/reference repository — no build system, no tests. Quality comes from clear, accurate skill instructions.
