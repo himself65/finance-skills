@@ -6,6 +6,9 @@ const SkillList = dynamic(() => import("./skill-list").then((mod) => mod.SkillLi
 const TerminalAnimation = dynamic(
   () => import("./terminal-animation").then((mod) => mod.TerminalAnimation)
 );
+const StockTickerBackground = dynamic(
+  () => import("./stock-ticker-bg").then((mod) => mod.StockTickerBackground)
+);
 
 async function getStarCount(): Promise<number | null> {
   try {
@@ -23,7 +26,8 @@ async function getStarCount(): Promise<number | null> {
 export default async function Home() {
   const stars = await getStarCount();
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
+      <StockTickerBackground />
       {/* Nav */}
       <nav className="border-b border-border px-6 py-3" style={{ viewTransitionName: "site-nav" }}>
         <div className="max-w-3xl mx-auto flex items-center gap-2 text-sm">
@@ -81,13 +85,16 @@ export default async function Home() {
           <TerminalAnimation />
         </div>
 
-        {/* Skills by category with filter */}
-        <div className="border-t border-border pt-6">
+      </main>
+
+      {/* Skills by category with filter — full-width solid bg to cover the ticker */}
+      <div className="relative bg-bg flex-1">
+        <div className="max-w-3xl mx-auto px-6 border-t border-border pt-6">
           <Suspense>
             <SkillList skills={skills} />
           </Suspense>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
