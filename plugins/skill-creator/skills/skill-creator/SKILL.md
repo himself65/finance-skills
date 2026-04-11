@@ -19,6 +19,8 @@ Create, evaluate, and iterate on high-quality agent skills. This skill guides th
 
 **Philosophy:** A great skill is not a long skill. It is a *precise* skill: exhaustive triggers, explicit defaults, clear steps with exit gates, deferred complexity via reference files, and a structured output template.
 
+**Core rule — always dynamic, never static:** Skills MUST detect what tools, libraries, and auth are available at runtime and adapt their behavior accordingly. Never hardcode a single method. Always provide a detection flow with a decision tree and fallback paths. See `references/dynamic-calling.md` for the complete pattern catalog.
+
 ---
 
 ## Step 1: Understand What the User Wants
@@ -67,11 +69,25 @@ Before writing SKILL.md, plan the structure. Read `references/architecture-patte
 
 Write out the step names before writing content. Every skill should have:
 
-1. **Environment/data check** (Step 1) -- verify deps, auth, gather input
-2. **Core methodology** (Steps 2-N) -- the actual work, with pass/fail gates
+1. **Detection flow** (Step 1) -- dynamically detect available tools, auth state, and runtime environment; build a decision tree for which method to use
+2. **Core methodology** (Steps 2-N) -- the actual work, with pass/fail gates; each step that calls an external tool should have method alternatives based on what Step 1 detected
 3. **Respond to user** (Final step) -- structured output template
 
 Target **5-9 steps** total. More than 9 means the skill should be split or use a router pattern.
+
+### Plan the Detection Flow
+
+Every skill that touches external tools MUST start with a runtime detection flow. Read `references/dynamic-calling.md` for all patterns. The detection flow answers:
+
+| Question | How to detect | Decision |
+|---|---|---|
+| Is the CLI tool installed? | `command -v tool` | CLI path vs Python fallback |
+| Is the user authenticated? | `tool auth status` / `echo $API_KEY` | Skip auth setup vs guide through it |
+| Which runtime has the library? | `import lib` in terminal vs execute_code | Route to correct runtime |
+| Is a richer tool available? | `gh --version` vs `git --version` | Rich path vs minimal path |
+| Is live data reachable? | `curl -s endpoint` | Live data vs cached/default |
+
+The detection output feeds into a **decision tree** that the rest of the skill follows. Never assume — always check.
 
 ### Plan Reference Files
 
@@ -95,9 +111,9 @@ Read `references/writing-guide.md` for detailed instructions on writing each sec
 
 1. **Frontmatter first**: `name` (lowercase-hyphenated, max 64 chars) and `description` (exhaustive trigger list, max 1024 chars) are required. Description needs 5+ triggers including sideways entry points.
 
-2. **Step 1 = environment check**: Use `!`command`` with fallbacks for dep/auth checks. Pure analysis skills use a "Gather Data" step instead.
+2. **Step 1 = detection flow**: Use `!`command`` with fallbacks to detect available tools, auth state, and runtime. Build a decision tree with multiple method paths (e.g., CLI preferred, Python fallback, built-in tools last resort). Never hardcode a single tool — always detect and adapt. See `references/dynamic-calling.md`.
 
-3. **Core steps**: Each gets `## Step N: [Verb] [Object]`, a decision table if routing, a pass/fail gate if evaluative, and a reference pointer for deep content.
+3. **Core steps with method alternatives**: Each step that calls an external tool should offer at least 2 paths based on what Step 1 detected. Use pattern: "If `TOOL_A` detected → Method 1, otherwise → Method 2." Each step gets `## Step N: [Verb] [Object]`, a decision table if routing, a pass/fail gate if evaluative, and a reference pointer for deep content.
 
 4. **Defaults table**: Every parameter MUST have an explicit default. No skill should ever stall waiting for input.
 
@@ -136,9 +152,12 @@ Run the skill through the quality rubric in `references/quality-rubric.md`. Scor
 - [ ] Final step specifies exact output structure with numbered sections
 - [ ] Complex content is in reference files, not inline
 - [ ] Reference file pointers use backtick paths
-- [ ] Dynamic `!`command`` checks have fallbacks (`|| echo "..."`)
+- [ ] Step 1 has a detection flow with `!`command`` checks and fallbacks (`|| echo "..."`)
+- [ ] Detection flow produces a decision tree with 2+ method paths
+- [ ] Core steps adapt behavior based on detection results (not hardcoded to one tool)
+- [ ] Separate runtimes treated as separate environments (terminal vs execute_code)
 - [ ] Legal/ethical disclaimers included where appropriate
-- [ ] No hardcoded ticker lists or static data that will go stale
+- [ ] No hardcoded ticker lists, tool paths, or static data that will go stale
 
 If any item fails, fix it before delivering to the user.
 
@@ -258,6 +277,7 @@ Deliver:
 
 ## Reference Files
 
+- `references/dynamic-calling.md` -- **Core reference**: Detection flows, decision trees, method fallbacks, runtime awareness, and multi-tool adaptation patterns with annotated examples from production skills
 - `references/writing-guide.md` -- Detailed instructions for writing SKILL.md sections, environment checks, defaults tables, output templates, and reference files
 - `references/architecture-patterns.md` -- Linear, Router, Methodology, Widget, and API Wrapper patterns with examples and anti-patterns
 - `references/frontmatter-guide.md` -- Complete YAML frontmatter field reference (name, description, platform, env vars, config, credentials)

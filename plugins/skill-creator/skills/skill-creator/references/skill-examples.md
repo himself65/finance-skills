@@ -97,7 +97,61 @@ If ambiguous, default to **Sub-Skill A** for single tickers, **Sub-Skill B** for
 
 ---
 
-## Example 5: Dynamic Content Check (stock-correlation, Step 1)
+## Example 5: Detection Flow with Decision Tree (github-auth)
+
+```markdown
+## Detection Flow
+
+` ` `bash
+git --version
+gh --version 2>/dev/null || echo "gh not installed"
+gh auth status 2>/dev/null || echo "gh not authenticated"
+git config --global credential.helper 2>/dev/null || echo "no git credential helper"
+` ` `
+
+**Decision tree:**
+1. If `gh auth status` shows authenticated → use `gh` for everything
+2. If `gh` is installed but not authenticated → use "gh auth" method
+3. If `gh` is not installed → use "git-only" method (no sudo needed)
+```
+
+**Why this works:**
+- Detects 4 dimensions in one block: git, gh, gh auth, credential helper
+- Decision tree has 3 clear paths — skill works for everyone
+- Each path leads to a self-contained method section
+- Never assumes — always checks first
+
+---
+
+## Example 5b: Dual-Method with Runtime Awareness (duckduckgo-search)
+
+```markdown
+## Detection Flow
+
+` ` `bash
+command -v ddgs >/dev/null && echo "DDGS_CLI=installed" || echo "DDGS_CLI=missing"
+` ` `
+
+Decision tree:
+1. If `ddgs` CLI is installed → prefer `terminal` + `ddgs`
+2. If `ddgs` CLI is missing → do not assume `execute_code` can import `ddgs`
+3. If the user wants DuckDuckGo specifically → install `ddgs` first
+4. Otherwise → fall back to built-in web/browser tools
+
+**Important runtime note:**
+- Terminal and `execute_code` are separate runtimes
+- A successful shell install does not guarantee `execute_code` can import `ddgs`
+```
+
+**Why this works:**
+- Explicitly warns about the terminal vs execute_code runtime boundary
+- 4-level degradation chain: CLI → Python → install → built-in fallback
+- `fallback_for_toolsets: [web]` in frontmatter auto-hides when web toolset is configured
+- Combines frontmatter-level activation control with runtime-level method selection
+
+---
+
+## Example 6: Runtime Dependency Check with Algorithm Fallback (stock-correlation)
 
 ```markdown
 ## Step 1: Ensure Dependencies Are Available
@@ -127,7 +181,7 @@ If all dependencies are already installed, skip the install step and proceed dir
 
 ---
 
-## Example 6: Structured Output Template (sepa-strategy, Step 9)
+## Example 7: Structured Output Template (sepa-strategy, Step 9)
 
 ```markdown
 ## Step 9: Respond to the User
@@ -155,7 +209,7 @@ Always end with the disclaimer that this is educational analysis, not investment
 
 ---
 
-## Example 7: Reference File Pointer Pattern (sepa-strategy)
+## Example 8: Reference File Pointer Pattern (sepa-strategy)
 
 ```markdown
 ## Reference Files
@@ -177,7 +231,7 @@ Always end with the disclaimer that this is educational analysis, not investment
 
 ---
 
-## Example 8: Edge Cases in Reference File (options-payoff, strategies.md)
+## Example 9: Edge Cases in Reference File (options-payoff, strategies.md)
 
 ```markdown
 ## Edge Cases

@@ -22,30 +22,45 @@ description: >
 - Name specific tools, methods, or APIs the skill uses
 - Include example ticker symbols or entities if domain-specific
 
-## Writing Step 1: Environment Check
+## Writing Step 1: Detection Flow
 
-Every skill that uses external tools should start with a dependency/auth check:
+Every skill that uses external tools MUST start with a detection flow — not just a single dep check, but a multi-dimensional probe that feeds a decision tree. See `references/dynamic-calling.md` for the complete pattern catalog.
+
+### Template: Detection flow with decision tree
 
 ```markdown
-## Step 1: Check Environment
+## Step 1: Detection Flow
 
-**Current status:**
+**Environment status:**
 ` ` `
-!`python3 -c "import library; print('OK')" 2>/dev/null || echo "NOT_INSTALLED"`
+!`(command -v tool_a && tool_a --version) 2>/dev/null || echo "TOOL_A_MISSING"`
 ` ` `
 
-If `NOT_INSTALLED`, install before proceeding:
-[installation code]
-```
+` ` `
+!`(command -v tool_b && tool_b --version) 2>/dev/null || echo "TOOL_B_MISSING"`
+` ` `
 
-For API-key-dependent skills:
-```markdown
 ` ` `
 !`echo $API_KEY | head -c 8 && echo "...KEY_SET" || echo "KEY_NOT_SET"`
 ` ` `
+
+**Decision tree:**
+1. If `tool_a` available and `KEY_SET` → **Method 1** (preferred, richest)
+2. If `tool_a` available but `KEY_NOT_SET` → guide auth setup, then Method 1
+3. If `tool_a` missing but `tool_b` available → **Method 2** (fallback)
+4. If neither available → install `tool_a`, then Method 1
 ```
 
-If the skill is pure analysis (no external deps), skip the dynamic check but still have a "Gather Data" step 1.
+### Key rules for detection flows
+
+- **Always use fallback sentinels:** `|| echo "SENTINEL"` — never let a check hang or error silently
+- **Detect multiple dimensions:** tool existence + auth state + runtime environment
+- **Produce a decision tree:** At least 2 distinct method paths, preferably 3+
+- **Show partial keys:** `echo $KEY | head -c 8` lets users verify without exposing secrets
+- **Treat runtimes as separate:** Terminal and execute_code are different — a shell install doesn't mean execute_code has the package
+- **Keep checks fast:** Under 2 seconds — they run synchronously before the skill loads
+
+For pure analysis skills (no external deps), use a "Gather Data" step that still detects data source availability (e.g., "if yfinance available, use it; otherwise accept manual input from user").
 
 ## Writing Core Steps (2 through N)
 

@@ -10,6 +10,8 @@ Create, evaluate, and iterate on high-quality agent skills with structured guida
 
 The skill encodes patterns extracted from analyzing 20+ production finance skills and 120+ hermes-agent skills, distilling what separates top-tier skills (sepa-strategy, options-payoff) from mediocre ones.
 
+**Core rule:** Skills must always detect available tools at runtime and adapt with decision trees and fallback paths — never hardcode a single method.
+
 ## Triggers
 
 - "create a skill", "make a new skill", "build a skill for", "write a skill that"
@@ -36,7 +38,9 @@ See the [main README](../../../../README.md) for more installation options.
 
 ## Reference files
 
+- `references/dynamic-calling.md` -- **Core**: Detection flows, decision trees, method fallbacks, runtime awareness, 9 patterns from production skills
 - `references/architecture-patterns.md` -- Linear, Router, Methodology, Widget, and API Wrapper patterns with examples and anti-patterns
 - `references/frontmatter-guide.md` -- Complete YAML frontmatter field reference (name, description, platform, env vars, config, credentials)
 - `references/quality-rubric.md` -- 10-dimension scoring rubric with 1-10 scales, benchmark scores, and score interpretation
 - `references/skill-examples.md` -- Annotated excerpts from top skills showing why specific patterns work
+- `references/writing-guide.md` -- How to write each SKILL.md section, detection flows, defaults tables, and output templates

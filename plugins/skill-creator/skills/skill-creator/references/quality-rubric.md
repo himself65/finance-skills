@@ -58,21 +58,21 @@ Is complexity properly deferred to reference files? Is SKILL.md lean?
 
 **Benchmark:** sepa-strategy scores 9/10 (250 lines, 7 reference files totaling ~29KB)
 
-## Dimension 5: Dynamic Content
+## Dimension 5: Dynamic Calling & Runtime Adaptation
 
-Does the skill use `!`command`` for runtime checks (deps, auth, live data)?
+Does the skill detect available tools at runtime and adapt its behavior with multiple method paths?
 
 | Score | Criteria |
 |---|---|
-| 1-3 | No dynamic content, relies on static instructions for setup |
-| 4-5 | Has a dependency check but no fallback message |
-| 6-7 | Dependency + auth check with fallback messages |
-| 8-9 | Dep check + auth check + live data injection, all with graceful fallbacks |
-| 10 | Comprehensive runtime context: deps, auth, live data, environment detection |
+| 1-3 | No detection, hardcodes a single tool/library, fails if not installed |
+| 4-5 | Has a dependency check but no decision tree or fallback path |
+| 6-7 | Detection flow with fallback messages; single method path after detection |
+| 8-9 | Full detection flow → decision tree → 2+ method paths; auth detection; graceful fallbacks |
+| 10 | Multi-dimensional detection (tools + auth + runtime + live data), decision tree with 3+ paths, inline fallbacks at every usage point, frontmatter conditional activation |
 
-**Benchmark:** options-payoff scores 8/10 (dep check + live SPX price with fallback)
+**Benchmark:** github-auth scores 10/10 (detects gh vs git, auth state, credential helper; 3 distinct method paths). options-payoff scores 8/10 (dep check + live SPX price injection with fallback). duckduckgo-search scores 9/10 (CLI vs Python vs built-in, runtime awareness, `fallback_for_toolsets`).
 
-**Note:** Skills that are pure analysis (no external deps) can score 7+ by having a well-structured "Gather Data" step instead.
+**Note:** Skills that are pure analysis (no external deps) can score 7+ by having a well-structured "Gather Data" step with data source alternatives (e.g., yfinance vs manual input).
 
 ## Dimension 6: Output Template
 
