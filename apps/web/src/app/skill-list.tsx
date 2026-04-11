@@ -105,9 +105,6 @@ export function SkillList({ skills }: { skills: Skill[] }) {
                 <h2 className="text-xs font-semibold uppercase tracking-wider text-text-muted">
                   {group.label}
                 </h2>
-                <span className="text-xs uppercase tracking-wider text-text-muted">
-                  Platform
-                </span>
               </div>
               <AnimatePresence mode="popLayout" initial={false}>
                 {group.skills.map((skill) => (
@@ -144,13 +141,6 @@ export function SkillList({ skills }: { skills: Skill[] }) {
                           {skill.description}
                         </p>
                       </div>
-                      <span className="text-sm text-text-muted tabular-nums shrink-0">
-                        {skill.platform === "cli"
-                          ? "CLI"
-                          : skill.platform === "claude-ai"
-                            ? "Claude.ai"
-                            : "All"}
-                      </span>
                     </Link>
                   </motion.div>
                 ))}

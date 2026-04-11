@@ -13,7 +13,7 @@ export interface Skill {
   title: string;
   description: string;
   category: SkillCategory;
-  platform: "cli" | "claude-ai" | "both";
+
   tags: string[];
   badge?: SkillBadge;
 }
@@ -34,7 +34,7 @@ export const skills: Skill[] = [
     description:
       "Generate a pre-earnings briefing for any stock — consensus estimates, beat/miss track record, and analyst sentiment overview.",
     category: "analysis",
-    platform: "cli",
+
     tags: ["Predictive", "EPS"],
   },
   {
@@ -43,7 +43,7 @@ export const skills: Skill[] = [
     description:
       "Post-earnings analysis covering actual vs estimated numbers, surprise magnitude, stock price reaction, and financial context.",
     category: "analysis",
-    platform: "cli",
+
     tags: ["Post-Earnings", "Reaction"],
   },
   {
@@ -52,7 +52,7 @@ export const skills: Skill[] = [
     description:
       "Deep-dive into analyst estimate revisions, EPS/revenue distributions, and growth projections across periods.",
     category: "analysis",
-    platform: "cli",
+
     tags: ["Revisions", "Trends"],
   },
   {
@@ -61,13 +61,13 @@ export const skills: Skill[] = [
     description:
       "Fetch stock prices, financials, options chains, dividends, earnings, and analyst data from Yahoo Finance via yfinance.",
     category: "data",
-    platform: "cli",
+
     tags: ["Market Data", "Fundamentals"],
   },
   {
     description:
     category: "data",
-    platform: "cli",
+
     tags: ["API", "Options Flow"],
     badge: "paid",
   },
@@ -77,7 +77,7 @@ export const skills: Skill[] = [
     description:
       "Interactive payoff curve charts with dynamic sliders for any options strategy — spreads, straddles, condors, butterflies.",
     category: "visualization",
-    platform: "both",
+
     tags: ["Interactive", "Black-Scholes"],
   },
   {
@@ -86,7 +86,7 @@ export const skills: Skill[] = [
     description:
       "Find correlated stocks, sector peers, and trading pairs with rolling correlation and co-movement analysis.",
     category: "analysis",
-    platform: "cli",
+
     tags: ["Correlation", "Pairs"],
   },
   {
@@ -95,7 +95,7 @@ export const skills: Skill[] = [
     description:
       "Analyze stock liquidity — bid-ask spreads, volume profiles, order book depth, market impact estimates, Amihud illiquidity ratio, and turnover ratios.",
     category: "analysis",
-    platform: "cli",
+
     tags: ["Liquidity", "Spreads", "Volume"],
     badge: "new",
   },
@@ -105,7 +105,7 @@ export const skills: Skill[] = [
     description:
       "Multi-perspective startup analysis — evaluate any company from VC investor, job applicant, and CEO/founder viewpoints with detailed frameworks.",
     category: "analysis",
-    platform: "cli",
+
     tags: ["Startups", "Due Diligence"],
     badge: "new",
   },
@@ -115,7 +115,7 @@ export const skills: Skill[] = [
     description:
       "Real-time Strait of Hormuz status — shipping transits, oil prices, stranded vessels, insurance risk, and diplomatic developments.",
     category: "risk",
-    platform: "cli",
+
     tags: ["Geopolitical", "Oil"],
   },
   {
@@ -124,7 +124,7 @@ export const skills: Skill[] = [
     description:
       "Design system for Claude's show_widget tool — render interactive HTML/SVG widgets inline in claude.ai conversations.",
     category: "visualization",
-    platform: "claude-ai",
+
     tags: ["Widgets", "Design System"],
   },
   {
@@ -133,7 +133,7 @@ export const skills: Skill[] = [
     description:
       "Read-only Twitter/X access for financial research — search tweets, view bookmarks, and gather market sentiment.",
     category: "sentiment",
-    platform: "cli",
+
     tags: ["Social"],
   },
   {
@@ -142,7 +142,7 @@ export const skills: Skill[] = [
     description:
       "Read-only Telegram channel access for financial news — export messages, search channels, monitor market intelligence.",
     category: "sentiment",
-    platform: "cli",
+
     tags: ["Social"],
   },
   {
@@ -151,7 +151,7 @@ export const skills: Skill[] = [
     description:
       "Read-only Discord access for financial research — trading servers, crypto channels, and community sentiment.",
     category: "sentiment",
-    platform: "cli",
+
     tags: ["Social"],
   },
   {
@@ -160,7 +160,7 @@ export const skills: Skill[] = [
     description:
       "Read-only LinkedIn access for financial research — professional market commentary, analyst posts, and finance job search.",
     category: "sentiment",
-    platform: "cli",
+
     tags: ["Social", "Jobs"],
     badge: "new",
   },
@@ -170,7 +170,7 @@ export const skills: Skill[] = [
     description:
       "Y Combinator company data — browse batches, filter by industry/tag, track hiring, and research the YC startup ecosystem.",
     category: "data",
-    platform: "cli",
+
     tags: ["YC", "Startups"],
     badge: "new",
   },
@@ -180,7 +180,7 @@ export const skills: Skill[] = [
     description:
       "Structured stock sentiment research — compare Reddit, X.com, news, and Polymarket using buzz, bullish %, mentions, and trend via the Adanos Finance API.",
     category: "data",
-    platform: "cli",
+
     tags: ["Cross-Source", "API"],
     badge: "paid",
   },
@@ -190,7 +190,7 @@ export const skills: Skill[] = [
     description:
       "Mark Minervini's SEPA strategy analysis — trend template, VCP patterns, precise entry points, position sizing, and risk management for growth stocks.",
     category: "strategy",
-    platform: "both",
+
     tags: ["Minervini", "VCP", "Swing Trading"],
     badge: "new",
   },
@@ -200,7 +200,7 @@ export const skills: Skill[] = [
     description:
       "Analyze round-to-round valuation compression for SaaS companies — ARR multiples, macro attribution, AI narrative premium, and peer comparisons with inline visualizations.",
     category: "analysis",
-    platform: "both",
+
     tags: ["SaaS", "Valuation", "VC"],
     badge: "new",
   },
