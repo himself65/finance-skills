@@ -10,7 +10,8 @@ export type PluginGroup =
   | "market-analysis"
   | "social-readers"
   | "data-providers"
-  | "startup-tools";
+  | "startup-tools"
+  | "ui-tools";
 
 export type SkillBadge = "new" | "paid";
 
@@ -39,6 +40,7 @@ export const pluginGroupLabels: Record<PluginGroup, string> = {
   "social-readers": "Social Readers",
   "data-providers": "Data Providers",
   "startup-tools": "Startup Tools",
+  "ui-tools": "UI Tools",
 };
 
 export const skills: Skill[] = [
@@ -151,7 +153,7 @@ export const skills: Skill[] = [
     description:
       "Design system for Claude's show_widget tool — render interactive HTML/SVG widgets inline in claude.ai conversations.",
     category: "visualization",
-    plugin: "startup-tools",
+    plugin: "ui-tools",
     tags: ["Widgets", "Design System"],
   },
   {

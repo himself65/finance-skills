@@ -29,7 +29,13 @@
     {
       "name": "finance-startup-tools",
       "source": "./plugins/startup-tools",
-      "description": "Startup analysis frameworks and generative UI design system for Claude widgets.",
+      "description": "Multi-perspective startup analysis frameworks for VC investors, job applicants, and founders.",
+      "version": "5.0.0"
+    },
+    {
+      "name": "finance-ui-tools",
+      "source": "./plugins/ui-tools",
+      "description": "Generative UI design system for rendering interactive HTML/SVG widgets in Claude conversations.",
       "version": "5.0.0"
     }
   ]

@@ -22,6 +22,7 @@ npx plugins add himself65/finance-skills --plugin finance-market-analysis
 npx plugins add himself65/finance-skills --plugin finance-social-readers
 npx plugins add himself65/finance-skills --plugin finance-data-providers
 npx plugins add himself65/finance-skills --plugin finance-startup-tools
+npx plugins add himself65/finance-skills --plugin finance-ui-tools
 ```
 
 ### Claude Code — Individual Skills
@@ -79,12 +80,19 @@ External API data — sentiment via Adanos, comprehensive data via Funda AI, and
 
 ### Startup Tools (`finance-startup-tools`)
 
-Startup analysis frameworks and generative UI design system for Claude widgets.
+Multi-perspective startup analysis frameworks for VC investors, job applicants, and founders.
 
 | Skill | Description |
 |---|---|
-| [generative-ui](plugins/startup-tools/skills/generative-ui/) | Generative UI design system for Claude's `show_widget` |
 | [startup-analysis](plugins/startup-tools/skills/startup-analysis/) | Multi-perspective startup analysis — VC investor, job applicant, and CEO/founder viewpoints |
+
+### UI Tools (`finance-ui-tools`)
+
+Generative UI design system for rendering interactive HTML/SVG widgets in Claude conversations.
+
+| Skill | Description |
+|---|---|
+| [generative-ui](plugins/ui-tools/skills/generative-ui/) | Generative UI design system for Claude's `show_widget` |
 
 ## License
 

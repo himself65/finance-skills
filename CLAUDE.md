@@ -12,7 +12,7 @@ This repo is both a Claude Code plugin marketplace and an Agent Skills repositor
 
 ```
 .claude-plugin/
-  marketplace.json        # Marketplace definition — lists all 4 plugins
+  marketplace.json        # Marketplace definition — lists all 5 plugins
 plugins/
   market-analysis/        # Stock analysis, earnings, correlations, options via yfinance
     plugin.json           # Plugin manifest for this group
@@ -27,7 +27,10 @@ plugins/
   data-providers/         # External API data (Adanos, Funda AI, Hormuz Strait)
     plugin.json
     skills/...
-  startup-tools/          # Startup analysis + generative UI
+  startup-tools/          # Startup analysis
+    plugin.json
+    skills/...
+  ui-tools/               # Generative UI design system
     plugin.json
     skills/...
 workspaces/               # Development workspaces (not distributed)
@@ -111,14 +114,15 @@ Guidelines:
 
 ## Plugin system
 
-This repo ships as a Claude Code plugin marketplace containing 4 plugins:
+This repo ships as a Claude Code plugin marketplace containing 5 plugins:
 
 | Plugin | Description |
 |---|---|
 | `finance-market-analysis` | Stock analysis, earnings, correlations, options via yfinance |
 | `finance-social-readers` | Social media research feeds (Twitter, Discord, LinkedIn, Telegram, YC) |
 | `finance-data-providers` | External API data (Adanos, Funda AI, Hormuz Strait) |
-| `finance-startup-tools` | Startup analysis + generative UI design system |
+| `finance-startup-tools` | Startup analysis frameworks |
+| `finance-ui-tools` | Generative UI design system for Claude widgets |
 
 - `.claude-plugin/marketplace.json` — marketplace listing with all 4 plugin entries.
 - `plugins/<group>/plugin.json` — per-plugin manifest (name, version, keywords). Skills under `plugins/<group>/skills/` with SKILL.md frontmatter are auto-discovered by the plugin loader.
