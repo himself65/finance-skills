@@ -1,0 +1,21 @@
+{
+  "name": "finance-social-readers",
+  "description": "Read-only social media and research feeds — Twitter/X, Discord, LinkedIn, Telegram, and Y Combinator.",
+  "version": "4.0.1",
+  "author": {
+    "name": "himself65"
+  },
+  "homepage": "https://github.com/himself65/finance-skills",
+  "repository": "https://github.com/himself65/finance-skills",
+  "license": "MIT",
+  "keywords": [
+    "finance",
+    "twitter",
+    "discord",
+    "linkedin",
+    "telegram",
+    "social-media",
+    "research",
+    "yc"
+  ]
+}

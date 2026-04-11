@@ -1,0 +1,18 @@
+{
+  "name": "finance-data-providers",
+  "version": "4.0.1",
+  "author": {
+    "name": "himself65"
+  },
+  "homepage": "https://github.com/himself65/finance-skills",
+  "repository": "https://github.com/himself65/finance-skills",
+  "license": "MIT",
+  "keywords": [
+    "finance",
+    "sentiment",
+    "api",
+    "geopolitical",
+    "oil",
+    "data-provider"
+  ]
+}
