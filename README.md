@@ -23,6 +23,7 @@ npx plugins add himself65/finance-skills --plugin finance-social-readers
 npx plugins add himself65/finance-skills --plugin finance-data-providers
 npx plugins add himself65/finance-skills --plugin finance-startup-tools
 npx plugins add himself65/finance-skills --plugin finance-ui-tools
+npx plugins add himself65/finance-skills --plugin finance-skill-creator
 ```
 
 ### Claude Code — Individual Skills
@@ -93,6 +94,14 @@ Generative UI design system for rendering interactive HTML/SVG widgets in Claude
 | Skill | Description |
 |---|---|
 | [generative-ui](plugins/ui-tools/skills/generative-ui/) | Generative UI design system for Claude's `show_widget` |
+
+### Skill Creator (`finance-skill-creator`)
+
+Create, evaluate, and iterate on high-quality agent skills with structured guidance, quality scoring, and best-practice enforcement.
+
+| Skill | Description |
+|---|---|
+| [skill-creator](plugins/skill-creator/skills/skill-creator/) | Create new skills, evaluate existing ones against a 10-dimension rubric, and improve skill quality |
 
 ## License
 

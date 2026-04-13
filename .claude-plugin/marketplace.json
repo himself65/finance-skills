@@ -37,6 +37,12 @@
       "source": "./plugins/ui-tools",
       "description": "Generative UI design system for rendering interactive HTML/SVG widgets in Claude conversations.",
       "version": "5.1.1"
+    },
+    {
+      "name": "finance-skill-creator",
+      "source": "./plugins/skill-creator",
+      "description": "Create, evaluate, and iterate on high-quality agent skills with structured guidance, quality scoring, and best-practice enforcement.",
+      "version": "5.1.1"
     }
   ]
 }
