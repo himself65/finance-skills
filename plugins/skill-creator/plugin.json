@@ -1,0 +1,19 @@
+{
+  "name": "finance-skill-creator",
+  "description": "Create, evaluate, and iterate on high-quality agent skills with structured guidance, quality scoring, and best-practice enforcement.",
+  "version": "5.1.1",
+  "author": {
+    "name": "himself65"
+  },
+  "homepage": "https://github.com/himself65/finance-skills",
+  "repository": "https://github.com/himself65/finance-skills",
+  "license": "MIT",
+  "keywords": [
+    "finance",
+    "skills",
+    "skill-creator",
+    "agent",
+    "authoring",
+    "meta"
+  ]
+}
