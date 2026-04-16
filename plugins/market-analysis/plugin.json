@@ -1,7 +1,7 @@
 {
   "name": "finance-market-analysis",
   "description": "Stock analysis, earnings, estimates, correlations, liquidity, ETFs, options payoff, and trading strategies via yfinance.",
-  "version": "5.1.1",
+  "version": "5.1.2",
   "author": {
     "name": "himself65"
   },
