@@ -334,6 +334,32 @@ search.news      # related news articles
 
 ---
 
+## Timezone Handling
+
+yfinance returns tz-aware datetime indices (typically `America/New_York`). When filtering or comparing dates, you **must** match timezone awareness to avoid `TypeError: Cannot compare tz-naive and tz-aware datetime-like objects`.
+
+```python
+import yfinance as yf
+import pandas as pd
+
+hist = yf.Ticker("AAPL").history(period="1y")
+
+# WRONG — tz-naive timestamp vs tz-aware index:
+# filtered = hist[hist.index >= pd.Timestamp("2025-01-01")]  # TypeError!
+
+# Option A (recommended): make the comparison timestamp tz-aware
+start = pd.Timestamp("2025-01-01", tz="America/New_York")
+filtered = hist[hist.index >= start]
+
+# Option B: strip timezone from index first
+hist.index = hist.index.tz_localize(None)
+filtered = hist[hist.index >= pd.Timestamp("2025-01-01")]
+```
+
+Always use **Option A** when you need to preserve timezone info for accurate date boundaries. Use **Option B** when timezone doesn't matter (e.g., daily data aggregation).
+
+---
+
 ## Error Handling
 
 ```python
@@ -355,3 +381,4 @@ Common issues:
 - **Rate limiting**: Too many requests in short time — add delays between calls
 - **Missing fields in `.info`**: Not all fields are available for all tickers (ETFs, mutual funds, foreign stocks may differ)
 - **Intraday data limits**: 1m data only available for last ~7 days
+- **Timezone mismatch**: See "Timezone Handling" section above — always match tz-awareness when comparing dates

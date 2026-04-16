@@ -89,6 +89,7 @@ ticker = yf.Ticker("AAPL")
 4. **For quarterly data**, use `quarterly_` prefix: `ticker.quarterly_income_stmt`, `ticker.quarterly_balance_sheet`, `ticker.quarterly_cashflow`
 5. **For large date ranges**, be mindful of intraday limits — 1m data only goes back ~7 days, 1h data ~730 days
 6. **Print DataFrames clearly** — use `.to_string()` or `.to_markdown()` for readability, or select key columns
+7. **Timezone handling** — yfinance returns tz-aware datetime indices (e.g., `America/New_York`). When comparing dates, always use `pd.Timestamp(..., tz=...)` or strip timezones with `.tz_localize(None)`. See the reference file for details.
 
 ### Valid periods and intervals
 
