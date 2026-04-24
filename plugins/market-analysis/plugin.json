@@ -1,6 +1,6 @@
 {
   "name": "finance-market-analysis",
-  "description": "Stock analysis, earnings, estimates, correlations, liquidity, ETFs, options payoff, and trading strategies via yfinance.",
+  "description": "Stock analysis, earnings, estimates, correlations, liquidity, ETFs, market breadth, exposure control, options payoff, and trading strategies.",
   "version": "5.1.2",
   "author": {
     "name": "himself65"
@@ -16,6 +16,9 @@
     "options",
     "correlation",
     "etf",
+    "breadth",
+    "exposure",
+    "market-top",
     "trading",
     "liquidity",
     "sepa"
