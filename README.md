@@ -42,7 +42,7 @@ npx skills add himself65/finance-skills -a <agent-name>
 
 ### Market Analysis (`finance-market-analysis`)
 
-Stock analysis, earnings, estimates, correlations, liquidity, ETFs, options payoff, and trading strategies via yfinance.
+Stock analysis, earnings, estimates, correlations, liquidity, ETFs, market breadth, exposure control, options payoff, and trading strategies.
 
 | Skill | Description |
 |---|---|
@@ -50,6 +50,10 @@ Stock analysis, earnings, estimates, correlations, liquidity, ETFs, options payo
 | [earnings-recap](plugins/market-analysis/skills/earnings-recap/) | Post-earnings analysis — actual vs estimated EPS, price reaction, margin trends |
 | [estimate-analysis](plugins/market-analysis/skills/estimate-analysis/) | Analyst estimate deep-dive — revision trends, growth projections, historical accuracy |
 | [etf-premium](plugins/market-analysis/skills/etf-premium/) | ETF premium/discount vs NAV — market price comparison, peer analysis, category screener |
+| [exposure-coach](plugins/market-analysis/skills/exposure-coach/) | Market posture control plane - exposure ceiling, participation, bias, and new-entry guidance |
+| [market-breadth-analyzer](plugins/market-analysis/skills/market-breadth-analyzer/) | S&P 500 breadth health scoring via TraderMonty public CSV data |
+| [market-top-detector](plugins/market-analysis/skills/market-top-detector/) | Tactical market-top risk using distribution days, breadth divergence, sentiment, and technicals |
+| [uptrend-analyzer](plugins/market-analysis/skills/uptrend-analyzer/) | Uptrend ratio participation analysis across US sectors |
 | [options-payoff](plugins/market-analysis/skills/options-payoff/) | Interactive options payoff charts with dynamic controls |
 | [saas-valuation-compression](plugins/market-analysis/skills/saas-valuation-compression/) | SaaS valuation compression analysis — ARR multiples, cause attribution, peer comparisons |
 | [sepa-strategy](plugins/market-analysis/skills/sepa-strategy/) | SEPA strategy analysis — Minervini's trend template, VCP patterns, entry points, position sizing |
