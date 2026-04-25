@@ -1,26 +1,20 @@
 ---
 name: funda-data
 description: >
-  Fetch financial data from the Funda AI API (https://api.funda.ai).
-  Covers quotes, historical prices, financials, SEC filings, earnings transcripts,
-  analyst estimates, options flow/greeks/GEX, supply chain graph, social sentiment,
-  prediction markets, congressional trades, economic indicators, ESG, news,
-  AI-enriched news with sentiment/timelines, AI-company recruit signals
-  (job postings, JD classifications, product clusters, GTM products,
-  launch probabilities, stock impact scores, enterprise events), and
-  a Claude API proxy via AWS Bedrock.
-  Triggers: stock quotes, fundamentals, balance sheet, income statement, cash flow,
-  analyst targets, DCF, options chain/flow/unusual activity, GEX, IV rank, max pain,
-  earnings/dividend/IPO calendar, SEC filings (10-K/10-Q/8-K), transcripts,
-  supply chain (suppliers/customers/competitors), congressional trading,
-  insider trades, institutional holdings (13F), Reddit/Twitter sentiment,
-  Polymarket, treasury rates, GDP, CPI, FRED data, ESG scores,
-  commodity/forex/crypto prices, stock screener, sector performance,
-  ETF holdings, news, COT reports, AI-enriched news, event timeline,
+  Fetch financial data from the Funda AI API (https://api.funda.ai). Covers
+  quotes, historical prices, financials, SEC filings, transcripts, analyst
+  estimates, options flow/greeks/GEX, supply chain graph, social sentiment,
+  Polymarket, congressional trades, economics, ESG, news, AI-enriched news
+  (sentiment + event timeline), AI-company recruit signals, and a Claude API
+  proxy via Bedrock. Triggers: stock quotes, balance sheet, income statement,
+  cash flow, analyst targets, DCF, options chain/flow, GEX, IV rank, max pain,
+  earnings/dividend/IPO calendar, 10-K/10-Q/8-K, suppliers/customers/competitors,
+  insider trades, 13F, Reddit/Twitter sentiment, Polymarket, treasury rates,
+  GDP, CPI, FRED, commodity/forex/crypto, stock screener, ETF holdings, COT,
   ticker sentiment, OpenAI/Anthropic/xAI/Google/Mercor/SurgeAI job postings,
-  AI product signals, product launch probabilities, AI threat to public stocks.
-  Also triggers for "funda" or "funda.ai".
-  If only a ticker is provided and Funda API can answer, use this skill.
+  product launch probabilities, AI threat to public stocks. Also triggers for
+  "funda" or "funda.ai". If only a ticker is provided and Funda API can answer,
+  use this skill.
 ---
 
 # Funda Data API Skill
