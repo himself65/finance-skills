@@ -111,14 +111,33 @@ See full docs at `https://api.funda.ai/docs/investment-research-reports.md`.
 
 ## GET /v1/emails
 
-Research emails with filtering.
+Research emails ingested from the research inbox (UBS, JPMorgan, expert interviews, conference invites, etc.).
 
 ### Parameters
 
-| Param | Type | Description |
-|---|---|---|
-| (various filters) | - | See `https://api.funda.ai/docs/emails.md` |
+| Param | Type | Default | Description |
+|---|---|---|---|
+| `author` | string | - | Filter by author (e.g. `UBS`, `JPMorgan`) |
+| `type` | string | - | `research_report`, `expert_interview`, `news`, `conference`, `marketing`, `other` |
+| `ticker` | string | - | Filter by ticker (searches in `tickers` array) |
+| `received_after` | datetime | - | ISO 8601 |
+| `received_before` | datetime | - | ISO 8601 |
+| `search` | string | - | Search subject (case-insensitive) |
+| `order` | string | `-received_at` | Sort field |
+| `page` | int | 0 | Page (0-based) |
+| `page_size` | int | 20 | Max: 1000 |
+
+List response excludes heavy/PII fields (`content_html`, `content_text`, `attachments`, `extra`, `sender_email`, `recipient`, `cc`, `email_account`); `sender_name` and `subject` are redacted against PII keywords.
 
 ### GET /v1/emails/{email_id}
 
 Single email with full content.
+
+### GET /v1/emails/max-date
+
+Max value of a date field for incremental sync. Used by the ingestion pipeline.
+
+```bash
+curl -s -H "Authorization: Bearer $FUNDA_API_KEY" \
+  "https://api.funda.ai/v1/emails?author=UBS&type=research_report&ticker=AAPL"
+```

@@ -4,7 +4,11 @@ description: >
   Fetch financial data from the Funda AI API (https://api.funda.ai).
   Covers quotes, historical prices, financials, SEC filings, earnings transcripts,
   analyst estimates, options flow/greeks/GEX, supply chain graph, social sentiment,
-  prediction markets, congressional trades, economic indicators, ESG, and news.
+  prediction markets, congressional trades, economic indicators, ESG, news,
+  AI-enriched news with sentiment/timelines, AI-company recruit signals
+  (job postings, JD classifications, product clusters, GTM products,
+  launch probabilities, stock impact scores, enterprise events), and
+  a Claude API proxy via AWS Bedrock.
   Triggers: stock quotes, fundamentals, balance sheet, income statement, cash flow,
   analyst targets, DCF, options chain/flow/unusual activity, GEX, IV rank, max pain,
   earnings/dividend/IPO calendar, SEC filings (10-K/10-Q/8-K), transcripts,
@@ -12,7 +16,10 @@ description: >
   insider trades, institutional holdings (13F), Reddit/Twitter sentiment,
   Polymarket, treasury rates, GDP, CPI, FRED data, ESG scores,
   commodity/forex/crypto prices, stock screener, sector performance,
-  ETF holdings, news, COT reports. Also triggers for "funda" or "funda.ai".
+  ETF holdings, news, COT reports, AI-enriched news, event timeline,
+  ticker sentiment, OpenAI/Anthropic/xAI/Google/Mercor/SurgeAI job postings,
+  AI product signals, product launch probabilities, AI threat to public stocks.
+  Also triggers for "funda" or "funda.ai".
   If only a ticker is provided and Funda API can answer, use this skill.
 ---
 
@@ -28,15 +35,28 @@ Query the [Funda AI](https://api.funda.ai) financial data API for stocks, option
 
 ## Step 1: Check API Key Availability
 
+The skill resolves `FUNDA_API_KEY` in this order:
+1. `FUNDA_API_KEY` environment variable
+2. `FUNDA_API_KEY` in `.env` in the current directory
+3. `FUNDA_API_KEY` in `.env` at the git repo root (so a worktree inherits the key from the main checkout)
+
 ```
-!`echo $FUNDA_API_KEY | head -c 8 2>/dev/null && echo "...KEY_SET" || echo "KEY_NOT_SET"`
+!`if [ -n "$FUNDA_API_KEY" ]; then echo "KEY_FROM_ENV_VAR"; elif [ -f .env ] && grep -qE "^FUNDA_API_KEY=" .env; then echo "KEY_FROM_LOCAL_DOTENV:$(pwd)/.env"; else GIT_COMMON=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null); if [ -n "$GIT_COMMON" ]; then ROOT=$(dirname "$GIT_COMMON"); if [ -f "$ROOT/.env" ] && grep -qE "^FUNDA_API_KEY=" "$ROOT/.env"; then echo "KEY_FROM_ROOT_DOTENV:$ROOT/.env"; else echo "KEY_NOT_SET"; fi; else echo "KEY_NOT_SET"; fi; fi`
 ```
 
-If `KEY_NOT_SET`, ask the user for their Funda API key. They can set it via:
+Then act on the result:
 
-```bash
-export FUNDA_API_KEY="your-api-key-here"
-```
+- `KEY_FROM_ENV_VAR` — use `$FUNDA_API_KEY` directly in curl calls.
+- `KEY_FROM_LOCAL_DOTENV:<path>` or `KEY_FROM_ROOT_DOTENV:<path>` — load the key from the reported `.env` before each request:
+  ```bash
+  export FUNDA_API_KEY=$(grep -E "^FUNDA_API_KEY=" <path> | head -1 | cut -d= -f2- | sed 's/^["'\'']//;s/["'\'']$//')
+  ```
+  Substitute the path printed by the check above. Prefer sourcing once at the start of a session rather than re-exporting on every call.
+- `KEY_NOT_SET` — ask the user for their Funda API key. They can either:
+  ```bash
+  export FUNDA_API_KEY="your-api-key-here"
+  ```
+  or add `FUNDA_API_KEY=your-api-key-here` to `.env` at the repo root (preferred when working across worktrees).
 
 Once the key is available, proceed. All `curl` commands below use `$FUNDA_API_KEY`.
 
@@ -68,9 +88,13 @@ Match the user's request to a data category below, then read the corresponding r
 | Key metrics (P/E, ROE, etc.) | `GET /v1/financial-statements?type=key-metrics&ticker=X` | `references/fundamentals.md` |
 | Financial ratios | `GET /v1/financial-statements?type=ratios&ticker=X` | `references/fundamentals.md` |
 | Revenue segmentation (product/geo) | `GET /v1/financial-statements?type=revenue-product-segmentation&ticker=X` | `references/fundamentals.md` |
-| Company profile, executives, market cap | `GET /v1/company-details?type=profile&ticker=X` | `references/fundamentals.md` |
+| Quick company profile (price, mcap, sector) | `GET /v1/company-profile?ticker=X` | `references/fundamentals.md` |
+| Company profile, executives, market cap, M&A | `GET /v1/company-details?type=profile&ticker=X` | `references/fundamentals.md` |
+| Peers / competitors list | `GET /v1/company-details?type=peers&ticker=X` | `references/fundamentals.md` |
+| Shares float / historical market cap | `GET /v1/company-details?type=shares-float&ticker=X` | `references/fundamentals.md` |
 | Company search by symbol/name | `GET /v1/search?type=symbol&query=X` | `references/fundamentals.md` |
 | Stock screener (market cap, sector, etc.) | `GET /v1/search?type=screener&marketCapMoreThan=...` | `references/fundamentals.md` |
+| List companies (pagination) | `GET /v1/companies` | `references/fundamentals.md` |
 
 ### Analyst & Valuation
 
@@ -79,8 +103,10 @@ Match the user's request to a data category below, then read the corresponding r
 | Analyst estimates (EPS, revenue) | `GET /v1/analyst?type=estimates&ticker=X` | `references/fundamentals.md` |
 | Price targets | `GET /v1/analyst?type=price-target-summary&ticker=X` | `references/fundamentals.md` |
 | Analyst grades (buy/hold/sell) | `GET /v1/analyst?type=grades&ticker=X` | `references/fundamentals.md` |
-| DCF valuation | `GET /v1/analyst?type=dcf&ticker=X` | `references/fundamentals.md` |
-| Ratings snapshot | `GET /v1/analyst?type=ratings-snapshot&ticker=X` | `references/fundamentals.md` |
+| Grades consensus / historical | `GET /v1/analyst?type=grades-consensus&ticker=X` | `references/fundamentals.md` |
+| DCF / levered / custom DCF | `GET /v1/analyst?type=dcf&ticker=X` | `references/fundamentals.md` |
+| Ratings snapshot / historical | `GET /v1/analyst?type=ratings-snapshot&ticker=X` | `references/fundamentals.md` |
+| Earnings surprises (bulk) | `GET /v1/bulk?type=earnings-surprises` | `references/other-data.md` |
 
 ### Options Data
 
@@ -119,6 +145,7 @@ Match the user's request to a data category below, then read the corresponding r
 | User Request | Endpoint | Reference |
 |---|---|---|
 | Financial Twitter/KOL tweets | `GET /v1/twitter-posts?ticker=X` | `references/alternative-data.md` |
+| Single tweet by ID | `GET /v1/twitter-posts/{twitter_post_id}` | `references/alternative-data.md` |
 | Reddit posts (wallstreetbets, etc.) | `GET /v1/reddit-posts?subreddit=wallstreetbets&ticker=X` | `references/alternative-data.md` |
 | Reddit comments | `GET /v1/reddit-comments?ticker=X` | `references/alternative-data.md` |
 | Polymarket prediction markets | `GET /v1/polymarket/markets?keyword=bitcoin` | `references/alternative-data.md` |
@@ -126,6 +153,14 @@ Match the user's request to a data category below, then read the corresponding r
 | Congressional/government trades | `GET /v1/government-trading?type=senate-latest` | `references/alternative-data.md` |
 | Insider trades (Form 4) | `GET /v1/ownership?type=insider-search&ticker=X` | `references/alternative-data.md` |
 | Institutional holdings (13F) | `GET /v1/ownership?type=institutional-latest&ticker=X` | `references/alternative-data.md` |
+
+### AI-Enriched News
+
+| User Request | Endpoint | Reference |
+|---|---|---|
+| AI-enriched news for a ticker (summary + sentiment) | `GET /v1/news/ticker?ticker=X` | `references/news-enriched.md` |
+| Event timeline for a ticker (developing stories) | `GET /v1/news/timeline?ticker=X` | `references/news-enriched.md` |
+| Aggregated ticker sentiment (7–90d lookback) | `GET /v1/news/sentiment?ticker=X&days=7` | `references/news-enriched.md` |
 
 ### SEC Filings & Transcripts
 
@@ -162,6 +197,7 @@ Match the user's request to a data category below, then read the corresponding r
 |---|---|---|
 | News (stock, crypto, forex) | `GET /v1/news?type=stock&ticker=X` | `references/other-data.md` |
 | Press releases | `GET /v1/news?type=press-releases&ticker=X` | `references/other-data.md` |
+| Stock news (simple) | `GET /v1/stock-news?ticker=X` | `references/other-data.md` |
 | Market performance (gainers/losers) | `GET /v1/market-performance?type=gainers` | `references/other-data.md` |
 | ETF/fund holdings | `GET /v1/funds?type=etf-holdings&ticker=X` | `references/other-data.md` |
 | ESG ratings | `GET /v1/esg?type=ratings&ticker=X` | `references/other-data.md` |
@@ -169,7 +205,26 @@ Match the user's request to a data category below, then read the corresponding r
 | Crowdfunding | `GET /v1/crowdfunding?type=...` | `references/other-data.md` |
 | Market hours | `GET /v1/market-hours?type=...` | `references/other-data.md` |
 | Bulk data downloads | `GET /v1/bulk?type=...` | `references/other-data.md` |
-| Companies list | `GET /v1/companies` | `references/other-data.md` |
+
+### AI Company Recruit Signals
+
+Hiring-based alpha signals covering OpenAI, Anthropic, Google, xAI, SurgeAI, and Mercor.
+
+| User Request | Endpoint | Reference |
+|---|---|---|
+| AI company job postings (raw) | `GET /v1/recruit-job-postings?company=anthropic` | `references/recruit.md` |
+| JD classifications (vertical/intent/function) | `GET /v1/recruit-jd-classifications?company=openai&vertical=Coding` | `references/recruit.md` |
+| Product-level hiring signal clusters | `GET /v1/recruit-product-signal-clusters?urgency=high` | `references/recruit.md` |
+| GTM products extracted from Sales JDs | `GET /v1/recruit-gtm-products?company=openai` | `references/recruit.md` |
+| Product launch probability matrix | `GET /v1/recruit-launch-probabilities?company=anthropic` | `references/recruit.md` |
+| Public stock impact scores (AI threat) | `GET /v1/recruit-stock-impacts?urgency=HIGH` | `references/recruit.md` |
+| Enterprise events + event-study alpha | `GET /v1/recruit-enterprise-events?is_significant=true` | `references/recruit.md` |
+
+### Claude API Proxy
+
+| User Request | Endpoint | Reference |
+|---|---|---|
+| Proxy Claude API call via Bedrock (streaming supported) | `POST /v1/claude/v1/messages` | `references/claude-proxy.md` |
 
 ---
 
@@ -195,10 +250,10 @@ curl -s -H "Authorization: Bearer $FUNDA_API_KEY" \
 ### Multiple data points for one ticker
 
 If the user asks a broad question like "tell me about AAPL", combine several calls:
-1. Real-time quote (`/v1/quotes?type=realtime&ticker=AAPL`)
-2. Company profile (`/v1/company-details?type=profile&ticker=AAPL`)
-3. Key metrics TTM (`/v1/financial-statements?type=key-metrics-ttm&ticker=AAPL`)
-4. Analyst price target (`/v1/analyst?type=price-target-summary&ticker=AAPL`)
+1. Company profile (`/v1/company-profile?ticker=AAPL`) — includes price, market cap, sector, CEO, description in one call
+2. Key metrics TTM (`/v1/financial-statements?type=key-metrics-ttm&ticker=AAPL`)
+3. Analyst price target (`/v1/analyst?type=price-target-summary&ticker=AAPL`)
+4. Optional: latest AI-enriched news (`/v1/news/ticker?ticker=AAPL&page_size=5`) and aggregated sentiment (`/v1/news/sentiment?ticker=AAPL`)
 
 ### Comparing multiple tickers
 
@@ -228,10 +283,13 @@ Present the data clearly:
 ## Reference Files
 
 - `references/market-data.md` — Quotes, historical prices, charts, technical indicators
-- `references/fundamentals.md` — Financial statements, company details, search/screener, analyst data
+- `references/fundamentals.md` — Financial statements, company profile/details, search/screener, analyst data, companies list
 - `references/options.md` — Options chains, greeks, GEX, flow, IV, screener, contract-level data
 - `references/supply-chain.md` — Supply chain knowledge graph, relationships, graph traversal
 - `references/alternative-data.md` — Twitter, Reddit, Polymarket, government trading, ownership
-- `references/filings-transcripts.md` — SEC filings, earnings/podcast transcripts, research reports
+- `references/news-enriched.md` — AI-enriched news (summary/sentiment), event timeline, aggregated ticker sentiment
+- `references/filings-transcripts.md` — SEC filings, earnings/podcast transcripts, research reports, emails
 - `references/calendar-economics.md` — Calendars (earnings, dividends, IPOs), economics, treasury, FRED
-- `references/other-data.md` — News, market performance, funds, ESG, COT, crowdfunding, bulk data
+- `references/recruit.md` — AI-company job postings, JD classifications, product clusters, GTM products, launch probabilities, stock impacts, enterprise events
+- `references/other-data.md` — News, market performance, funds, ESG, COT, crowdfunding, bulk data, market hours, stock news
+- `references/claude-proxy.md` — Claude API proxy (`/v1/claude/v1/messages`)

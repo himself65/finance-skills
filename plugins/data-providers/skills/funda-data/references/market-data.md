@@ -20,12 +20,14 @@ Real-time and aftermarket quotes for stocks, ETFs, mutual funds, commodities, cr
 | `short` | Short format real-time quote |
 | `aftermarket-trade` | Aftermarket trade data |
 | `aftermarket-quote` | Aftermarket quote data |
+| `premarket-trade` | Pre/post-market trade for a single ticker |
+| `batch-premarket` | Pre/post-market trades for all stocks |
 | `price-change` | Stock price change statistics |
 | `batch` | Batch quotes for multiple tickers (comma-separated) |
 | `batch-short` | Batch quotes in short format |
 | `batch-aftermarket-trade` | Batch aftermarket trades |
 | `batch-aftermarket-quote` | Batch aftermarket quotes |
-| `exchange-quotes` | All quotes for a specific exchange |
+| `exchange-quotes` | All quotes for a specific exchange (requires `exchange`) |
 | `mutual-fund-quotes` | All mutual fund quotes |
 | `etf-quotes` | All ETF quotes |
 | `commodity-quotes` | All commodity quotes |

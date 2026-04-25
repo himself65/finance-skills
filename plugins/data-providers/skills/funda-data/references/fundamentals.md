@@ -72,18 +72,79 @@ Key fields in key-metrics-ttm: `peRatioTTM`, `priceToSalesRatioTTM`, `pbRatioTTM
 
 ---
 
-## GET /v1/company-details
+## GET /v1/company-profile
 
-Company profile, executives, market cap, M&A history.
+Quick company profile (price, market cap, beta, description, sector, CEO, trading flags). Single-ticker convenience endpoint.
 
 ### Parameters
 
 | Param | Type | Required | Description |
 |---|---|---|---|
-| `type` | string | Yes | Data type |
-| `ticker` | string | Yes | Stock ticker |
+| `ticker` | string | Yes | Ticker (e.g., `AAPL`, `NVO`) |
 
-See full docs at `https://api.funda.ai/docs/company-details.md`.
+### Example
+
+```bash
+curl -s -H "Authorization: Bearer $FUNDA_API_KEY" \
+  "https://api.funda.ai/v1/company-profile?ticker=NVO"
+```
+
+Key response fields: `ticker`, `price`, `marketCap`, `beta`, `lastDividend`, `range`, `change`, `changePercentage`, `volume`, `averageVolume`, `companyName`, `currency`, `cik`, `isin`, `cusip`, `exchangeFullName`, `exchange`, `industry`, `sector`, `country`, `website`, `description`, `ceo`, `fullTimeEmployees`, `ipoDate`, `isEtf`, `isActivelyTrading`, `isAdr`, `isFund`.
+
+---
+
+## GET /v1/company-details
+
+Company profile, executives, market cap, shares float, M&A history.
+
+### Parameters
+
+| Param | Type | Required | Description |
+|---|---|---|---|
+| `type` | string | Yes | Data type (see below) |
+| `ticker` | string | No | Stock ticker (required for most types) |
+| `cik` | string | No | CIK (required for `profile-cik`) |
+| `query` | string | No | Company name (for `mergers-acquisitions-search`) |
+| `page` | int | No | Page (0-based, default: 0) |
+| `limit` | int | No | Max results (default: 20) |
+
+### Types
+
+| Type | Description |
+|---|---|
+| `profile` | Company profile |
+| `profile-cik` | Company profile by CIK |
+| `notes` | Company notes / research commentary |
+| `peers` | Peer companies (competitors) |
+| `executives` | Key executives and board |
+| `executive-compensation` | Executive compensation details |
+| `executive-compensation-benchmark` | Compensation industry benchmarks |
+| `employee-count` | Current employee count |
+| `historical-employee-count` | Historical employee count |
+| `market-cap` | Current market cap |
+| `batch-market-cap` | Batch market cap (comma-separated tickers) |
+| `historical-market-cap` | Historical market cap |
+| `shares-float` | Shares float for a ticker |
+| `all-shares-float` | Shares float for all companies |
+| `delisted` | Delisted companies |
+| `mergers-acquisitions-latest` | Latest M&A announcements |
+| `mergers-acquisitions-search` | Search M&A by company name |
+
+### Examples
+
+```bash
+# Profile
+curl -s -H "Authorization: Bearer $FUNDA_API_KEY" \
+  "https://api.funda.ai/v1/company-details?type=profile&ticker=AAPL"
+
+# Executives
+curl -s -H "Authorization: Bearer $FUNDA_API_KEY" \
+  "https://api.funda.ai/v1/company-details?type=executives&ticker=AAPL"
+
+# Peer companies
+curl -s -H "Authorization: Bearer $FUNDA_API_KEY" \
+  "https://api.funda.ai/v1/company-details?type=peers&ticker=AAPL"
+```
 
 ---
 
@@ -114,11 +175,16 @@ Search by symbol/name/CIK, stock screener, and market directories.
 | `screener` | Screen by fundamentals (marketCapMoreThan, betaMoreThan, volumeMoreThan, sector, industry, country, exchange) |
 | `exchange-variants` | Ticker variants across exchanges |
 | `stock-list` | All available stocks |
+| `financial-statement-symbols` | Symbols with available financial statements |
+| `cik-list` | All company CIK numbers |
+| `symbol-changes` | Recent ticker symbol changes |
 | `etf-list` | All available ETFs |
 | `actively-trading` | Currently trading securities |
+| `earnings-transcript-list` | Tickers with earnings call transcripts |
 | `available-exchanges` | All supported exchanges |
 | `available-sectors` | All sectors |
 | `available-industries` | All industries |
+| `available-countries` | All supported countries |
 
 ### Examples
 
@@ -160,11 +226,15 @@ Analyst estimates, price targets, grades, and valuation models.
 | `grades-consensus` | Consensus grade distribution |
 | `dcf` | Discounted cash flow valuation |
 | `levered-dcf` | Levered DCF valuation |
+| `custom-dcf` | Custom DCF with configurable parameters |
+| `custom-levered-dcf` | Custom levered DCF with configurable parameters |
 | `enterprise-values` | Enterprise value calculations |
 | `ratings-snapshot` | Latest company rating (A-F) |
 | `ratings-historical` | Historical ratings |
 
 Aliases: `price-target` → `price-target-summary`, `rating`/`ratings` → `ratings-snapshot`.
+
+> **Note:** `earnings-surprises` lives at `/v1/bulk?type=earnings-surprises`, not here.
 
 ### Examples
 

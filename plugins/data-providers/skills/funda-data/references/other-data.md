@@ -1,6 +1,6 @@
 # Other Data Reference
 
-News, market performance, funds, ESG, COT, crowdfunding, market hours, bulk data, and companies.
+News, market performance, funds, ESG, COT, crowdfunding, market hours, bulk data, stock news.
 
 ---
 
@@ -108,57 +108,26 @@ Note: `earnings-surprises` is available at `/v1/bulk?type=earnings-surprises`.
 
 ## GET /v1/stock-news
 
-Stock news for given tickers. See full docs at `https://api.funda.ai/docs/stock-news.md`.
+Stock news merged from internal database (moomoo, etc.) and FMP, deduplicated by URL, sorted by published date desc.
+
+| Param | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `ticker` | string | Yes | - | Comma-separated tickers (e.g., `AAPL` or `AAPL,MSFT`) |
+| `date_after` | date | No | - | Start date (YYYY-MM-DD) |
+| `date_before` | date | No | - | End date (YYYY-MM-DD) |
+| `page` | int | No | 0 | Page (0-based) |
+| `limit` | int | No | 20 | Items per page (1-100) |
+
+```bash
+curl -s -H "Authorization: Bearer $FUNDA_API_KEY" \
+  "https://api.funda.ai/v1/stock-news?ticker=AAPL,MSFT&limit=10"
+```
+
+Response fields per item: `tickers`, `published_at`, `source`, `title`, `image`, `text`, `url`.
+
+> For AI-enriched news (summary, sentiment, importance rating, event timelines), see `references/news-enriched.md` (`/v1/news/ticker`, `/v1/news/timeline`, `/v1/news/sentiment`).
 
 ---
 
-## GET /v1/companies
-
-List companies with pagination.
-
-| Param | Type | Default | Description |
-|---|---|---|---|
-| `page` | int | 0 | Page (0-based) |
-| `page_size` | int | 20 | Items per page (max: 500) |
-| `simple` | bool | false | Simplified response |
-
-### GET /v1/companies/{company_id}
-
-Single company by UUID.
-
----
-
-## GET /v1/recruit-job-postings
-
-AI company job postings (OpenAI, Anthropic, etc.).
-
-| Param | Type | Default | Description |
-|---|---|---|---|
-| `page` | int | 0 | Page (0-based) |
-| `page_size` | int | 20 | Items per page |
-
-See full docs at `https://api.funda.ai/docs/recruit-job-postings.md`.
-
----
-
-## GET /v1/recruit-jd-classifications
-
-JD classifications with AI-inferred metadata.
-
-See full docs at `https://api.funda.ai/docs/recruit-jd-classifications.md`.
-
----
-
-## GET /v1/recruit-product-signal-clusters
-
-Product-level hiring signal clusters.
-
-See full docs at `https://api.funda.ai/docs/recruit-product-signal-clusters.md`.
-
----
-
-## GET /v1/recruit-gtm-products
-
-GTM products extracted from Sales JDs.
-
-See full docs at `https://api.funda.ai/docs/recruit-gtm-products.md`.
+> For companies listing (`/v1/companies`), see `references/fundamentals.md`.
+> For AI-company recruit signals (`/v1/recruit-*`), see `references/recruit.md`.
