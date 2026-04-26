@@ -243,6 +243,16 @@ export const skills: Skill[] = [
     tags: ["SaaS", "Valuation", "VC"],
     badge: "new",
   },
+  {
+    name: "company-valuation",
+    title: "Company Valuation",
+    description:
+      "Triangulate intrinsic value via DCF, relative peer multiples, and sum-of-parts — blended implied price, WACC × g sensitivity grid, and Bull/Base/Bear scenarios.",
+    category: "analysis",
+    plugin: "market-analysis",
+    tags: ["DCF", "Valuation", "Peers", "SOTP"],
+    badge: "new",
+  },
 ];
 
 export function getSkill(name: string): Skill | undefined {
