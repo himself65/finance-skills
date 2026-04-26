@@ -49,6 +49,7 @@ Match the user's request to the relevant data sections. If the user asks for a g
 | Diplomatic situation | `diplomacy` | `status`, `headline`, `parties`, `summary` |
 | Global trade impact | `globalTradeImpact` | `percentOfWorldOilAtRisk`, `estimatedDailyCostBillions`, `affectedRegions`, `lngImpact`, `alternativeRoutes`, `supplyChainImpact` |
 | Crisis timeline / events | `crisisTimeline` | `events[]` with `date`, `type`, `title`, `description` |
+| Tanker freight rates / VLCC rates | `tankerRates` | `currentRate`, `preCrisisRate`, `changePercent`, `route`, `vesselType`, `trend`, `unit` |
 | Latest news | `news` | `title`, `source`, `url`, `publishedAt`, `description` |
 
 ---
@@ -69,6 +70,7 @@ When the user asks for a general update, present a concise briefing covering all
 6. **Cargo Throughput** — today's DWT vs. average, percent of normal
 7. **Diplomatic Status** — current status, headline, and brief summary
 8. **Global Trade Impact** — percent of world oil at risk, estimated daily cost, and top affected regions
+9. **Tanker Freight Rates** — current VLCC rate on the benchmark route vs. pre-crisis baseline, with trend direction
 
 ### Formatting guidelines
 
@@ -84,12 +86,15 @@ When the user asks for a general update, present a concise briefing covering all
 
 Based on the data, provide a brief risk assessment:
 
+Values are returned uppercase.
+
 | Insurance Level | Interpretation |
 |---|---|
-| `normal` | No elevated risk — shipping operating normally |
-| `elevated` | Some disruption concerns — monitor closely |
-| `high` | Significant risk — active disruption or credible threat |
-| `critical` | Severe disruption — major impact on global oil supply |
+| `NORMAL` | No elevated risk — shipping operating normally |
+| `ELEVATED` | Some disruption concerns — monitor closely |
+| `HIGH` | Significant risk — active disruption or credible threat |
+| `CRITICAL` | Severe disruption — major impact on global oil supply |
+| `EXTREME` | Effective closure — war risk premiums at multi-decade highs, most commercial traffic halted |
 
 If the strait status is anything other than fully open, highlight:
 - The estimated daily cost to global trade

@@ -24,7 +24,7 @@ Current operational status of the strait.
 
 | Field | Type | Description |
 |---|---|---|
-| `status` | string | Current status (e.g., "OPEN", "RESTRICTED", "CLOSED") |
+| `status` | string | Current status enum (observed: "OPEN", "RESTRICTED", "CLOSED") |
 | `since` | string (ISO date) | Date the current status began |
 | `description` | string | Human-readable status description |
 
@@ -76,7 +76,7 @@ Marine insurance and war risk premium levels.
 
 | Field | Type | Description |
 |---|---|---|
-| `level` | string | Risk level enum (e.g., "normal", "elevated", "high", "critical") |
+| `level` | string | Risk level enum (observed: "NORMAL", "ELEVATED", "HIGH", "CRITICAL", "EXTREME") |
 | `warRiskPercent` | number | Current war risk premium as percentage |
 | `normalPercent` | number | Normal (baseline) insurance rate percentage |
 | `multiplier` | number | Current rate as multiplier of normal rate |
@@ -102,7 +102,7 @@ Current diplomatic situation affecting the strait.
 
 | Field | Type | Description |
 |---|---|---|
-| `status` | string | Diplomatic status enum |
+| `status` | string | Diplomatic status enum (uppercase snake case; e.g., "TALKS_IN_PROGRESS") |
 | `headline` | string | Current diplomatic headline |
 | `date` | string (ISO date) | Date of the latest diplomatic development |
 | `parties` | string[] | Parties involved |
@@ -128,7 +128,7 @@ Estimated impact on global trade if the strait is disrupted.
 | Field | Type | Description |
 |---|---|---|
 | `name` | string | Region name |
-| `severity` | string | Impact severity enum |
+| `severity` | string | Impact severity enum (observed: "MODERATE", "HIGH", "CRITICAL") |
 | `oilDependencyPercent` | number | Region's dependency on strait-transiting oil |
 | `description` | string | Description of impact on this region |
 
@@ -170,9 +170,25 @@ Timeline of events related to the current situation.
 | Field | Type | Description |
 |---|---|---|
 | `date` | string (ISO date) | Event date |
-| `type` | string | Event type enum (e.g., "military", "diplomatic", "economic") |
+| `type` | string | Event type enum (observed: "MILITARY", "DIPLOMATIC", "ESCALATION", "ECONOMIC") |
 | `title` | string | Event title |
 | `description` | string | Event description |
+
+---
+
+## `data.tankerRates`
+
+VLCC tanker freight rate tracker for the Hormuz-adjacent benchmark route.
+
+| Field | Type | Description |
+|---|---|---|
+| `currentRate` | number | Current freight rate on the benchmark route |
+| `preCrisisRate` | number | Pre-crisis baseline rate on the same route |
+| `changePercent` | number | Percentage change vs. the pre-crisis baseline |
+| `route` | string | Benchmark route code (e.g., "AG-East (TD3C)") |
+| `vesselType` | string | Vessel class (e.g., "VLCC") |
+| `trend` | number[] | Recent rate history points (aligned with `unit`) |
+| `unit` | string | Rate unit (e.g., "WS" for Worldscale, "USD/day" for time-charter equivalent) |
 
 ---
 
@@ -192,6 +208,4 @@ Latest news articles related to the strait.
 
 ## `data.lastUpdated`
 
-| Field | Type | Description |
-|---|---|---|
-| `lastUpdated` | string (ISO datetime) | When the dashboard data was last updated |
+String (ISO datetime) — when the dashboard data was last updated. Appears directly on `data`, not as a nested object.
