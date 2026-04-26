@@ -541,6 +541,35 @@ const mockSessions: Record<string, MockSession> = {
     ],
   },
 
+  "opencli-reader": {
+    prompt: "pull Eastmoney hot rank and HackerNews top stories",
+    lines: [
+      gap(),
+      thinking("Reading skill: opencli-reader"),
+      gap(),
+      tool("Bash", "opencli list -f json | grep -E 'eastmoney|hackernews'", 300),
+      out("Discovering available adapters..."),
+      gap(),
+      tool("Bash", "opencli eastmoney hot-rank -f json", 400),
+      out("Fetching Eastmoney hot-rank (PUBLIC strategy)..."),
+      gap(),
+      reply("## Eastmoney — Hot Rank (retail flow)"),
+      reply("  1. 贵州茅台 (SH600519)   +2.4%   ¥1,782"),
+      reply("  2. 比亚迪 (SZ002594)     +3.1%   ¥248"),
+      reply("  3. 宁德时代 (SZ300750)   +1.8%   ¥215"),
+      gap(),
+      tool("Bash", "opencli hackernews top --limit 5 -f json", 300),
+      out("Fetching HN top (PUBLIC strategy)..."),
+      gap(),
+      reply("## HackerNews — Top 5"),
+      reply("  • Show HN: Fast LLM inference on CPU       842 pts"),
+      reply("  • The economics of running a side project  614 pts"),
+      reply("  • Why we switched from Postgres to DuckDB  489 pts"),
+      gap(),
+      ok("Fallback successful — both sources pulled without a dedicated skill"),
+    ],
+  },
+
   "yc-reader": {
     prompt: "show me YC fintech companies that are hiring",
     lines: [

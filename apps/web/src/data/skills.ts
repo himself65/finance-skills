@@ -204,6 +204,16 @@ export const skills: Skill[] = [
     badge: "new",
   },
   {
+    name: "opencli-reader",
+    title: "opencli Reader",
+    description:
+      "Generic read-only fallback for 90+ opencli adapters — Yahoo Finance, Bloomberg, Reuters, Eastmoney, Xueqiu, Reddit, HackerNews, Substack, arXiv, and more.",
+    category: "sentiment",
+    plugin: "social-readers",
+    tags: ["Fallback", "Multi-Source"],
+    badge: "new",
+  },
+  {
     name: "finance-sentiment",
     title: "Finance Sentiment",
     description:
