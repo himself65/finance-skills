@@ -59,12 +59,13 @@ Stock analysis, earnings, estimates, correlations, liquidity, ETFs, options payo
 
 ### Social Readers (`finance-social-readers`)
 
-Read-only social media and research feeds — Twitter/X, Discord, LinkedIn, Telegram, and Y Combinator.
+Read-only social media and research feeds — Twitter/X, Discord, LinkedIn, Telegram, Y Combinator, and a generic opencli fallback for 90+ other sources.
 
 | Skill | Description |
 |---|---|
 | [discord-reader](plugins/social-readers/skills/discord-reader/) | Read-only Discord research via [opencli](https://github.com/jackwener/opencli) |
 | [linkedin-reader](plugins/social-readers/skills/linkedin-reader/) | Read-only LinkedIn feed & job search via [opencli](https://github.com/jackwener/opencli) |
+| [opencli-reader](plugins/social-readers/skills/opencli-reader/) | Generic read-only fallback for 90+ [opencli](https://github.com/jackwener/opencli) adapters — Yahoo Finance, Bloomberg, Reuters, Eastmoney, Xueqiu, Reddit, HackerNews, Substack, arXiv, and more |
 | [telegram-reader](plugins/social-readers/skills/telegram-reader/) | Read-only Telegram channel reader via [tdl](https://github.com/iyear/tdl) |
 | [twitter-reader](plugins/social-readers/skills/twitter-reader/) | Read-only Twitter/X research via [opencli](https://github.com/jackwener/opencli) |
 | [yc-reader](plugins/social-readers/skills/yc-reader/) | Y Combinator company data via [yc-oss/api](https://github.com/yc-oss/api) |
