@@ -9,8 +9,8 @@ description: >
   "implied share price", "upside to fair value", "is X overvalued/undervalued",
   "relative valuation", "peer comparison valuation", "EV/EBITDA target", "SOTP",
   "sum of the parts", "how much is [company] worth", "price target from fundamentals",
-  "value this company", "公司估值", "估值建模", "合理股价", or any ticker in the context
-  of computing intrinsic or relative valuation. Default to running ALL three methods
+  "value this company", or any ticker in the context of computing intrinsic or
+  relative valuation. Default to running ALL three methods
   (DCF + relative + SOTP-if-applicable) and presenting a blended implied price with a
   sensitivity table. Do not answer valuation questions from memory — always run the workflow.
 ---

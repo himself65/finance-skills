@@ -13,7 +13,7 @@ Estimate the intrinsic value of a public company via DCF, relative (peer multipl
 
 ## Triggers
 
-`what is AAPL worth`, `valuation of NVDA`, `fair value of TSLA`, `DCF for MSFT`, `build a DCF`, `intrinsic value`, `implied share price`, `is X overvalued/undervalued`, `relative valuation`, `EV/EBITDA target`, `SOTP`, `sum of the parts`, `price target from fundamentals`, `公司估值`, `估值建模`, `合理股价`
+`what is AAPL worth`, `valuation of NVDA`, `fair value of TSLA`, `DCF for MSFT`, `build a DCF`, `intrinsic value`, `implied share price`, `is X overvalued/undervalued`, `relative valuation`, `EV/EBITDA target`, `SOTP`, `sum of the parts`, `price target from fundamentals`, `value this company`
 
 ## Prerequisites
 
