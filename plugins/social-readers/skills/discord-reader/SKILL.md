@@ -42,7 +42,7 @@ If `SETUP_NEEDED`, guide the user through setup:
 
 ### Setup
 
-opencli connects to Discord Desktop via CDP (Chrome DevTools Protocol). Two things are required:
+opencli requires Node.js >= 21. It connects to Discord Desktop via CDP (Chrome DevTools Protocol) — no Browser Bridge extension is needed for the Discord adapter. Two things are required:
 
 1. **Start Discord with remote debugging enabled:**
 
@@ -126,7 +126,7 @@ opencli discord-app search "BTC pump" -f json
 3. **Navigate in Discord first** — opencli reads from the currently active server/channel in the Discord app
 4. **Start with small reads** — use `opencli discord-app read 20` unless the user asks for more
 5. **Use search for keywords** — `opencli discord-app search` uses Discord's built-in search (Cmd+F / Ctrl+F)
-6. **NEVER execute write operations** — this skill is read-only; do not send messages, react, edit, delete, or manage server settings
+6. **NEVER execute write operations** — this skill is read-only. opencli exposes `discord-app send` and `discord-app delete` commands; do not invoke them. Do not send messages, react, edit, delete, or manage server settings.
 
 ### Output format flag (`-f`)
 
