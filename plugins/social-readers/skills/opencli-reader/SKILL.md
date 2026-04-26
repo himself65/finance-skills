@@ -1,23 +1,19 @@
 ---
 name: opencli-reader
 description: >
-  Generic read-only fallback for fetching data via opencli's 90+ built-in adapters when no
-  dedicated finance-skill covers the source. Use this skill whenever the user wants data
-  from a site that opencli supports but this repo does not have a specialized reader for —
-  e.g., Yahoo Finance, Bloomberg, Reuters, Barchart, Eastmoney, Xueqiu, Sinafinance, TDX,
-  THS, Reddit, HackerNews, Substack, Medium, Weibo, Bilibili, Xiaohongshu, Zhihu, 36kr,
-  Jike, Douban, Bluesky, TikTok, Instagram, Facebook, ProductHunt, arXiv, Google Scholar,
-  Spotify podcasts, YouTube, Apple Podcasts, Xiaoyuzhou, Weixin Official Account,
-  Gov policy/law archives, Amazon, Taobao, JD, and so on.
-  Triggers include: "use opencli to read", "opencli fetch from", "check <site> via opencli",
-  "grab the frontpage from hackernews", "read reddit r/wallstreetbets", "fetch Eastmoney
-  hot stocks", "pull Xueqiu feed", "get Bloomberg markets headlines", "read Reuters",
-  "search arXiv for", "list Substack feed", "fetch Weibo hot", "browse Bilibili hot", any
-  request to read data from a site where a specialized skill doesn't exist but opencli does.
-  This skill is a FALLBACK — prefer the dedicated twitter-reader, linkedin-reader,
-  discord-reader, telegram-reader, or yc-reader skills when the source matches one of them.
-  This skill is READ-ONLY — never invoke write operations (post, like, comment, send,
-  subscribe, save, upvote, follow, block, delete, reply-dm, etc.).
+  Generic read-only fallback for any source opencli covers but this repo has no dedicated
+  reader for — Yahoo Finance, Bloomberg, Reuters, Barchart, Eastmoney, Xueqiu, Sinafinance,
+  TDX, THS, Reddit, HackerNews, Substack, Medium, Weibo, Bilibili, Xiaohongshu, Zhihu, 36kr,
+  Jike, Bluesky, arXiv, Google Scholar, Apple Podcasts, Xiaoyuzhou, Spotify, YouTube,
+  Weixin, gov policy/law, Amazon, Taobao, JD, and others.
+  Triggers: "use opencli to read", "grab the frontpage from hackernews",
+  "read reddit r/wallstreetbets", "fetch Eastmoney hot stocks", "pull Xueqiu feed",
+  "get Bloomberg markets headlines", "search arXiv for", "list Substack feed",
+  "fetch Weibo hot", "browse Bilibili hot", any request to read from a site where a
+  specialized skill does not exist but opencli does.
+  FALLBACK — prefer twitter-reader, linkedin-reader, discord-reader, telegram-reader, or
+  yc-reader when the source matches one of them. READ-ONLY — never invoke write operations
+  (post, like, comment, send, subscribe, save, upvote, follow, block, delete, reply-dm).
 ---
 
 # opencli Reader (Generic Fallback, Read-Only)
