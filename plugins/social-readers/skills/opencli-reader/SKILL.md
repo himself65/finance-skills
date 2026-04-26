@@ -3,17 +3,14 @@ name: opencli-reader
 description: >
   Generic read-only fallback for any source opencli covers but this repo has no dedicated
   reader for — Yahoo Finance, Bloomberg, Reuters, Barchart, Eastmoney, Xueqiu, Sinafinance,
-  TDX, THS, Reddit, HackerNews, Substack, Medium, Weibo, Bilibili, Xiaohongshu, Zhihu, 36kr,
-  Jike, Bluesky, arXiv, Google Scholar, Apple Podcasts, Xiaoyuzhou, Spotify, YouTube,
-  Weixin, gov policy/law, Amazon, Taobao, JD, and others.
+  Reddit, HackerNews, Substack, Medium, Weibo, Bilibili, Xiaohongshu, Zhihu, arXiv,
+  Google Scholar, Apple Podcasts, Xiaoyuzhou, Spotify, YouTube, Weixin, Amazon, and more.
   Triggers: "use opencli to read", "grab the frontpage from hackernews",
   "read reddit r/wallstreetbets", "fetch Eastmoney hot stocks", "pull Xueqiu feed",
-  "get Bloomberg markets headlines", "search arXiv for", "list Substack feed",
-  "fetch Weibo hot", "browse Bilibili hot", any request to read from a site where a
-  specialized skill does not exist but opencli does.
+  "get Bloomberg markets headlines", "search arXiv for", any request to read from a site
+  where a specialized skill does not exist but opencli does.
   FALLBACK — prefer twitter-reader, linkedin-reader, discord-reader, telegram-reader, or
-  yc-reader when the source matches one of them. READ-ONLY — never invoke write operations
-  (post, like, comment, send, subscribe, save, upvote, follow, block, delete, reply-dm).
+  yc-reader when the source matches. READ-ONLY — never invoke write operations.
 ---
 
 # opencli Reader (Generic Fallback, Read-Only)
