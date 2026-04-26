@@ -13,8 +13,14 @@ Install: `npm install -g @jackwener/opencli`
 opencli authenticates via your existing Chrome browser session — no API keys or credentials needed.
 
 **Requirements:**
-1. Chrome with the Browser Bridge extension installed
-2. Logged into linkedin.com in Chrome
+1. Node.js >= 21 (or Bun >= 1.0)
+2. Chrome with the Browser Bridge extension installed
+3. Logged into linkedin.com in Chrome
+
+**Install the Browser Bridge extension:**
+1. Download `opencli-extension-v{version}.zip` from the [GitHub Releases page](https://github.com/jackwener/opencli/releases)
+2. Unzip it, open `chrome://extensions`, enable **Developer mode**
+3. Click **Load unpacked** and select the unzipped folder
 
 **Verify setup:**
 ```bash
@@ -78,15 +84,15 @@ opencli linkedin search "investment banking" \
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--location` | string | — | Geographic area (e.g., "San Francisco Bay Area") |
+| `--location` | string | — | Location text (e.g., "San Francisco Bay Area") |
 | `--limit` | integer | 10 | Number of results (max 100) |
 | `--start` | integer | 0 | Pagination offset |
-| `--details` | boolean | false | Include full job descriptions and apply URLs |
-| `--company` | string | — | Comma-separated company names or LinkedIn IDs |
-| `--experience-level` | string | — | `internship`, `entry`, `associate`, `mid-senior`, `director`, `executive` |
-| `--job-type` | string | — | `full-time`, `part-time`, `contract`, `temporary`, `volunteer`, `internship`, `other` |
-| `--date-posted` | string | — | `any`, `month`, `week`, `24h` |
-| `--remote` | string | — | `on-site`, `hybrid`, `remote` |
+| `--details` | boolean | false | Include full job descriptions and apply URLs (slower — fetches each listing) |
+| `--company` | string | — | Comma-separated company names or LinkedIn company IDs |
+| `--experience-level` | string | — | Comma-separated: `internship`, `entry`, `associate`, `mid-senior`, `director`, `executive` |
+| `--job-type` | string | — | Comma-separated: `full-time`, `part-time`, `contract`, `temporary`, `volunteer`, `internship`, `other` |
+| `--date-posted` | string | — | One of: `any`, `month`, `week`, `24h` |
+| `--remote` | string | — | Comma-separated: `on-site`, `hybrid`, `remote` |
 
 **Output columns:** `rank`, `title`, `company`, `location`, `listed`, `salary`, `url`
 

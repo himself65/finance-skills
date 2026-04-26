@@ -41,8 +41,8 @@ See the [main README](../../../../README.md) for more installation options.
 
 ## Prerequisites
 
-- Node.js 20+ (for `npm install -g @jackwener/opencli`)
-- Chrome with the Browser Bridge extension installed
+- Node.js >= 21 (for `npm install -g @jackwener/opencli`)
+- Chrome with the [Browser Bridge extension](https://github.com/jackwener/opencli/releases) installed (load unpacked from `chrome://extensions` in Developer mode)
 - Logged into linkedin.com in Chrome
 
 ## Reference files

@@ -13,8 +13,14 @@ Install: `npm install -g @jackwener/opencli`
 opencli authenticates via your existing Chrome browser session — no API keys or credentials needed.
 
 **Requirements:**
-1. Chrome with the Browser Bridge extension installed
-2. Logged into x.com in Chrome
+1. Node.js >= 21 (or Bun >= 1.0)
+2. Chrome with the Browser Bridge extension installed
+3. Logged into x.com in Chrome
+
+**Install the Browser Bridge extension:**
+1. Download `opencli-extension-v{version}.zip` from the [GitHub Releases page](https://github.com/jackwener/opencli/releases)
+2. Unzip it, open `chrome://extensions`, enable **Developer mode**
+3. Click **Load unpacked** and select the unzipped folder
 
 **Verify setup:**
 ```bash
@@ -30,17 +36,20 @@ This auto-starts the daemon, verifies extension connectivity, and checks browser
 ### Timeline (Home Feed)
 
 ```bash
-opencli twitter timeline                          # "For You" feed (default)
-opencli twitter timeline --type following          # "Following" tab
+opencli twitter timeline                          # "For You" feed (default, limit 20)
+opencli twitter timeline --type following         # "Following" tab (chronological)
+opencli twitter timeline --type for-you           # "For You" tab (algorithmic, explicit)
 opencli twitter timeline --limit 50               # Limit count
 opencli twitter timeline -f json                  # JSON output
 opencli twitter timeline -f yaml                  # YAML output
 ```
 
+**Flags:** `--type` (`for-you` | `following`, default `for-you`), `--limit` (default 20).
+
 ### Search
 
 ```bash
-opencli twitter search "keyword"                  # Basic search (top results)
+opencli twitter search "keyword"                  # Basic search (top results, limit 15)
 opencli twitter search "AI agent" --filter live --limit 50    # Latest tweets
 opencli twitter search "topic" -f json            # JSON output
 opencli twitter search "topic" -f csv             # CSV output
@@ -50,6 +59,8 @@ opencli twitter search "$AAPL earnings" --filter live --limit 20 -f json
 opencli twitter search "Fed rate decision" --limit 20 -f yaml
 opencli twitter search "market crash" --filter live --limit 15 -f json
 ```
+
+**Flags:** `--filter` (`top` | `live`, default `top`), `--limit` (default 15).
 
 ### Trending Topics
 
@@ -70,7 +81,8 @@ opencli twitter bookmarks -f json                 # JSON output
 ### Thread / Tweet Detail
 
 ```bash
-opencli twitter thread TWEET_ID                   # View tweet thread
+opencli twitter thread TWEET_ID                   # View tweet thread (default limit 50)
+opencli twitter thread TWEET_ID --limit 20        # Limit replies
 opencli twitter thread TWEET_ID -f json           # JSON output
 ```
 
@@ -84,13 +96,25 @@ opencli twitter article TWEET_ID -f json          # JSON output
 ### User Data
 
 ```bash
-opencli twitter profile elonmusk                  # User profile (defaults to logged-in user)
+opencli twitter profile                           # Defaults to logged-in user
+opencli twitter profile elonmusk                  # Look up a specific user
 opencli twitter profile elonmusk -f json          # JSON output
-opencli twitter followers elonmusk                # List followers
-opencli twitter followers elonmusk --limit 50     # Limit count
-opencli twitter following elonmusk                # List following
-opencli twitter following elonmusk --limit 50     # Limit count
+opencli twitter followers elonmusk                # List followers (default limit 50)
+opencli twitter followers elonmusk --limit 100    # Custom limit
+opencli twitter following elonmusk                # List following (default limit 50)
 ```
+
+### Recent Tweets from a User
+
+Fetches a user's most recent posts (chronological, excludes pinned). Added in opencli 1.7.6.
+
+```bash
+opencli twitter tweets elonmusk                   # Most recent tweets (default limit 20)
+opencli twitter tweets elonmusk --limit 50        # More tweets
+opencli twitter tweets jimcramer -f json          # JSON output
+```
+
+**Columns:** `author`, `created_at`, `is_retweet`, `text`, `likes`, `retweets`, `replies`, `views`, `url`, `has_media`, `media_urls`.
 
 ### Notifications
 
@@ -117,11 +141,15 @@ All commands support the `-f` / `--format` flag:
 
 | Command | Columns |
 |---|---|
-| `timeline`, `search`, `bookmarks` | `id`, `author`, `text`, `created_at`, `likes`, `views`, `url` |
-| `trending` | `rank`, `topic`, `tweet_count` |
-| `profile` | `username`, `name`, `bio`, `followers_count`, `following_count`, `tweet_count` |
-| `followers`, `following` | `username`, `name`, `bio`, `followers_count` |
-| `notifications` | varies by notification type |
+| `timeline`, `search`, `thread` | `id`, `author`, `text`, `likes`, `retweets`, `replies`, `views`, `created_at`, `url`, `has_media`, `media_urls` |
+| `tweets` | `author`, `created_at`, `is_retweet`, `text`, `likes`, `retweets`, `replies`, `views`, `url`, `has_media`, `media_urls` |
+| `bookmarks` | `author`, `text`, `likes`, `retweets`, `bookmarks`, `url` |
+| `trending` | `rank`, `topic`, `tweets`, `category` |
+| `profile` | `screen_name`, `name`, `bio`, `location`, `url`, `followers`, `following`, `tweets`, `likes`, `verified`, `created_at` |
+| `followers`, `following` | `screen_name`, `name`, `bio`, `followers` |
+| `notifications` | `id`, `action`, `author`, `text`, `url` |
+
+**Note:** The `has_media` and `media_urls` columns were added in opencli 1.7.7.
 
 ---
 
@@ -149,6 +177,10 @@ opencli twitter trending --limit 20 -f json
 
 # Search for specific analyst takes
 opencli twitter search "price target AAPL" --filter live --limit 15 -f json
+
+# Read recent tweets from a specific analyst or fintwit account
+opencli twitter tweets jimcramer --limit 30 -f json
+opencli twitter tweets elerianm --limit 20 -f json
 ```
 
 ### Macro / Fed watching

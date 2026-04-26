@@ -44,9 +44,11 @@ See the [main README](../../../../README.md) for more installation options.
 
 ## Prerequisites
 
-- Node.js 20+ (for `npm install -g @jackwener/opencli`)
+- Node.js >= 21 (for `npm install -g @jackwener/opencli`)
 - Discord Desktop running with `--remote-debugging-port=9232`
 - Environment variable: `export OPENCLI_CDP_ENDPOINT="http://127.0.0.1:9232"`
+
+The Browser Bridge extension is **not** required for the Discord adapter — it only uses CDP.
 
 ## Reference files
 
