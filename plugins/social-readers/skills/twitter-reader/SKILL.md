@@ -6,8 +6,8 @@ description: >
   view bookmarks, look up user profiles, or gather market sentiment from Twitter/X.
   Triggers include: "check my feed", "search Twitter for", "show my bookmarks",
   "who follows", "look up @user", "what's trending about", "market sentiment on Twitter",
-  "what are people saying about AAPL", "fintwit", any mention of Twitter/X in context
-  of reading financial news or market research.
+  "what are people saying about AAPL", "recent tweets from @elonmusk", "show me @user's posts",
+  "fintwit", any mention of Twitter/X in context of reading financial news or market research.
   This skill is READ-ONLY — it does NOT support posting, liking, retweeting, or any write operations.
 ---
 
@@ -40,9 +40,12 @@ If `SETUP_NEEDED`, guide the user through setup:
 
 ### Setup
 
-opencli requires a Chrome browser with the Browser Bridge extension:
+opencli requires Node.js >= 21 and a Chrome browser with the Browser Bridge extension:
 
-1. **Install the Browser Bridge extension** — follow the instructions from `opencli doctor` output
+1. **Install the Browser Bridge extension:**
+   - Download the latest `opencli-extension-v{version}.zip` from the [GitHub Releases page](https://github.com/jackwener/opencli/releases)
+   - Unzip it, open `chrome://extensions` in Chrome, and enable **Developer mode**
+   - Click **Load unpacked** and select the unzipped folder
 2. **Login to x.com** in Chrome — opencli reuses your existing browser session
 3. **Verify connectivity:**
 
@@ -70,16 +73,17 @@ Match the user's request to one of the read commands below, then use the corresp
 | User Request | Command | Key Flags |
 |---|---|---|
 | Setup check | `opencli doctor` | — |
-| Home feed / timeline | `opencli twitter timeline` | `--type following`, `--limit N` |
-| Search tweets | `opencli twitter search "QUERY"` | `--filter top\|live`, `--limit N` |
-| Trending topics | `opencli twitter trending` | `--limit N` |
-| Bookmarks | `opencli twitter bookmarks` | `--limit N` |
-| View a specific thread | `opencli twitter thread TWEET_ID` | — |
+| Home feed / timeline | `opencli twitter timeline` | `--type for-you\|following`, `--limit N` (default 20) |
+| Search tweets | `opencli twitter search "QUERY"` | `--filter top\|live`, `--limit N` (default 15) |
+| Trending topics | `opencli twitter trending` | `--limit N` (default 20) |
+| Bookmarks | `opencli twitter bookmarks` | `--limit N` (default 20) |
+| Recent tweets from a user | `opencli twitter tweets USERNAME` | `--limit N` (default 20) |
+| View a specific thread | `opencli twitter thread TWEET_ID` | `--limit N` (default 50) |
 | Twitter article | `opencli twitter article TWEET_ID` | — |
-| User profile | `opencli twitter profile USERNAME` | — |
-| Followers | `opencli twitter followers USERNAME` | `--limit N` |
-| Following | `opencli twitter following USERNAME` | `--limit N` |
-| Notifications | `opencli twitter notifications` | `--limit N` |
+| User profile | `opencli twitter profile USERNAME` | — (defaults to logged-in user) |
+| Followers | `opencli twitter followers USERNAME` | `--limit N` (default 50) |
+| Following | `opencli twitter following USERNAME` | `--limit N` (default 50) |
+| Notifications | `opencli twitter notifications` | `--limit N` (default 20) |
 
 ---
 
@@ -91,6 +95,9 @@ Match the user's request to one of the read commands below, then use the corresp
 # Use -f json or -f yaml for structured output
 opencli twitter timeline -f json --limit 20
 opencli twitter timeline --type following --limit 20
+
+# Recent tweets from a specific user
+opencli twitter tweets elonmusk --limit 20 -f json
 
 # Searching for financial topics
 opencli twitter search "$AAPL earnings" --filter live --limit 10 -f json
@@ -121,9 +128,19 @@ opencli twitter trending --limit 20 -f json
 
 ### Output columns
 
-Commands that return tweets typically include: `id`, `author`, `text`, `created_at`, `likes`, `views`, `url`.
+Tweet-listing commands (`timeline`, `search`, `thread`) include: `id`, `author`, `text`, `created_at`, `likes`, `retweets`, `replies`, `views`, `url`, `has_media`, `media_urls` (added in opencli 1.7.7).
 
-Profile commands include: `username`, `name`, `bio`, `followers_count`, `following_count`.
+`tweets` (per-user posts) also includes `is_retweet`.
+
+`bookmarks` columns: `author`, `text`, `likes`, `retweets`, `bookmarks`, `url`.
+
+`trending` columns: `rank`, `topic`, `tweets`, `category`.
+
+Profile (`profile`) columns: `screen_name`, `name`, `bio`, `location`, `url`, `followers`, `following`, `tweets`, `likes`, `verified`, `created_at`.
+
+`followers` / `following` columns: `screen_name`, `name`, `bio`, `followers`.
+
+`notifications` columns: `id`, `action`, `author`, `text`, `url`.
 
 ---
 

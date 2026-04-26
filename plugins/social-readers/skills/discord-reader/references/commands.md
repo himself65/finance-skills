@@ -10,11 +10,12 @@ Install: `npm install -g @jackwener/opencli`
 
 ## Setup
 
-opencli connects to Discord Desktop via Chrome DevTools Protocol (CDP) — no bot account or token extraction needed.
+opencli connects to Discord Desktop via Chrome DevTools Protocol (CDP) — no bot account, token extraction, or Browser Bridge extension needed.
 
 **Requirements:**
-1. Discord Desktop running with `--remote-debugging-port=9232`
-2. `OPENCLI_CDP_ENDPOINT` environment variable set
+1. Node.js >= 21 (or Bun >= 1.0)
+2. Discord Desktop running with `--remote-debugging-port=9232`
+3. `OPENCLI_CDP_ENDPOINT` environment variable set
 
 **Start Discord with CDP:**
 ```bash
@@ -112,11 +113,12 @@ All commands support the `-f` / `--format` flag:
 
 | Command | Columns |
 |---|---|
-| `channels` | Index, Channel name, Type (Text/Voice/Forum/Announcement/Stage) |
-| `servers` | Index, Server name |
-| `read` | Author, Time, Message |
-| `search` | Index, Author, Message |
-| `members` | Index, Member name, Status |
+| `status` | `Status`, `Url`, `Title` |
+| `servers` | `Index`, `Server` |
+| `channels` | `Index`, `Channel`, `Type` (Text/Voice/Forum/Announcement/Stage) |
+| `members` | `Index`, `Name`, `Status` |
+| `read` | `Author`, `Time`, `Message` |
+| `search` | `Index`, `Author`, `Message` |
 
 ---
 
@@ -185,7 +187,7 @@ opencli discord-app read 100 -f json > messages.json
 
 ## Limitations
 
-- **Read-only in this skill** — write operations are not supported for finance use
+- **Read-only in this skill** — opencli itself exposes `discord-app send` and `discord-app delete` commands, but this skill forbids them
 - **Active channel only** — reads from the currently viewed channel in Discord; navigate in the app to switch
 - **No DMs** — direct messages are not supported
 - **No voice channels** — voice/audio not accessible

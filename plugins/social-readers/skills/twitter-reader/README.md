@@ -10,8 +10,10 @@ Reads Twitter/X for financial research — searching market discussions, reading
 - **Search** — find tweets by keyword with relevance or recency filters
 - **Trending** — view trending topics for market themes
 - **Bookmarks** — view your saved tweets
+- **User tweets** — fetch a user's recent posts (chronological)
 - **User profiles** — look up users, their followers, and following
 - **Tweet threads & articles** — view specific threads and long-form articles
+- **Notifications** — read your Twitter notifications
 
 **This skill is read-only.** It does NOT support posting, liking, retweeting, replying, or any write operations.
 
@@ -44,8 +46,8 @@ See the [main README](../../../../README.md) for more installation options.
 
 ## Prerequisites
 
-- Node.js 20+ (for `npm install -g @jackwener/opencli`)
-- Chrome with the Browser Bridge extension installed
+- Node.js >= 21 (for `npm install -g @jackwener/opencli`)
+- Chrome with the [Browser Bridge extension](https://github.com/jackwener/opencli/releases) installed (load unpacked from `chrome://extensions` in Developer mode)
 - Logged into x.com in Chrome
 
 ## Reference files

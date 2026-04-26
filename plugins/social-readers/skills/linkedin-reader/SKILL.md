@@ -42,9 +42,12 @@ If `SETUP_NEEDED`, guide the user through setup:
 
 ### Setup
 
-opencli requires a Chrome browser with the Browser Bridge extension:
+opencli requires Node.js >= 21 and a Chrome browser with the Browser Bridge extension:
 
-1. **Install the Browser Bridge extension** — follow the instructions from `opencli doctor` output
+1. **Install the Browser Bridge extension:**
+   - Download the latest `opencli-extension-v{version}.zip` from the [GitHub Releases page](https://github.com/jackwener/opencli/releases)
+   - Unzip it, open `chrome://extensions` in Chrome, and enable **Developer mode**
+   - Click **Load unpacked** and select the unzipped folder
 2. **Login to linkedin.com** in Chrome — opencli reuses your existing browser session
 3. **Verify connectivity:**
 
@@ -72,9 +75,9 @@ Match the user's request to one of the read commands below, then use the corresp
 | User Request | Command | Key Flags |
 |---|---|---|
 | Setup check | `opencli doctor` | — |
-| Home feed / posts | `opencli linkedin timeline` | `--limit N` |
-| Search for jobs | `opencli linkedin search "QUERY"` | `--location`, `--limit N`, `--details` |
-| Finance job search | `opencli linkedin search "QUERY"` | `--experience-level`, `--job-type`, `--remote` |
+| Home feed / posts | `opencli linkedin timeline` | `--limit N` (default 20, max 100) |
+| Search for jobs | `opencli linkedin search "QUERY"` | `--location`, `--limit N` (default 10, max 100), `--details` |
+| Finance job search | `opencli linkedin search "QUERY"` | `--experience-level`, `--job-type`, `--remote`, `--company`, `--date-posted`, `--start` |
 
 ---
 
