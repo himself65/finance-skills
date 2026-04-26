@@ -46,6 +46,7 @@ Stock analysis, earnings, estimates, correlations, liquidity, ETFs, options payo
 
 | Skill | Description |
 |---|---|
+| [company-valuation](plugins/market-analysis/skills/company-valuation/) | DCF + relative + SOTP triangulation — implied share price, WACC × g sensitivity, Bull/Base/Bear scenarios |
 | [earnings-preview](plugins/market-analysis/skills/earnings-preview/) | Pre-earnings briefing — consensus estimates, beat/miss history, analyst sentiment |
 | [earnings-recap](plugins/market-analysis/skills/earnings-recap/) | Post-earnings analysis — actual vs estimated EPS, price reaction, margin trends |
 | [estimate-analysis](plugins/market-analysis/skills/estimate-analysis/) | Analyst estimate deep-dive — revision trends, growth projections, historical accuracy |
