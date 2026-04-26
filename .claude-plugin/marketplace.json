@@ -17,7 +17,7 @@
     {
       "name": "finance-social-readers",
       "source": "./plugins/social-readers",
-      "description": "Read-only social media and research feeds — Twitter/X, Discord, LinkedIn, Telegram, and Y Combinator.",
+      "description": "Read-only social media and research feeds — Twitter/X, Discord, LinkedIn, Telegram, Y Combinator, plus a generic opencli fallback covering 90+ finance/research sources.",
       "version": "5.2.0"
     },
     {

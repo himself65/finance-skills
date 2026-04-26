@@ -1,6 +1,6 @@
 {
   "name": "finance-social-readers",
-  "description": "Read-only social media and research feeds — Twitter/X, Discord, LinkedIn, Telegram, and Y Combinator.",
+  "description": "Read-only social media and research feeds — Twitter/X, Discord, LinkedIn, Telegram, Y Combinator, plus a generic opencli fallback covering 90+ finance/research sources (Yahoo Finance, Bloomberg, Reuters, Eastmoney, Xueqiu, Reddit, HackerNews, Substack, arXiv, etc.).",
   "version": "5.2.0",
   "author": {
     "name": "himself65"
@@ -16,6 +16,14 @@
     "telegram",
     "social-media",
     "research",
-    "yc"
+    "yc",
+    "opencli",
+    "yahoo-finance",
+    "bloomberg",
+    "reuters",
+    "eastmoney",
+    "xueqiu",
+    "reddit",
+    "hackernews"
   ]
 }
