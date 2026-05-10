@@ -13,6 +13,7 @@ const pluginOrder: PluginGroup[] = [
   "data-providers",
   "startup-tools",
   "ui-tools",
+  "skill-creator",
 ];
 
 type PluginFilter = "all" | PluginGroup;

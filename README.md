@@ -5,7 +5,7 @@
 
 A collection of agent skills for financial analysis and trading, following the [Agent Skills](https://agentskills.io) open standard.
 
-**Visit [finance-skills.himself65.com](https://finance-skills.himself65.com/) for documentation, demos, and setup instructions.**
+**Visit [skills.himself65.com](https://skills.himself65.com/) for documentation, demos, and setup instructions.**
 
 ## Quick Start
 

@@ -11,7 +11,8 @@ export type PluginGroup =
   | "social-readers"
   | "data-providers"
   | "startup-tools"
-  | "ui-tools";
+  | "ui-tools"
+  | "skill-creator";
 
 export type SkillBadge = "new" | "paid";
 
@@ -41,6 +42,7 @@ export const pluginGroupLabels: Record<PluginGroup, string> = {
   "data-providers": "Data Providers",
   "startup-tools": "Startup Tools",
   "ui-tools": "UI Tools",
+  "skill-creator": "Skill Creator",
 };
 
 export const skills: Skill[] = [
@@ -248,6 +250,26 @@ export const skills: Skill[] = [
     category: "analysis",
     plugin: "market-analysis",
     tags: ["DCF", "Valuation", "Peers", "SOTP"],
+    badge: "new",
+  },
+  {
+    name: "tradingview-reader",
+    title: "TradingView Reader",
+    description:
+      "Read-only TradingView desktop reader — quotes, full options chains with greeks/IV, expiries, screener results, news, alerts, watchlists, chart state, and screenshots via opencli + CDP.",
+    category: "data",
+    plugin: "data-providers",
+    tags: ["Desktop", "Options", "Screener"],
+    badge: "new",
+  },
+  {
+    name: "skill-creator",
+    title: "Skill Creator",
+    description:
+      "Create new skills, evaluate existing ones against a 10-dimension rubric, and benchmark skill performance with variance analysis.",
+    category: "analysis",
+    plugin: "skill-creator",
+    tags: ["Authoring", "Evals", "Quality"],
     badge: "new",
   },
 ];
