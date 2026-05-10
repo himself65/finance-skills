@@ -1,0 +1,10 @@
+{
+  "name": "finance-skills-opencli-plugins",
+  "description": "opencli plugins shipped alongside the finance-skills repo. Currently: tradingview (read-only TradingView desktop adapter).",
+  "version": "0.1.0",
+  "plugins": {
+    "tradingview": {
+      "path": "opencli-plugins/tradingview"
+    }
+  }
+}

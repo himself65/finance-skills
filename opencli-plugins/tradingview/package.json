@@ -1,0 +1,25 @@
+{
+  "name": "@himself65/opencli-plugin-tradingview",
+  "version": "0.1.0",
+  "description": "Read-only opencli adapter for the TradingView desktop macOS app — quotes, options chains with greeks/IV, expiries, screener (stocks/crypto/forex/futures/bonds), news, alerts, watchlists, search, chart state, screenshots — via CDP.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "peerDependencies": {
+    "@jackwener/opencli": ">=1.7.0"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "himself65"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/himself65/finance-skills.git",
+    "directory": "opencli-plugins/tradingview"
+  }
+}

@@ -13,6 +13,9 @@
     "api",
     "geopolitical",
     "oil",
-    "data-provider"
+    "data-provider",
+    "tradingview",
+    "options",
+    "opencli"
   ]
 }

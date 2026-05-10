@@ -8,7 +8,12 @@ A collection of agent skills for financial analysis and trading, following the [
 
 ## Repository structure
 
-This repo is both a Claude Code plugin marketplace and an Agent Skills repository. Skills are organized into plugin groups by usage.
+This repo is three things at once:
+1. A **Claude Code plugin marketplace** (`.claude-plugin/marketplace.json` + `plugins/`)
+2. An **Agent Skills** repository (the `SKILL.md` files inside `plugins/<group>/skills/`)
+3. An **opencli plugin monorepo** (`opencli-plugin.json` at root + `opencli-plugins/`) — Node code for adapters that some skills depend on
+
+Skills are organized into plugin groups by usage; opencli plugins are separate Node packages.
 
 ```
 .claude-plugin/
@@ -35,6 +40,14 @@ plugins/
   skill-creator/          # Skill authoring, evaluation, and improvement
     plugin.json
     skills/...
+opencli-plugin.json       # Top-level opencli MONOREPO manifest — declares sub-plugins
+opencli-plugins/          # Source for opencli adapters (Node code, has tests)
+  tradingview/            # TradingView desktop reader (drives the tradingview-reader skill)
+    opencli-plugin.json   # Per-plugin manifest
+    package.json          # Node package (type: module)
+    *.js                  # one file per command (registers via cli({...}))
+    lib/                  # shared helpers
+    tests/                # node:test units
 workspaces/               # Development workspaces (not distributed)
 .agents/                  # Auto-generated mirror for agent distribution (do not edit directly)
 .github/workflows/
@@ -137,9 +150,41 @@ When a skill is invoked as a plugin, it is namespaced as `<plugin-name>:<skill-n
 ## CI/CD
 
 - **Release workflow** (`.github/workflows/release-skills.yml`): On tag push (`v*`), zips each skill from `plugins/*/skills/*/` and publishes them as a GitHub release. These zips can be uploaded to Claude.ai for web/desktop users.
-- **Lint workflow** (`.github/workflows/skill-lint.yml`): Lints all `SKILL.md` files across all plugin groups.
+- **Lint workflow** (`.github/workflows/skill-lint.yml`): Lints all `SKILL.md` files across all plugin groups. The linter caps `description` at 1024 chars and rejects angle brackets (`<` / `>`).
+- **opencli plugin tests** (`.github/workflows/opencli-plugin-test.yml`): Walks `opencli-plugins/*/` and runs `npm test` for each plugin that has a `package.json` and `tests/*.test.js`. Pure-JS unit tests only — wire-level integration (CDP attach, scanner endpoints) is out of scope and must be PoC-verified against a real desktop app.
+
+## opencli plugins
+
+Some skills (currently `tradingview-reader`) require a custom opencli adapter that is **not** part of opencli's built-in registry. Those adapters live under `opencli-plugins/` as a Node monorepo, declared by the top-level `opencli-plugin.json`.
+
+### Layout
+
+- `opencli-plugin.json` (repo root) — opencli's monorepo manifest. Maps each sub-plugin name to its directory.
+- `opencli-plugins/<name>/` — one directory per adapter. Each contains:
+  - `opencli-plugin.json` — per-plugin manifest (name, version, opencli compatibility range)
+  - `package.json` — Node package, `"type": "module"`, peer dep on `@jackwener/opencli`
+  - `<command>.js` files at the top level — each registers itself via `cli({ site, name, ... })` from `@jackwener/opencli/registry`
+  - `lib/` — shared helpers (decoders, parsers)
+  - `tests/` — `node:test` units; run with `npm test` from inside the plugin directory
+
+### Install path for users
+
+```bash
+opencli plugin install github:himself65/finance-skills/<sub-plugin-name>
+```
+
+The third path segment selects the sub-plugin. A bare `github:himself65/finance-skills` install would pick up every enabled sub-plugin from the monorepo.
+
+### Authoring a new opencli plugin
+
+1. Create `opencli-plugins/<name>/` with `opencli-plugin.json`, `package.json`, and at least one command file.
+2. Each command file imports `cli, Strategy` from `@jackwener/opencli/registry` and calls `cli({...})` at module top level.
+3. For desktop-app adapters (CDP attach), use `Strategy.UI` + `browser: true` + `domain: '<host>'`. For pure HTTP, use `Strategy.PUBLIC` + `browser: false`.
+4. Add the new sub-plugin to the top-level `opencli-plugin.json` `plugins` map.
+5. Tests for pure helpers belong in `tests/` and should pass with `npm test`.
+6. The skill that drives the plugin lives under `plugins/<group>/skills/<name>/` and must reference the install command exactly as shown above.
 
 ## Important constraints
 
 - **No trade execution.** All brokerage-related skills must be read-only. Never allow AI to execute trades.
-- This is a documentation/reference repository — no build system, no tests. Quality comes from clear, accurate skill instructions.
+- This is primarily a documentation/reference repository — most of the codebase is `SKILL.md` files with no build step. The exception is `opencli-plugins/`, which is real Node code with tests; quality there comes from passing tests and PoC verification, not just clear instructions.

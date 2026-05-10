@@ -1,0 +1,48 @@
+name: opencli-plugin-test
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run unit tests for every plugin under opencli-plugins/
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+
+          plugins=(opencli-plugins/*/)
+          if [ ${#plugins[@]} -eq 0 ]; then
+            echo "No opencli plugins found"
+            exit 0
+          fi
+
+          any_tested=0
+          for dir in "${plugins[@]}"; do
+            name="${dir#opencli-plugins/}"
+            name="${name%/}"
+
+            if [ ! -f "${dir}package.json" ]; then
+              echo "::notice::Skipping ${name} — no package.json"
+              continue
+            fi
+            if ! compgen -G "${dir}tests/*.test.js" >/dev/null; then
+              echo "::notice::Skipping ${name} — no tests/*.test.js"
+              continue
+            fi
+
+            echo "::group::Testing ${name}"
+            (cd "$dir" && npm test)
+            echo "::endgroup::"
+            any_tested=1
+          done
+
+          if [ $any_tested -eq 0 ]; then
+            echo "::warning::No plugin had a runnable test suite"
+          fi

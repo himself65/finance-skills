@@ -1,0 +1,6 @@
+{
+  "name": "tradingview",
+  "description": "Read-only adapter for the TradingView desktop macOS app. Spot quotes, options chains, expiries, chart state, and screenshots via CDP attach.",
+  "version": "0.1.0",
+  "opencli": ">=1.7.0"
+}
