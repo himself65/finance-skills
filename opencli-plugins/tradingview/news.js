@@ -44,7 +44,7 @@ cli({
     { name: 'limit', type: 'int', default: 25, help: 'Max headlines (default 25)' },
   ],
   columns: ['id', 'published', 'provider', 'title', 'urgency', 'related_symbols', 'link'],
-  func: async (_page, args) => {
+  func: async (args) => {
     if (args.id) {
       return [await fetchStoryRow(args)];
     }

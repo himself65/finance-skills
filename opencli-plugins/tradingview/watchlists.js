@@ -32,7 +32,7 @@ cli({
     },
   ],
   columns: ['id', 'name', 'symbol_count', 'symbols'],
-  func: async (_page, args) => {
+  func: async (args) => {
     if (args.id && args.color) {
       throw new Error('--id and --color are mutually exclusive');
     }

@@ -20,7 +20,7 @@ cli({
     { name: 'output', help: 'Output PNG path (default: ~/tradingview-<timestamp>.png)' },
   ],
   columns: ['path', 'bytes', 'tab_id'],
-  func: async (_page, args) => {
+  func: async (args) => {
     const tab = await pickTab(args.tab);
     const outPath = resolveOutputPath(args.output);
     const png = await screenshotTab(tab);

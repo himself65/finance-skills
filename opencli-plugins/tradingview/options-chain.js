@@ -46,7 +46,7 @@ cli({
     'expiry', 'dte', 'strike', 'type', 'bid', 'ask', 'mid', 'iv',
     'delta', 'gamma', 'theta', 'vega', 'rho', 'theo', 'bid_iv', 'ask_iv', 'symbol',
   ],
-  func: async (_page, args) => {
+  func: async (args) => {
     const ticker = String(args.ticker).toUpperCase().trim();
     const exchange = String(args.exchange).toUpperCase().trim();
     const wantExpiry = args.expiry ? String(args.expiry) : null;

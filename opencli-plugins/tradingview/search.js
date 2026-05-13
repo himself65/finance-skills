@@ -35,7 +35,7 @@ cli({
     { name: 'offset', type: 'int', default: 0, help: 'Pagination start' },
   ],
   columns: ['symbol', 'description', 'type', 'exchange', 'country', 'currency'],
-  func: async (_page, args) => {
+  func: async (args) => {
     const params = new URLSearchParams();
     params.set('text', String(args.query));
     params.set('hl', '1');
