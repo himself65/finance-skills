@@ -19,7 +19,7 @@ cli({
     { name: 'tab', help: 'Tab id (from `opencli tradingview status`). Default: first chart tab.' },
   ],
   columns: ['layout_id', 'symbol', 'interval', 'url', 'tab_id'],
-  func: async (_page, args) => {
+  func: async (args) => {
     const tab = await pickTab(args.tab);
 
     const url = String(await evaluateOnTab(tab, 'window.location.href'));

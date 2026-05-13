@@ -56,7 +56,7 @@ cli({
     { name: 'offset', type: 'int', default: 0, help: 'Pagination offset' },
   ],
   columns: ['symbol', 'name', 'close', 'change', 'volume', 'market_cap_basic', 'sector.tr'],
-  func: async (_page, args) => {
+  func: async (args) => {
     const market = String(args.market).toLowerCase().trim();
     const columns = String(args.columns).split(',').map((c) => c.trim()).filter(Boolean);
     if (columns.length === 0) {

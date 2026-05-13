@@ -24,7 +24,7 @@ cli({
     { name: 'port', type: 'int', default: DEFAULT_PORT, help: `CDP port (default ${DEFAULT_PORT})` },
   ],
   columns: ['port', 'pid', 'ready'],
-  func: async (_page, args) => {
+  func: async (args) => {
     if (platform() !== 'darwin') {
       throw new Error('tradingview launch is macOS-only (uses `open -a TradingView`).');
     }
