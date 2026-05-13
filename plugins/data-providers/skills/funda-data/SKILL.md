@@ -1,33 +1,128 @@
 ---
 name: funda-data
 description: >
-  Fetch financial data from the Funda AI API (https://api.funda.ai). Covers
-  quotes, historical prices, financials, SEC filings, transcripts, analyst
-  estimates, options flow/greeks/GEX, supply chain graph, social sentiment,
-  Polymarket, congressional trades, economics, ESG, news, AI-enriched news
-  (sentiment + event timeline), AI-company recruit signals, and a Claude API
-  proxy via Bedrock. Triggers: stock quotes, balance sheet, income statement,
-  cash flow, analyst targets, DCF, options chain/flow, GEX, IV rank, max pain,
-  earnings/dividend/IPO calendar, 10-K/10-Q/8-K, suppliers/customers/competitors,
-  insider trades, 13F, Reddit/Twitter sentiment, Polymarket, treasury rates,
-  GDP, CPI, FRED, commodity/forex/crypto, stock screener, ETF holdings, COT,
-  ticker sentiment, OpenAI/Anthropic/xAI/Google/Mercor/SurgeAI job postings,
-  product launch probabilities, AI threat to public stocks. Also triggers for
-  "funda" or "funda.ai". If only a ticker is provided and Funda API can answer,
-  use this skill.
+  Query Funda AI financial data via two surfaces: the MCP server at
+  https://funda.ai/api/mcp for analyst-grade research synthesis (DCF,
+  comps, earnings previews/recaps, sector deep-dives, SEC filings,
+  transcripts, supply-chain mapping, ownership flow, macro framing) via
+  the agent_chat tool — OR the REST API at https://api.funda.ai/v1 with
+  FUNDA_API_KEY for raw data (real-time quotes, intraday candles, EOD
+  prices, financial statements, options chains/greeks/GEX, supply-chain
+  KG, social sentiment, news, calendars, FRED, ESG, congressional
+  trades, AI hiring signals). Triggers: "funda", "funda.ai", real-time
+  quote, stock price, intraday, balance sheet, income statement, options
+  chain, DCF, comps, earnings preview/recap, analyst estimates,
+  10-K/10-Q/8-K, transcript, ownership flow, gamma exposure, supply
+  chain, sector deep-dive, congressional trades, FRED. Prefer MCP for
+  synthesis/analysis questions; use REST for raw structured data the MCP
+  declines.
 ---
 
-# Funda Data API Skill
+# Funda AI Skill
 
-Query the [Funda AI](https://api.funda.ai) financial data API for stocks, options, fundamentals, alternative data, and more.
+Funda AI exposes two complementary surfaces backed by the same data:
 
-**Base URL:** `https://api.funda.ai/v1`
-**Auth:** `Authorization: Bearer <API_KEY>` header on all `/v1/*` endpoints.
-**Pricing:** This is a paid API. A Funda AI subscription is required. See [funda.ai](https://funda.ai) for pricing details.
+| Surface | Best for | Auth | Output |
+|---|---|---|---|
+| **MCP** `agent_chat` at `https://funda.ai/api/mcp` | Research, analysis, synthesis | OAuth (auto via `claude mcp add`) | Synthesized text with disclaimer |
+| **REST** `/v1/*` at `https://api.funda.ai` | Raw structured data | `FUNDA_API_KEY` Bearer | JSON |
+
+Both require an active [Funda AI](https://funda.ai) subscription.
 
 ---
 
-## Step 1: Check API Key Availability
+## Step 1: Decide Which Surface
+
+| User wants | Surface |
+|---|---|
+| DCF / comps walkthrough, sector view, transcript synthesis, company primer | MCP |
+| Earnings preview/recap with judgment, beat-miss decomposition, narrative framing | MCP |
+| Real-time or intraday quote, EOD price history | REST |
+| Raw options chain snapshot, greeks, GEX time series | REST |
+| Specific line item from a financial statement (single number, JSON) | REST |
+| 13F filings, insider trades, congressional trades as rows | REST |
+| News with structured sentiment / event timeline (JSON) | REST |
+| Bulk dataset downloads | REST |
+| AI-company hiring signals (OpenAI, Anthropic, Google, xAI) | REST |
+
+**Default to MCP** for ambiguous research-style questions. **Use REST** when
+the user wants machine-readable structured data — or when the MCP refuses
+(real-time prices, raw quotes).
+
+The MCP also refuses buy/sell calls, price targets, personalized
+portfolio advice, tax/legal advice, and trade execution. Those are out of
+scope for both surfaces — decline politely and don't fall through to REST
+hoping for a different answer.
+
+---
+
+## Step 2: MCP Flow (Research)
+
+### 2a. Verify the MCP is connected
+
+```
+!`claude mcp list 2>/dev/null | grep -iE "^funda:" || echo "FUNDA_MCP_NOT_CONNECTED"`
+```
+
+- A line starting with `funda:` → registered. The tool is callable as `mcp__funda__agent_chat`. Continue.
+- `FUNDA_MCP_NOT_CONNECTED` → ask the user to install:
+  ```bash
+  claude mcp add --transport http funda https://funda.ai/api/mcp
+  ```
+  A browser tab opens for OAuth approval (1-hour token + 30-day refresh, auto-managed). The Claude Code session may need to be restarted before the tool registers.
+
+### 2b. Frame the question
+
+`agent_chat` is a fresh research turn with **no cross-call memory** — bake
+the ticker, time horizon, and assumptions into the question text itself.
+
+| User wants | Question shape |
+|---|---|
+| Earnings preview | "Preview MSFT's Q3 print Thursday — segment trends, where consensus is aggressive/conservative, beat/miss pattern." |
+| Earnings recap | "Walk through NVDA Q2: beat/miss by segment, guide vs consensus, transcript Q&A on data-center demand." |
+| Sector deep-dive | "Summarize the 2026 hyperscaler capex cycle — spending tiers by name, supplier exposure, gross-margin implications." |
+| Supply chain | "Map TSMC's customer concentration and N2 ramp risks — top three exposures by revenue." |
+| Filing summary | "Diff the new risk factors in PLTR's latest 10-K versus the prior year." |
+| DCF | "Walk through a DCF for NVDA assuming 25% data-center growth, 10% terminal margin, 9% WACC — surface the sensitivity table." |
+| Macro | "Where in the Dalio long-term debt cycle is the US, and what does that imply for duration positioning?" |
+| Ownership | "Has institutional ownership of CRWD shifted in the latest 13F filings — net buyers vs sellers?" |
+
+If the user gave only a ticker, ask one clarifying question to scope the
+turn (preview? recap? primer? DCF?) before calling — vague questions burn
+a turn and return vague answers.
+
+If the user is following up on a prior Funda response, quote the relevant
+paragraph back inside the new question; the agent has no memory of prior
+calls.
+
+For more example questions per topic, see `references/research-topics.md`.
+
+### 2c. Call the tool
+
+```
+mcp__funda__agent_chat(question: "<full research question>")
+```
+
+Typical run is 15–60 seconds; the server streams progress notifications
+throughout, so the client doesn't time out.
+
+Response shape:
+- `content[0].text` — answer prefixed with `[Funda research output — fundamental analysis, informational only…]`. Keep the prefix.
+- `_meta["funda.io/conversation_id"]` — UUID. The in-app history page is `https://funda.ai/agent-chat?c=<id>` (the `/agent-chat` route redirects to `/agent-chat-v2?c=<id>`).
+- `_meta["funda.io/timed_out"]` — `true` if the agent hit its run budget. Answer is partial; offer to retry with a tighter scope.
+
+If the call returns 403 `subscription_required`, the MCP is registered
+but the account isn't subscribed — direct the user to https://funda.ai
+to activate.
+
+Each call costs a research turn. Don't speculatively re-call with a
+rephrased question if the first answer was reasonable.
+
+---
+
+## Step 3: REST Flow (Raw Data)
+
+### 3a. Resolve FUNDA_API_KEY
 
 The skill resolves `FUNDA_API_KEY` in this order:
 1. `FUNDA_API_KEY` environment variable
@@ -41,249 +136,78 @@ The skill resolves `FUNDA_API_KEY` in this order:
 Then act on the result:
 
 - `KEY_FROM_ENV_VAR` — use `$FUNDA_API_KEY` directly in curl calls.
-- `KEY_FROM_LOCAL_DOTENV:<path>` or `KEY_FROM_ROOT_DOTENV:<path>` — load the key from the reported `.env` before each request:
+- `KEY_FROM_LOCAL_DOTENV:<path>` / `KEY_FROM_ROOT_DOTENV:<path>` — load once before calling:
   ```bash
   export FUNDA_API_KEY=$(grep -E "^FUNDA_API_KEY=" <path> | head -1 | cut -d= -f2- | sed 's/^["'\'']//;s/["'\'']$//')
   ```
-  Substitute the path printed by the check above. Prefer sourcing once at the start of a session rather than re-exporting on every call.
-- `KEY_NOT_SET` — ask the user for their Funda API key. They can either:
-  ```bash
-  export FUNDA_API_KEY="your-api-key-here"
-  ```
-  or add `FUNDA_API_KEY=your-api-key-here` to `.env` at the repo root (preferred when working across worktrees).
+- `KEY_NOT_SET` — ask the user for their key. They can either `export FUNDA_API_KEY="..."` or add `FUNDA_API_KEY=...` to `.env` at the repo root (preferred for worktrees).
 
-Once the key is available, proceed. All `curl` commands below use `$FUNDA_API_KEY`.
+### 3b. Find the right endpoint
 
----
+Match the user's request to a category and read the corresponding
+reference file for full parameters and response schemas.
 
-## Step 2: Identify What the User Needs
-
-Match the user's request to a data category below, then read the corresponding reference file for full endpoint details, parameters, and response schemas.
-
-### Market Data & Prices
-
-| User Request | Endpoint | Reference |
+| Category | Endpoint family | Reference |
 |---|---|---|
-| Real-time quote, current price | `GET /v1/quotes?type=realtime&ticker=X` | `references/market-data.md` |
-| Batch quotes for multiple tickers | `GET /v1/quotes?type=batch&ticker=X,Y,Z` | `references/market-data.md` |
-| After-hours / aftermarket quote | `GET /v1/quotes?type=aftermarket-quote&ticker=X` | `references/market-data.md` |
-| Historical EOD prices | `GET /v1/stock-price?ticker=X&date_after=...&date_before=...` | `references/market-data.md` |
-| Intraday candles (1min–4hr) | `GET /v1/charts?type=5min&ticker=X` | `references/market-data.md` |
-| Technical indicators (SMA, EMA, RSI, ADX) | `GET /v1/charts?type=sma&ticker=X&period_length=50` | `references/market-data.md` |
-| Commodity / forex / crypto quotes | `GET /v1/quotes?type=commodity-quotes` | `references/market-data.md` |
+| Real-time / batch / aftermarket quotes | `/v1/quotes?type=...` | `references/market-data.md` |
+| Historical EOD, intraday candles, technical indicators | `/v1/stock-price`, `/v1/charts` | `references/market-data.md` |
+| Commodity / forex / crypto quotes | `/v1/quotes?type=commodity-quotes` | `references/market-data.md` |
+| Income / balance / cash flow / metrics / ratios | `/v1/financial-statements` | `references/fundamentals.md` |
+| Company profile, peers, shares float, search, screener, list | `/v1/company-profile`, `/v1/company-details`, `/v1/search`, `/v1/companies` | `references/fundamentals.md` |
+| Analyst estimates, price targets, grades, DCF, ratings | `/v1/analyst?type=...` | `references/fundamentals.md` |
+| Options chain, greeks, GEX, IV, max pain, flow, screener | `/v1/options/...` | `references/options.md` |
+| Supply-chain KG: suppliers, customers, competitors, partners | `/v1/supply-chain/...` | `references/supply-chain.md` |
+| Twitter, Reddit, Polymarket, government trading, ownership | `/v1/twitter-posts`, `/v1/reddit-posts`, `/v1/polymarket/...`, `/v1/government-trading`, `/v1/ownership` | `references/alternative-data.md` |
+| AI-enriched news + aggregated sentiment + event timeline | `/v1/news/ticker`, `/v1/news/timeline`, `/v1/news/sentiment` | `references/news-enriched.md` |
+| SEC filings, earnings/podcast transcripts, research reports | `/v1/sec-filings`, `/v1/transcripts`, `/v1/investment-research-reports` | `references/filings-transcripts.md` |
+| Earnings / dividend / IPO / splits / economic calendar | `/v1/calendar?type=...` | `references/calendar-economics.md` |
+| Treasury rates, GDP/CPI indicators, FRED, risk premium | `/v1/economics`, `/v1/fred` | `references/calendar-economics.md` |
+| Stock news, gainers/losers, ETF holdings, ESG, COT, bulk, market hours | `/v1/news`, `/v1/market-performance`, `/v1/funds`, `/v1/esg`, `/v1/cot-report`, `/v1/bulk`, `/v1/market-hours` | `references/other-data.md` |
+| AI-company hiring signals (OpenAI, Anthropic, Google, xAI, Mercor, SurgeAI) | `/v1/recruit-...` | `references/recruit.md` |
+| Claude API proxy via Bedrock | `/v1/claude/v1/messages` | `references/claude-proxy.md` |
 
-### Company Fundamentals
-
-| User Request | Endpoint | Reference |
-|---|---|---|
-| Income statement | `GET /v1/financial-statements?type=income-statement&ticker=X` | `references/fundamentals.md` |
-| Balance sheet | `GET /v1/financial-statements?type=balance-sheet&ticker=X` | `references/fundamentals.md` |
-| Cash flow statement | `GET /v1/financial-statements?type=cash-flow&ticker=X` | `references/fundamentals.md` |
-| Key metrics (P/E, ROE, etc.) | `GET /v1/financial-statements?type=key-metrics&ticker=X` | `references/fundamentals.md` |
-| Financial ratios | `GET /v1/financial-statements?type=ratios&ticker=X` | `references/fundamentals.md` |
-| Revenue segmentation (product/geo) | `GET /v1/financial-statements?type=revenue-product-segmentation&ticker=X` | `references/fundamentals.md` |
-| Quick company profile (price, mcap, sector) | `GET /v1/company-profile?ticker=X` | `references/fundamentals.md` |
-| Company profile, executives, market cap, M&A | `GET /v1/company-details?type=profile&ticker=X` | `references/fundamentals.md` |
-| Peers / competitors list | `GET /v1/company-details?type=peers&ticker=X` | `references/fundamentals.md` |
-| Shares float / historical market cap | `GET /v1/company-details?type=shares-float&ticker=X` | `references/fundamentals.md` |
-| Company search by symbol/name | `GET /v1/search?type=symbol&query=X` | `references/fundamentals.md` |
-| Stock screener (market cap, sector, etc.) | `GET /v1/search?type=screener&marketCapMoreThan=...` | `references/fundamentals.md` |
-| List companies (pagination) | `GET /v1/companies` | `references/fundamentals.md` |
-
-### Analyst & Valuation
-
-| User Request | Endpoint | Reference |
-|---|---|---|
-| Analyst estimates (EPS, revenue) | `GET /v1/analyst?type=estimates&ticker=X` | `references/fundamentals.md` |
-| Price targets | `GET /v1/analyst?type=price-target-summary&ticker=X` | `references/fundamentals.md` |
-| Analyst grades (buy/hold/sell) | `GET /v1/analyst?type=grades&ticker=X` | `references/fundamentals.md` |
-| Grades consensus / historical | `GET /v1/analyst?type=grades-consensus&ticker=X` | `references/fundamentals.md` |
-| DCF / levered / custom DCF | `GET /v1/analyst?type=dcf&ticker=X` | `references/fundamentals.md` |
-| Ratings snapshot / historical | `GET /v1/analyst?type=ratings-snapshot&ticker=X` | `references/fundamentals.md` |
-| Earnings surprises (bulk) | `GET /v1/bulk?type=earnings-surprises` | `references/other-data.md` |
-
-### Options Data
-
-| User Request | Endpoint | Reference |
-|---|---|---|
-| Option chains | `GET /v1/options/stock?ticker=X&type=option-chains` | `references/options.md` |
-| Option contracts (volume, OI, premium) | `GET /v1/options/stock?ticker=X&type=option-contracts` | `references/options.md` |
-| Greeks per strike/expiry | `GET /v1/options/stock?ticker=X&type=greeks&expiry=...` | `references/options.md` |
-| GEX / gamma exposure | `GET /v1/options/stock?ticker=X&type=greek-exposure` | `references/options.md` |
-| Spot GEX (per-minute) | `GET /v1/options/stock?ticker=X&type=spot-gex` | `references/options.md` |
-| IV rank, IV term structure | `GET /v1/options/stock?ticker=X&type=iv-rank` | `references/options.md` |
-| Max pain | `GET /v1/options/stock?ticker=X&type=max-pain` | `references/options.md` |
-| Options flow / recent trades | `GET /v1/options/stock?ticker=X&type=flow-recent` | `references/options.md` |
-| Unusual options activity (flow alerts) | `GET /v1/options/flow-alerts?is_sweep=true&min_premium=100000` | `references/options.md` |
-| Options screener (hottest chains) | `GET /v1/options/screener?min_volume=1000` | `references/options.md` |
-| Contract-level flow/history | `GET /v1/options/contract?contract_id=X&type=flow` | `references/options.md` |
-| Net premium ticks | `GET /v1/options/stock?ticker=X&type=net-prem-ticks` | `references/options.md` |
-| OI change | `GET /v1/options/stock?ticker=X&type=oi-change` | `references/options.md` |
-| NOPE indicator | `GET /v1/options/stock?ticker=X&type=nope` | `references/options.md` |
-
-### Supply Chain Knowledge Graph
-
-| User Request | Endpoint | Reference |
-|---|---|---|
-| Supply chain stocks | `GET /v1/supply-chain/stocks?ticker=X` | `references/supply-chain.md` |
-| Bottleneck stocks | `GET /v1/supply-chain/stocks/bottlenecks` | `references/supply-chain.md` |
-| Upstream suppliers | `GET /v1/supply-chain/kg-edges/graph/suppliers/X?depth=2` | `references/supply-chain.md` |
-| Downstream customers | `GET /v1/supply-chain/kg-edges/graph/customers/X?depth=2` | `references/supply-chain.md` |
-| Competitors | `GET /v1/supply-chain/kg-edges/graph/competitors/X` | `references/supply-chain.md` |
-| Partners | `GET /v1/supply-chain/kg-edges/graph/partners/X` | `references/supply-chain.md` |
-| All neighbors (1-hop) | `GET /v1/supply-chain/kg-edges/graph/neighbors/X` | `references/supply-chain.md` |
-| KG edges (relationships) | `GET /v1/supply-chain/kg-edges?source_ticker=X` | `references/supply-chain.md` |
-
-### Social Sentiment & Alternative Data
-
-| User Request | Endpoint | Reference |
-|---|---|---|
-| Financial Twitter/KOL tweets | `GET /v1/twitter-posts?ticker=X` | `references/alternative-data.md` |
-| Single tweet by ID | `GET /v1/twitter-posts/{twitter_post_id}` | `references/alternative-data.md` |
-| Reddit posts (wallstreetbets, etc.) | `GET /v1/reddit-posts?subreddit=wallstreetbets&ticker=X` | `references/alternative-data.md` |
-| Reddit comments | `GET /v1/reddit-comments?ticker=X` | `references/alternative-data.md` |
-| Polymarket prediction markets | `GET /v1/polymarket/markets?keyword=bitcoin` | `references/alternative-data.md` |
-| Polymarket events | `GET /v1/polymarket/events?keyword=election` | `references/alternative-data.md` |
-| Congressional/government trades | `GET /v1/government-trading?type=senate-latest` | `references/alternative-data.md` |
-| Insider trades (Form 4) | `GET /v1/ownership?type=insider-search&ticker=X` | `references/alternative-data.md` |
-| Institutional holdings (13F) | `GET /v1/ownership?type=institutional-latest&ticker=X` | `references/alternative-data.md` |
-
-### AI-Enriched News
-
-| User Request | Endpoint | Reference |
-|---|---|---|
-| AI-enriched news for a ticker (summary + sentiment) | `GET /v1/news/ticker?ticker=X` | `references/news-enriched.md` |
-| Event timeline for a ticker (developing stories) | `GET /v1/news/timeline?ticker=X` | `references/news-enriched.md` |
-| Aggregated ticker sentiment (7–90d lookback) | `GET /v1/news/sentiment?ticker=X&days=7` | `references/news-enriched.md` |
-
-### SEC Filings & Transcripts
-
-| User Request | Endpoint | Reference |
-|---|---|---|
-| SEC filings (10-K, 10-Q, 8-K) | `GET /v1/sec-filings?ticker=X&form_type=10-K` | `references/filings-transcripts.md` |
-| Search SEC filings | `GET /v1/sec-filings-search?type=8-K&ticker=X` | `references/filings-transcripts.md` |
-| Earnings call transcripts | `GET /v1/transcripts?ticker=X&type=earning_call` | `references/filings-transcripts.md` |
-| Podcast transcripts | `GET /v1/transcripts?type=podcast` | `references/filings-transcripts.md` |
-| Investment research reports | `GET /v1/investment-research-reports?ticker=X` | `references/filings-transcripts.md` |
-
-### Calendar & Events
-
-| User Request | Endpoint | Reference |
-|---|---|---|
-| Upcoming earnings | `GET /v1/calendar?type=earnings-calendar&date_after=...` | `references/calendar-economics.md` |
-| Dividend calendar | `GET /v1/calendar?type=dividends-calendar&date_after=...` | `references/calendar-economics.md` |
-| IPO calendar | `GET /v1/calendar?type=ipos-calendar` | `references/calendar-economics.md` |
-| Stock splits | `GET /v1/calendar?type=splits-calendar` | `references/calendar-economics.md` |
-| Economic calendar | `GET /v1/calendar?type=economic-calendar` | `references/calendar-economics.md` |
-
-### Economics & Macro
-
-| User Request | Endpoint | Reference |
-|---|---|---|
-| Treasury rates | `GET /v1/economics?type=treasury-rates` | `references/calendar-economics.md` |
-| GDP, CPI, unemployment, etc. | `GET /v1/economics?type=indicators&indicator=GDP` | `references/calendar-economics.md` |
-| FRED series data | `GET /v1/fred?type=...` | `references/calendar-economics.md` |
-| Market risk premium | `GET /v1/economics?type=market-risk-premium` | `references/calendar-economics.md` |
-
-### Other Data
-
-| User Request | Endpoint | Reference |
-|---|---|---|
-| News (stock, crypto, forex) | `GET /v1/news?type=stock&ticker=X` | `references/other-data.md` |
-| Press releases | `GET /v1/news?type=press-releases&ticker=X` | `references/other-data.md` |
-| Stock news (simple) | `GET /v1/stock-news?ticker=X` | `references/other-data.md` |
-| Market performance (gainers/losers) | `GET /v1/market-performance?type=gainers` | `references/other-data.md` |
-| ETF/fund holdings | `GET /v1/funds?type=etf-holdings&ticker=X` | `references/other-data.md` |
-| ESG ratings | `GET /v1/esg?type=ratings&ticker=X` | `references/other-data.md` |
-| COT reports | `GET /v1/cot-report?type=...` | `references/other-data.md` |
-| Crowdfunding | `GET /v1/crowdfunding?type=...` | `references/other-data.md` |
-| Market hours | `GET /v1/market-hours?type=...` | `references/other-data.md` |
-| Bulk data downloads | `GET /v1/bulk?type=...` | `references/other-data.md` |
-
-### AI Company Recruit Signals
-
-Hiring-based alpha signals covering OpenAI, Anthropic, Google, xAI, SurgeAI, and Mercor.
-
-| User Request | Endpoint | Reference |
-|---|---|---|
-| AI company job postings (raw) | `GET /v1/recruit-job-postings?company=anthropic` | `references/recruit.md` |
-| JD classifications (vertical/intent/function) | `GET /v1/recruit-jd-classifications?company=openai&vertical=Coding` | `references/recruit.md` |
-| Product-level hiring signal clusters | `GET /v1/recruit-product-signal-clusters?urgency=high` | `references/recruit.md` |
-| GTM products extracted from Sales JDs | `GET /v1/recruit-gtm-products?company=openai` | `references/recruit.md` |
-| Product launch probability matrix | `GET /v1/recruit-launch-probabilities?company=anthropic` | `references/recruit.md` |
-| Public stock impact scores (AI threat) | `GET /v1/recruit-stock-impacts?urgency=HIGH` | `references/recruit.md` |
-| Enterprise events + event-study alpha | `GET /v1/recruit-enterprise-events?is_significant=true` | `references/recruit.md` |
-
-### Claude API Proxy
-
-| User Request | Endpoint | Reference |
-|---|---|---|
-| Proxy Claude API call via Bedrock (streaming supported) | `POST /v1/claude/v1/messages` | `references/claude-proxy.md` |
-
----
-
-## Step 3: Make the API Call
-
-Use `curl` with the bearer token to call the Funda API. Read the appropriate reference file first for exact parameter names and response formats.
-
-**Template:**
+### 3c. Call the endpoint
 
 ```bash
 curl -s -H "Authorization: Bearer $FUNDA_API_KEY" \
   "https://api.funda.ai/v1/<endpoint>?<params>" | python3 -m json.tool
 ```
 
-**Response format:** All endpoints return `{"code": "0", "message": "", "data": ...}`. Check that `code` is `"0"` — non-zero means an error occurred (the `message` field explains why).
+All responses are `{"code": "0", "message": "", "data": ...}`. A non-zero
+`code` is an error — read `message`.
 
-**Pagination:** List endpoints return `{"items": [...], "page": 0, "page_size": 20, "next_page": 1, "total_count": N}`. Pages are 0-based. `next_page` is `-1` when there are no more pages.
+List endpoints paginate: `{"items": [...], "page": 0, "page_size": 20, "next_page": 1, "total_count": N}`. Pages are 0-based; `next_page` is `-1` when exhausted.
 
----
-
-## Step 4: Handle Common Patterns
-
-### Multiple data points for one ticker
-
-If the user asks a broad question like "tell me about AAPL", combine several calls:
-1. Company profile (`/v1/company-profile?ticker=AAPL`) — includes price, market cap, sector, CEO, description in one call
-2. Key metrics TTM (`/v1/financial-statements?type=key-metrics-ttm&ticker=AAPL`)
-3. Analyst price target (`/v1/analyst?type=price-target-summary&ticker=AAPL`)
-4. Optional: latest AI-enriched news (`/v1/news/ticker?ticker=AAPL&page_size=5`) and aggregated sentiment (`/v1/news/sentiment?ticker=AAPL`)
-
-### Comparing multiple tickers
-
-Use batch quotes for prices, then individual calls for fundamentals. The batch endpoint accepts comma-separated tickers: `/v1/quotes?type=batch&ticker=AAPL,MSFT,GOOGL`.
-
-### Ticker lookup
-
-If the user provides a company name instead of a ticker, search first:
-```
-GET /v1/search?type=name&query=nvidia
-```
+For broad ticker overviews ("tell me about AAPL"), combine a few REST
+calls: `/v1/company-profile` for sector/CEO/mcap/price + `/v1/financial-statements?type=key-metrics-ttm` + `/v1/analyst?type=price-target-summary`.
 
 ---
 
-## Step 5: Respond to the User
+## Step 4: Respond to the User
 
-Present the data clearly:
-- Format numbers with appropriate precision (prices to 2 decimals, ratios to 2-4 decimals, large numbers with commas or abbreviations like $2.8T)
-- Use tables for comparative data
-- Highlight key insights (e.g., "Trading above/below analyst target", "Earnings beat/miss")
-- For time series data, summarize the trend rather than dumping raw numbers
-- Always note the data source: "Data from Funda AI API"
-- Never provide trading recommendations — present the data and let the user draw conclusions
+- For MCP synthesis: surface with structure (tables, bullets, headings) — don't dump the raw blob. Preserve the Funda disclaimer; never repackage analysis as a recommendation, price target, or trade signal.
+- For MCP responses, cite `https://funda.ai/agent-chat?c={conversation_id}` so the user can inspect the agent's full timeline.
+- For REST responses, format numbers cleanly (prices to 2 decimals, ratios to 2-4, large numbers with commas or abbreviations like `$2.8T`). Use tables for comparative data; summarize trends rather than dumping time series.
+- For DCF / valuation work, surface the assumptions Funda used so the user can adjust them.
+- Note the source: "Funda AI" (whether MCP or REST).
+- Never provide trading recommendations — present the data and let the user draw conclusions.
 
 ---
 
 ## Reference Files
 
-- `references/market-data.md` — Quotes, historical prices, charts, technical indicators
-- `references/fundamentals.md` — Financial statements, company profile/details, search/screener, analyst data, companies list
-- `references/options.md` — Options chains, greeks, GEX, flow, IV, screener, contract-level data
-- `references/supply-chain.md` — Supply chain knowledge graph, relationships, graph traversal
+**MCP path:**
+- `references/research-topics.md` — categorized example questions and tips for framing `agent_chat` queries.
+
+**REST path:**
+- `references/market-data.md` — quotes, historical prices, charts, technical indicators
+- `references/fundamentals.md` — financial statements, company profile/details, search/screener, analyst, companies list
+- `references/options.md` — chains, greeks, GEX, flow, IV, screener, contract-level data
+- `references/supply-chain.md` — supply-chain KG, relationships, graph traversal
 - `references/alternative-data.md` — Twitter, Reddit, Polymarket, government trading, ownership
-- `references/news-enriched.md` — AI-enriched news (summary/sentiment), event timeline, aggregated ticker sentiment
-- `references/filings-transcripts.md` — SEC filings, earnings/podcast transcripts, research reports, emails
-- `references/calendar-economics.md` — Calendars (earnings, dividends, IPOs), economics, treasury, FRED
-- `references/recruit.md` — AI-company job postings, JD classifications, product clusters, GTM products, launch probabilities, stock impacts, enterprise events
-- `references/other-data.md` — News, market performance, funds, ESG, COT, crowdfunding, bulk data, market hours, stock news
-- `references/claude-proxy.md` — Claude API proxy (`/v1/claude/v1/messages`)
+- `references/news-enriched.md` — AI-enriched news, event timeline, aggregated sentiment
+- `references/filings-transcripts.md` — SEC filings, earnings/podcast transcripts, research reports
+- `references/calendar-economics.md` — calendars, economics, treasury, FRED
+- `references/other-data.md` — news, market performance, funds, ESG, COT, bulk, market hours
+- `references/recruit.md` — AI-company hiring signals, JD classifications, product clusters, launch probabilities
+- `references/claude-proxy.md` — Claude API proxy via Bedrock
