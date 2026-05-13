@@ -20,6 +20,7 @@ cli({
   site: 'tradingview',
   name: 'watchlists',
   description: 'TradingView watchlists (read-only): list all, fetch by id, or fetch colored-flag list',
+  access: 'read',
   strategy: Strategy.PUBLIC,
   browser: false,
   args: [

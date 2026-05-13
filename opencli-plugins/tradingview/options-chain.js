@@ -21,6 +21,7 @@ cli({
   site: 'tradingview',
   name: 'options-chain',
   description: 'Options chain (full or ATM-band slice) with greeks, IV, and theoretical price',
+  access: 'read',
   strategy: Strategy.PUBLIC,
   browser: false,
   args: [

@@ -12,6 +12,7 @@ cli({
   site: 'tradingview',
   name: 'screenshot',
   description: 'PNG screenshot of an active TradingView chart tab',
+  access: 'read',
   strategy: Strategy.PUBLIC,
   browser: false,
   args: [

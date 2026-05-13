@@ -12,6 +12,7 @@ cli({
   site: 'tradingview',
   name: 'chart-state',
   description: 'Current symbol, interval, and layout id of an active chart tab',
+  access: 'read',
   strategy: Strategy.PUBLIC,
   browser: false,
   args: [

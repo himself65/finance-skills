@@ -15,6 +15,7 @@ cli({
   site: 'tradingview',
   name: 'options-expiries',
   description: 'List available options expirations with DTE and contract count',
+  access: 'read',
   strategy: Strategy.PUBLIC,
   browser: false,
   args: [

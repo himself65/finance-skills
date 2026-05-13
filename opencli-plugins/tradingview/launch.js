@@ -17,6 +17,7 @@ cli({
   site: 'tradingview',
   name: 'launch',
   description: 'Relaunch TradingView.app with --remote-debugging-port enabled (macOS only)',
+  access: 'write',
   strategy: Strategy.PUBLIC,
   browser: false,
   args: [
