@@ -88,7 +88,7 @@ test('summarizeExpiries — aggregates contract counts per expiry', () => {
     normalizeChainRow(decodeScannerRows(SAMPLE_PAYLOAD)[0], NOW),
     normalizeChainRow(decodeScannerRows(SAMPLE_PAYLOAD)[1], NOW),
   ];
-  const summary = summarizeExpiries(rows);
+  const summary = summarizeExpiries(rows, NOW);
   assert.equal(summary.length, 1);
   assert.equal(summary[0].expiry, '2026-05-22');
   assert.equal(summary[0].dte, 12);
