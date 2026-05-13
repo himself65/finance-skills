@@ -1,7 +1,7 @@
 {
   "name": "finance-skill-creator",
   "description": "Create, evaluate, and iterate on high-quality agent skills with structured guidance, quality scoring, and best-practice enforcement.",
-  "version": "7.1.0",
+  "version": "8.0.0",
   "author": {
     "name": "himself65"
   },
