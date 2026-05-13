@@ -128,7 +128,7 @@ opencli twitter trending --limit 20 -f json
 
 ### Output columns
 
-Tweet-listing commands (`timeline`, `search`, `thread`) include: `id`, `author`, `text`, `created_at`, `likes`, `retweets`, `replies`, `views`, `url`, `has_media`, `media_urls` (added in opencli 1.7.7).
+Tweet-listing commands (`timeline`, `search`, `thread`) include: `id`, `author`, `text`, `created_at`, `likes`, `retweets`, `replies`, `views`, `url`, `has_media`, `media_urls`.
 
 `tweets` (per-user posts) also includes `is_retweet`.
 

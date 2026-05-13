@@ -112,7 +112,22 @@ The table below is a **shortlist**, not exhaustive — always confirm with `open
 | Weibo | `weibo` | (see `--help`) |
 | Bilibili | `bilibili` | `hot`, `video` + more |
 | Xiaohongshu (小红书) | `xiaohongshu` | (see `--help`) |
+| Rednote (小红书 international) | `rednote` | (see `--help` — mirrors `xiaohongshu`) |
 | Zhihu | `zhihu` | (see `--help`) |
+| Tieba (百度贴吧) | `tieba` | (see `--help`) |
+| Hupu (虎扑) | `hupu` | (see `--help`) |
+| Xianyu (闲鱼) | `xianyu` | (see `--help`) |
+| 1688 | `1688` | (see `--help`) |
+| Gitee | `gitee` | (see `--help`) |
+| Quark | `quark` | (see `--help`) |
+| Baidu Scholar | `baidu-scholar` | (see `--help`) |
+| Nowcoder | `nowcoder` | (see `--help`) |
+| Wanfang | `wanfang` | (see `--help`) |
+| Doubao (豆包) | `doubao` | (see `--help`) |
+| Yuanbao (腾讯元宝) | `yuanbao` | (see `--help`) |
+| Google Gemini | `gemini` | (see `--help`) |
+| NotebookLM | `notebooklm` | (see `--help`) |
+| Claude | `claude` | (see `--help`) |
 | 36kr | `36kr` | (see `--help`) |
 | Jike | `jike` | (see `--help`) |
 | Bluesky | `bluesky` | (see `--help`) |
