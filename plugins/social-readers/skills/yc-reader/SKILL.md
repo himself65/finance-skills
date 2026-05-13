@@ -57,13 +57,14 @@ Match the user's request to the appropriate endpoint. See `references/api_refere
 | Companies hiring | `companies/hiring.json` | ~1,400 currently hiring |
 | Non-profit companies | `companies/nonprofit.json` | YC-backed non-profits |
 | Diversity data | `companies/black-founded.json`, `hispanic-latino-founded.json`, `women-founded.json` | Founder diversity |
-| Specific batch | `batches/{batch-name}.json` | e.g., `winter-2025.json`, `summer-2024.json` |
+| Specific batch | `batches/{batch-name}.json` | e.g., `winter-2026.json`, `spring-2026.json`, `fall-2025.json` |
+| Single company profile | `batches/{batch-name}/{slug}.json` | e.g., `batches/summer-2009/stripe.json`, `batches/winter-2009/airbnb.json` |
 | By industry | `industries/{industry}.json` | e.g., `fintech.json`, `healthcare.json` |
 | By tag | `tags/{tag}.json` | e.g., `ai.json`, `developer-tools.json` |
 
 ### Batch name format
 
-Batches use `{season}-{year}` format: `winter-2025`, `summer-2024`, `fall-2025`. Older batches use the same pattern back to `summer-2005`.
+Batches use `{season}-{year}` format: `winter-2026`, `spring-2026`, `summer-2026`, `fall-2025`. Older batches follow the same pattern back to `summer-2005`. The short form (`w09`, `s21`) also works for the per-company endpoint.
 
 ### Industry and tag name format
 

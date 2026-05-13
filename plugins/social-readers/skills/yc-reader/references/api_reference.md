@@ -34,7 +34,7 @@ Each company object contains:
 | `top_company` | boolean | Whether it's a top YC company |
 | `isHiring` | boolean | Currently hiring |
 | `nonprofit` | boolean | Non-profit organization |
-| `batch` | string | YC batch (e.g., "W25", "S24") |
+| `batch` | string | YC batch (e.g., "Winter 2026", "Summer 2009") |
 | `status` | string | Company status ("Active", "Acquired", "Inactive", "Public") |
 | `industries` | string[] | All industry classifications |
 | `regions` | string[] | Geographic regions |
@@ -78,20 +78,34 @@ curl -s https://yc-oss.github.io/api/companies/hiring.json | jq length
 
 Pattern: `batches/{season}-{year}.json`
 
-Seasons: `winter`, `summer`, `fall`
+Seasons: `winter`, `spring`, `summer`, `fall`
 
 ```bash
-# Winter 2025 batch
-curl -s https://yc-oss.github.io/api/batches/winter-2025.json | jq length
+# Winter 2026 batch
+curl -s https://yc-oss.github.io/api/batches/winter-2026.json | jq length
 
-# Summer 2024 batch
-curl -s https://yc-oss.github.io/api/batches/summer-2024.json | jq '.[:5] | .[] | {name, one_liner}'
+# Spring 2026 batch
+curl -s https://yc-oss.github.io/api/batches/spring-2026.json | jq '.[:5] | .[] | {name, one_liner}'
 
 # Fall 2025 batch
 curl -s https://yc-oss.github.io/api/batches/fall-2025.json | jq .
 ```
 
 Historical batches go back to `summer-2005`.
+
+### Single company profile
+
+Pattern: `batches/{batch-slug}/{company-slug}.json`
+
+Both long (`winter-2009`) and short (`w09`) batch slugs work. Company slug is the same lowercase-hyphenated form used in the `slug` field.
+
+```bash
+# Airbnb profile
+curl -s https://yc-oss.github.io/api/batches/winter-2009/airbnb.json | jq .
+
+# Stripe profile
+curl -s https://yc-oss.github.io/api/batches/summer-2009/stripe.json | jq '{name, one_liner, team_size, status}'
+```
 
 ### Industries
 
@@ -158,13 +172,13 @@ curl -s https://yc-oss.github.io/api/tags/developer-tools.json | jq '[.[] | sele
 
 ```bash
 # Get batch companies
-curl -s https://yc-oss.github.io/api/batches/winter-2025.json | jq length
+curl -s https://yc-oss.github.io/api/batches/winter-2026.json | jq length
 
 # Summarize by industry
-curl -s https://yc-oss.github.io/api/batches/winter-2025.json | jq 'group_by(.industry) | map({industry: .[0].industry, count: length}) | sort_by(-.count)'
+curl -s https://yc-oss.github.io/api/batches/winter-2026.json | jq 'group_by(.industry) | map({industry: .[0].industry, count: length}) | sort_by(-.count)'
 
 # Find hiring companies in the batch
-curl -s https://yc-oss.github.io/api/batches/winter-2025.json | jq '[.[] | select(.isHiring == true)] | .[] | {name, one_liner, website}'
+curl -s https://yc-oss.github.io/api/batches/winter-2026.json | jq '[.[] | select(.isHiring == true)] | .[] | {name, one_liner, website}'
 ```
 
 ### Find fintech/finance startups
@@ -211,7 +225,7 @@ curl -s https://yc-oss.github.io/api/companies/top.json | jq 'sort_by(-.team_siz
 
 ```bash
 # Women-founded companies in latest batch
-curl -s https://yc-oss.github.io/api/companies/women-founded.json | jq '[.[] | select(.batch == "W25")] | .[] | {name, one_liner}'
+curl -s https://yc-oss.github.io/api/companies/women-founded.json | jq '[.[] | select(.batch == "Winter 2026")] | .[] | {name, one_liner}'
 
 # Count by diversity category
 curl -s https://yc-oss.github.io/api/companies/black-founded.json | jq length
@@ -264,7 +278,6 @@ curl -s https://yc-oss.github.io/api/meta.json | jq '[.tags[] | select(.name | t
 ## Limitations
 
 - **Read-only** — Static JSON files, no search API or query parameters
-- **No individual company endpoint** — To look up one company, search `companies/all.json` by name
 - **No founder details** — Company profiles don't include individual founder names or bios
 - **No funding data** — Funding amounts, valuations, and investor details are not included
 - **No revenue/financial data** — Only public metadata (team size, hiring status, industry)
