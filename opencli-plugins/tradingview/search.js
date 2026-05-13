@@ -18,6 +18,7 @@ cli({
   site: 'tradingview',
   name: 'search',
   description: 'Symbol search / autocomplete (returns ticker, exchange, type, country, description)',
+  access: 'read',
   strategy: Strategy.PUBLIC,
   browser: false,
   args: [

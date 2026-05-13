@@ -19,6 +19,7 @@ cli({
   site: 'tradingview',
   name: 'news',
   description: 'TradingView news headlines (filterable) or full story detail by id',
+  access: 'read',
   strategy: Strategy.PUBLIC,
   browser: false,
   args: [

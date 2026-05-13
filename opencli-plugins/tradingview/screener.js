@@ -18,6 +18,7 @@ cli({
   name: 'screener',
   description:
     'Generic screener via scanner.tradingview.com — stocks (per country), crypto, forex, futures, bonds, ETFs',
+  access: 'read',
   strategy: Strategy.PUBLIC,
   browser: false,
   args: [

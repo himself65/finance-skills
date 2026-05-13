@@ -30,6 +30,7 @@ cli({
   site: 'tradingview',
   name: 'alerts',
   description: 'TradingView price alerts (read-only): list, active, triggered, offline-fires, log',
+  access: 'read',
   strategy: Strategy.PUBLIC,
   browser: false,
   args: [

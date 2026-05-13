@@ -13,6 +13,7 @@ cli({
   site: 'tradingview',
   name: 'status',
   description: 'CDP connection state and active TradingView tabs',
+  access: 'read',
   strategy: Strategy.PUBLIC,
   browser: false,
   args: [],

@@ -12,6 +12,7 @@ cli({
   site: 'tradingview',
   name: 'quote',
   description: 'Single-symbol spot quote (close, change, currency)',
+  access: 'read',
   strategy: Strategy.PUBLIC,
   browser: false,
   args: [
