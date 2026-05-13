@@ -168,14 +168,17 @@ function nearestStrikeIndex(sortedRows, spot) {
 /**
  * Aggregate a flat chain into the expiries view: one row per expiry with
  * DTE and contracts count.
+ *
+ * `now` is forwarded to `daysToExpiry` so callers (and tests) can pin the
+ * reference date. Defaults to wall-clock time, matching `daysToExpiry`.
  */
-export function summarizeExpiries(rows) {
+export function summarizeExpiries(rows, now = new Date()) {
   const counts = new Map();
   for (const r of rows) {
     counts.set(r.expiry, (counts.get(r.expiry) ?? 0) + 1);
   }
   return Array.from(counts.entries())
-    .map(([expiry, contracts_count]) => ({ expiry, dte: daysToExpiry(expiry), contracts_count }))
+    .map(([expiry, contracts_count]) => ({ expiry, dte: daysToExpiry(expiry, now), contracts_count }))
     .sort((a, b) => a.expiry.localeCompare(b.expiry));
 }
 
