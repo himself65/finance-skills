@@ -7,6 +7,22 @@ A collection of agent skills for financial analysis and trading, following the [
 
 **Visit [skills.himself65.com](https://skills.himself65.com/) for documentation, demos, and setup instructions.**
 
+---
+
+<div align="center">
+
+<a href="https://funda.ai">
+  <img src="https://raw.githubusercontent.com/fundamental-bottom/.github/main/profile/banner.png" alt="Funda AI — The Investment Research OS" width="640" />
+</a>
+
+### Sponsored by [Funda AI](https://funda.ai) — The Investment Research OS
+
+Many of the skills in this repo (DCF valuation, earnings recaps, options flow, supply-chain graph, congressional trades, and 60+ more endpoints) are powered by the [Funda AI API](https://funda.ai). Try the [`funda-data`](plugins/data-providers/skills/funda-data/) skill to plug analyst-grade research directly into your agent.
+
+</div>
+
+---
+
 ## Quick Start
 
 ### Claude Code — All Plugins
