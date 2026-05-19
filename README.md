@@ -17,7 +17,7 @@ A collection of agent skills for financial analysis and trading, following the [
 
 ### Sponsored by [Funda AI](https://funda.ai) — The Investment Research OS
 
-Many of the skills in this repo (DCF valuation, earnings recaps, options flow, supply-chain graph, congressional trades, and 60+ more endpoints) are powered by the [Funda AI API](https://funda.ai). Try the [`funda-data`](plugins/data-providers/skills/funda-data/) skill to plug analyst-grade research directly into your agent.
+Looking for more? [Funda AI](https://funda.ai) ships **hundreds of skills built by professional analysts** — DCF valuations, earnings recaps, options flow, supply-chain graphs, congressional trades, sector deep-dives, and a lot more. Give it a try.
 
 </div>
 
