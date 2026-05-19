@@ -7,6 +7,18 @@ A collection of agent skills for financial analysis and trading, following the [
 
 **Visit [skills.himself65.com](https://skills.himself65.com/) for documentation, demos, and setup instructions.**
 
+---
+
+<div align="center">
+
+</a>
+
+
+
+</div>
+
+---
+
 ## Quick Start
 
 ### Claude Code — All Plugins
