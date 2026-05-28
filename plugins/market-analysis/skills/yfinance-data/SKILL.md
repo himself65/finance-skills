@@ -84,12 +84,13 @@ ticker = yf.Ticker("AAPL")
 ### Key rules
 
 1. **Always wrap in try/except** — Yahoo Finance may rate-limit or return empty data
-2. **Use `yf.download()` for multi-ticker comparisons** — it's faster with multi-threading
-3. **For options, list expiration dates first** with `ticker.options` before calling `ticker.option_chain(date)`
-4. **For quarterly data**, use `quarterly_` prefix: `ticker.quarterly_income_stmt`, `ticker.quarterly_balance_sheet`, `ticker.quarterly_cashflow`
-5. **For large date ranges**, be mindful of intraday limits — 1m data only goes back ~7 days, 1h data ~730 days
-6. **Print DataFrames clearly** — use `.to_string()` or `.to_markdown()` for readability, or select key columns
-7. **Timezone handling** — yfinance returns tz-aware datetime indices (e.g., `America/New_York`). When comparing dates, always use `pd.Timestamp(..., tz=...)` or strip timezones with `.tz_localize(None)`. See the reference file for details.
+2. **Use `yf.download()` for multi-ticker comparisons** — it's faster with multi-threading in normal interactive sessions
+3. **Cron/batch reliability exception** — in constrained cron/gateway environments, multi-threaded batch downloads can hit DNS/thread failures or yfinance cache SQLite contention (`getaddrinfo() thread failed to start`, `OperationalError: unable to open database file`, invalid crumb cascades). For scheduled reports, prefer sequential `yf.download(symbol, threads=False)`, set a writable cache directory (e.g. `yf.set_tz_cache_location('/tmp/yfinance-cache')`), normalize MultiIndex columns, and tolerate missing tickers explicitly.
+4. **For options, list expiration dates first** with `ticker.options` before calling `ticker.option_chain(date)`
+5. **For quarterly data**, use `quarterly_` prefix: `ticker.quarterly_income_stmt`, `ticker.quarterly_balance_sheet`, `ticker.quarterly_cashflow`
+6. **For large date ranges**, be mindful of intraday limits — 1m data only goes back ~7 days, 1h data ~730 days
+7. **Print DataFrames clearly** — use `.to_string()` or `.to_markdown()` for readability, or select key columns
+8. **Timezone handling** — yfinance returns tz-aware datetime indices (e.g., `America/New_York`). When comparing dates, always use `pd.Timestamp(..., tz=...)` or strip timezones with `.tz_localize(None)`. See the reference file for details.
 
 ### Valid periods and intervals
 

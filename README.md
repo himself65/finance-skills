@@ -58,7 +58,7 @@ npx skills add himself65/finance-skills -a <agent-name>
 
 ### Market Analysis (`finance-market-analysis`)
 
-Stock analysis, earnings, estimates, correlations, liquidity, ETFs, options payoff, and trading strategies via yfinance.
+Stock analysis, earnings, estimates, correlations, liquidity, ETFs, options payoff, daily market emails, and trading strategies via yfinance.
 
 | Skill | Description |
 |---|---|
@@ -72,6 +72,7 @@ Stock analysis, earnings, estimates, correlations, liquidity, ETFs, options payo
 | [sepa-strategy](plugins/market-analysis/skills/sepa-strategy/) | SEPA strategy analysis — Minervini's trend template, VCP patterns, entry points, position sizing |
 | [stock-correlation](plugins/market-analysis/skills/stock-correlation/) | Correlation analysis — sector peers, co-movement, pair-trading candidates |
 | [stock-liquidity](plugins/market-analysis/skills/stock-liquidity/) | Liquidity analysis — spreads, volume profiles, market impact, Amihud ratio |
+| [us-market-close-daily-email](plugins/market-analysis/skills/us-market-close-daily-email/) | Chinese US market close daily email — market recap, macro, breadth, sector rotation, technicals, risks, and next-day plan |
 | [yfinance-data](plugins/market-analysis/skills/yfinance-data/) | Market data via yfinance — prices, financials, options, dividends, earnings |
 
 ### Social Readers (`finance-social-readers`)

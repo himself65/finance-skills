@@ -1,7 +1,7 @@
 {
   "name": "finance-market-analysis",
-  "description": "Stock analysis, earnings, estimates, correlations, liquidity, ETFs, options payoff, and trading strategies via yfinance.",
-  "version": "8.0.1",
+  "description": "Stock analysis, earnings, estimates, correlations, liquidity, ETFs, options payoff, daily market emails, and trading strategies via yfinance.",
+  "version": "8.0.2",
   "author": {
     "name": "himself65"
   },
@@ -18,6 +18,7 @@
     "etf",
     "trading",
     "liquidity",
-    "sepa"
+    "sepa",
+    "daily-market-email"
   ]
 }

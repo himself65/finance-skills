@@ -180,5 +180,6 @@ Adapt section depth to available data — if financials are completely opaque, s
 - `references/vc-framework.md` — VC due diligence checklist with metrics, benchmarks, and red/green flags
 - `references/job-applicant-framework.md` — Job seeker evaluation framework with equity analysis and culture assessment
 - `references/ceo-framework.md` — CEO self-assessment framework with operational metrics and strategic analysis
+- `references/physical-security-verkada.md` — Verkada/cloud physical-security research notes, source claims, derived ratios, and diligence prompts from a prior startup analysis session.
 
-Read these when you need the detailed criteria and benchmarks for each perspective.
+Read these when you need the detailed criteria and benchmarks for each perspective. For repeat analyses of a specific company/category covered by a reference note, load that reference too and clearly distinguish company claims, regulator allegations, independent reporting, and your derived calculations.

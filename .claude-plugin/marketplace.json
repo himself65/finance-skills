@@ -4,15 +4,15 @@
     "name": "himself65"
   },
   "metadata": {
-    "description": "Agent skills for financial analysis and trading — options payoff, stock correlations, market data, social media research, and generative UI.",
-    "version": "8.0.1"
+    "description": "Agent skills for financial analysis and trading — options payoff, stock correlations, market data, daily market emails, social media research, and generative UI.",
+    "version": "8.0.2"
   },
   "plugins": [
     {
       "name": "finance-market-analysis",
       "source": "./plugins/market-analysis",
-      "description": "Stock analysis, earnings, estimates, correlations, liquidity, ETFs, options payoff, and trading strategies via yfinance.",
-      "version": "8.0.1"
+      "description": "Stock analysis, earnings, estimates, correlations, liquidity, ETFs, options payoff, daily market emails, and trading strategies via yfinance.",
+      "version": "8.0.2"
     },
     {
       "name": "finance-social-readers",
@@ -30,7 +30,7 @@
       "name": "finance-startup-tools",
       "source": "./plugins/startup-tools",
       "description": "Multi-perspective startup analysis frameworks for VC investors, job applicants, and founders.",
-      "version": "8.0.1"
+      "version": "8.0.2"
     },
     {
       "name": "finance-ui-tools",
