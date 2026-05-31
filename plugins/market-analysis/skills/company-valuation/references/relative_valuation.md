@@ -138,4 +138,33 @@ This lets the user see at a glance whether the target "deserves" a premium/disco
 - **Peer in trough**: If peer is in distress or restructuring, their multiple compresses — excluding them or adjusting.
 - **Different fiscal year ends**: Normalize to TTM.
 - **Stock-based comp**: EV/EBITDA without SBC adjustment overstates multiples for SaaS. Consider EV/EBITDA (ex-SBC) for SaaS peers.
-- **Currency**: International peers — normalize to USD and note FX sensitivity.
+- **Currency / ADR**: yfinance reports statements in `financialCurrency` but price, `marketCap`, and EV in `currency`. For US-listed ADRs of non-US filers these differ and silently distort every amount-based multiple. Normalize statement amounts to the trading currency — see below.
+
+## Currency & ADR Normalization
+
+yfinance returns financial statements in `info["financialCurrency"]` (the filing
+currency) but price, `marketCap`, and enterprise value in `info["currency"]` (the
+trading currency). For US-listed ADRs of non-US filers these differ — PDD/BABA file
+in CNY, TM in JPY, SAP in EUR, all trading in USD. Any metric that divides a
+price/market figure by a statement figure is then off by the FX rate.
+
+| Metric | Currency-safe? | Why |
+|---|---|---|
+| P/E, P/B, PEG | yes | price ÷ per-share figure, both in trading currency |
+| P/S, EV/Revenue, EV/EBITDA | no | trading-currency market/EV ÷ filing-currency sales |
+| Net cash ÷ market cap | no | filing-currency cash ÷ trading-currency market cap |
+
+PDD example (USD price, CNY filings, USDCNY ≈ 6.77): Yahoo's raw
+`priceToSalesTrailing12Months` reads 0.27; FX-corrected it is ~1.84 — a 6.8x
+overstatement of cheapness. P/E (8.9) and P/B (2.0) are unaffected because they are
+price-over-per-share ratios within a single currency.
+
+```python
+fin_ccy, mkt_ccy = info.get("financialCurrency"), info.get("currency")
+FX = 1.0
+if fin_ccy and mkt_ccy and fin_ccy != mkt_ccy:
+    FX = float(yf.Ticker(f"{fin_ccy}{mkt_ccy}=X").fast_info.last_price)  # CNYUSD=X ≈ 0.148
+# Multiply every statement-sourced amount (revenue, EBITDA, cash, debt, FCFF) by FX
+# before mixing with price-based figures. Leave per-share fields (trailingEps) and
+# price ratios (trailingPE) alone — already in the trading currency.
+```
