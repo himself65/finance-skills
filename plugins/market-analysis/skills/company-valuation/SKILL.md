@@ -127,6 +127,20 @@ cash        = info.get("totalCash") or 0
 beta        = info.get("beta") or 1.0
 sector      = info.get("sector")
 industry    = info.get("industry")
+
+# Currency normalization — ADR / foreign-currency filers.
+# Statements use info["financialCurrency"]; price & marketCap use info["currency"]
+# (USD for US-listed ADRs). When they differ, every amount-based metric (P/S,
+# EV/Rev, net cash, DCF FCFF) is silently off by the FX rate. Normalize statement
+# amounts to the trading currency once, here. Ratios (P/E, P/B) and per-share info
+# fields are already trading-currency — do NOT touch them.
+fin_ccy = info.get("financialCurrency")
+mkt_ccy = info.get("currency")
+FX = 1.0
+if fin_ccy and mkt_ccy and fin_ccy != mkt_ccy:
+    FX = float(yf.Ticker(f"{fin_ccy}{mkt_ccy}=X").fast_info.last_price)  # e.g. CNYUSD=X ≈ 0.14
+cash       *= FX
+total_debt *= FX
 ```
 
 Key financial statement rows (yfinance labels):
@@ -161,8 +175,8 @@ capex_pct   = float((cashflow_a.loc["Capital Expenditure"].abs() / income_a.loc[
 nwc_pct     = float((cashflow_a.loc["Change In Working Capital"].abs() / income_a.loc["Total Revenue"]).iloc[:3].median())
 tax_rate    = max(0.15, min(0.30, 0.21))  # use effective if available
 
-# 4c. FCFF per year
-rev_t = [float(income_a.loc["Total Revenue"].iloc[0])]
+# 4c. FCFF per year — FX-normalize the statement revenue base (margins are ratios, FX-neutral)
+rev_t = [float(income_a.loc["Total Revenue"].iloc[0]) * FX]
 fcff  = []
 for g in growth_path:
     rev_t.append(rev_t[-1] * (1 + g))
@@ -213,10 +227,10 @@ med_pe     = np.nanmedian([v["pe_fwd"] for v in multiples.values()])
 med_ev_rev = np.nanmedian([v["ev_rev"] for v in multiples.values()])
 med_ev_eb  = np.nanmedian([v["ev_ebitda"] for v in multiples.values()])
 
-eps_ttm    = float(income_q.loc["Diluted EPS"].iloc[:4].sum())
-rev_ttm    = float(income_q.loc["Total Revenue"].iloc[:4].sum())
-ebitda_ttm = float(income_q.loc["EBIT"].iloc[:4].sum()) + float(cashflow_q.loc["Depreciation And Amortization"].iloc[:4].sum())
-net_debt   = total_debt - cash
+eps_ttm    = info.get("trailingEps") or float(income_q.loc["Diluted EPS"].iloc[:4].sum()) * FX  # trailingEps is trading-currency + ADR-adjusted; statement EPS is filing-currency/ordinary-share (FX fallback)
+rev_ttm    = float(income_q.loc["Total Revenue"].iloc[:4].sum()) * FX
+ebitda_ttm = (float(income_q.loc["EBIT"].iloc[:4].sum()) + float(cashflow_q.loc["Depreciation And Amortization"].iloc[:4].sum())) * FX
+net_debt   = total_debt - cash   # cash & total_debt already FX-normalized in Step 3
 
 implied_pe       = med_pe * eps_ttm
 implied_ev_rev   = (med_ev_rev * rev_ttm - net_debt) / shares_out
@@ -224,7 +238,7 @@ implied_ev_ebit  = (med_ev_eb  * ebitda_ttm - net_debt) / shares_out
 implied_price_rel = np.nanmedian([implied_pe, implied_ev_rev, implied_ev_ebit])
 ```
 
-Adjust peer median ±10-30% if target's growth or margin profile diverges materially. Always state the adjustment and reason. Rule of 40 anchor for SaaS in `references/relative_valuation.md`.
+Adjust peer median ±10-30% if target's growth or margin profile diverges materially. Always state the adjustment and reason. Rule of 40 anchor for SaaS in `references/relative_valuation.md`. For ADRs / foreign-currency filers, the statement amounts above are FX-normalized to the trading currency (Step 3) — details and the currency-safe vs distorted metric table are in `references/relative_valuation.md` ("Currency & ADR Normalization").
 
 ---
 
@@ -293,6 +307,7 @@ Output in this order:
 ### Caveats to include
 - TTM data lags real-time; peer multiples reflect market sentiment (can overshoot)
 - DCF is garbage-in/garbage-out; sensitivity matters more than a point estimate
+- ADR / foreign-currency filers: statements are FX-normalized to the trading currency (Step 3). Prefer `trailingPE`/`priceToBook` over Yahoo's raw `priceToSalesTrailing12Months`/`enterpriseToRevenue`, which mix currencies; a residual ordinary-to-ADS share ratio can remain on the P/E line — cross-check `info["trailingPE"]`
 - yfinance data is unofficial; cross-check any decision with primary filings
 - Not financial advice
 
