@@ -25,7 +25,7 @@ Fetches financial and market data from Yahoo Finance using the [yfinance](https:
 **Current environment status:**
 
 ```
-!`python3 -c "import yfinance; print('yfinance ' + yfinance.__version__ + ' installed')" 2>/dev/null || echo "YFINANCE_NOT_INSTALLED"`
+!`python3 -c 'try: import yfinance; print("yfinance " + yfinance.__version__ + " installed"); except ImportError: print("YFINANCE_NOT_INSTALLED")'`
 ```
 
 If `YFINANCE_NOT_INSTALLED`, install it before running any code:

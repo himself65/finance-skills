@@ -110,14 +110,14 @@ For Python skills that need specific libraries.
 ### Structure
 
 ```
-!`python3 -c "import lib; print('lib ' + lib.__version__)" 2>/dev/null || echo "LIB_NOT_INSTALLED"`
+!`python3 -c 'try: import lib; print("lib " + lib.__version__); except ImportError: print("LIB_NOT_INSTALLED")'`
 ```
 
 ### Real Example: stock-correlation (multi-package + algorithm fallback)
 
 ```markdown
 ` ` `
-!`python3 -c "import yfinance, pandas, numpy; print(f'yfinance={yfinance.__version__} pandas={pandas.__version__} numpy={numpy.__version__}')" 2>/dev/null || echo "DEPS_MISSING"`
+!`python3 -c 'try: import yfinance, pandas, numpy; print(f"yfinance={yfinance.__version__} pandas={pandas.__version__} numpy={numpy.__version__}"); except ImportError: print("DEPS_MISSING")'`
 ` ` `
 
 If `DEPS_MISSING`, install:
@@ -185,7 +185,7 @@ For skills that need current market data, not stale defaults.
 ### Structure
 
 ```
-!`python3 -c "import yfinance as yf; print(f'PRICE={yf.Ticker(\"^GSPC\").fast_info[\"lastPrice\"]:.0f}')" 2>/dev/null || echo "PRICE_UNAVAILABLE"`
+!`python3 -c 'try: import yfinance as yf; print(f"PRICE={yf.Ticker("^GSPC").fast_info["lastPrice"]:.0f}"); except Exception: print("PRICE_UNAVAILABLE")'`
 ```
 
 ### Real Example: options-payoff (current SPX price)
@@ -193,7 +193,7 @@ For skills that need current market data, not stale defaults.
 ```markdown
 **Current SPX reference price:**
 ` ` `
-!`python3 -c "import yfinance as yf; print(f'SPX ≈ {yf.Ticker(\"^GSPC\").fast_info[\"lastPrice\"]:.0f}')" 2>/dev/null || echo "SPX price unavailable — check market data"`
+!`python3 -c 'try: import yfinance as yf; print(f"SPX ≈ {yf.Ticker("^GSPC").fast_info["lastPrice"]:.0f}"); except Exception: print("SPX price unavailable — check market data")'`
 ` ` `
 ```
 
@@ -415,7 +415,7 @@ from ddgs import DDGS  # might fail!
 | CLI tool exists | `command -v tool 2>/dev/null` |
 | CLI tool version | `tool --version 2>/dev/null` |
 | Tool is authenticated | `tool auth status 2>/dev/null` |
-| Python module available | `python3 -c "import mod; print(mod.__version__)"` |
+| Python module available | `python3 -c 'try: import mod; print(mod.__version__); except ImportError: print("MOD_NOT_INSTALLED")'` |
 | Env var is set | `echo $VAR \| head -c 8 && echo "...SET"` |
 | File exists | `test -f ~/.config/tool/creds && echo "OK"` |
 | API is reachable | `curl -sf endpoint \| head -c 100` |
