@@ -16,6 +16,11 @@
     "data-provider",
     "tradingview",
     "options",
-    "opencli"
+    "opencli",
+    "hyperliquid",
+    "perps",
+    "funding",
+    "crypto",
+    "dex"
   ]
 }

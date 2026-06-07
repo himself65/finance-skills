@@ -1,0 +1,6 @@
+{
+  "name": "hyperliquid",
+  "description": "Read-only adapter for Hyperliquid's public info API. Perp/spot market data — markets, mid prices, L2 order book, candles, and funding (incl. a cross-venue funding-arb screen).",
+  "version": "0.1.0",
+  "opencli": ">=1.8.0"
+}
