@@ -4,9 +4,8 @@
  * Hyperliquid exposes a fully public, read-only POST endpoint:
  *   POST https://api.hyperliquid.xyz/info   body { "type": "...", ... }  → JSON
  *
- * No API key, no auth, no cookies — every read this plugin makes works
- * unauthenticated, including reading any address's positions/orders/fills by
- * its public 0x address. Placing trades requires wallet-signed actions on the
+ * No API key, no auth, no cookies — every market-data read this plugin makes
+ * works unauthenticated. Placing trades requires wallet-signed actions on the
  * separate /exchange endpoint, which this plugin intentionally NEVER touches.
  *
  * Funding rates come back per funding interval. Hyperliquid perps fund hourly,
@@ -58,17 +57,6 @@ export function fundingToApr(rate, intervalHours = 1) {
   const r = num(rate);
   const h = num(intervalHours) || 1;
   return r == null ? null : (r / h) * 24 * 365 * 100;
-}
-
-const ADDRESS_RE = /^0x[0-9a-fA-F]{40}$/;
-
-/** Validate + lowercase an EVM address; throws a friendly error otherwise. */
-export function normalizeAddress(user) {
-  const addr = String(user || '').trim();
-  if (!ADDRESS_RE.test(addr)) {
-    throw new Error(`--user must be a 0x-prefixed 40-hex-char address, got: ${user}`);
-  }
-  return addr.toLowerCase();
 }
 
 /** Millisecond epoch → ISO string (null-safe). */

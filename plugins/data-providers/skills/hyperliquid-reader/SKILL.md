@@ -1,30 +1,27 @@
 ---
 name: hyperliquid-reader
 description: >
-  Read Hyperliquid (app.hyperliquid.xyz) perp + spot market data and any
-  wallet's account state via opencli (read-only, public info API). Use
-  whenever the user wants Hyperliquid perpetual or spot markets,
-  mark/oracle/mid prices, 24h change, funding rates (hourly or annualized
-  APR), open interest, volume, the L2 order book, OHLCV candles, historical
-  funding, or a cross-venue funding comparison (Hyperliquid vs Binance vs
-  Bybit) for funding arbitrage. Also use to read any address's Hyperliquid
-  perp account (margin summary, open positions with entry/uPnL/leverage/
-  liquidation price), spot balances, open orders, and recent fills by 0x
-  address. Triggers: "Hyperliquid funding for BTC", "HL perp markets",
+  Read Hyperliquid (app.hyperliquid.xyz) perp + spot market data via
+  opencli (read-only, public info API). Use whenever the user wants
+  Hyperliquid perpetual or spot markets, mark/oracle/mid prices, 24h
+  change, funding rates (hourly or annualized APR), open interest, volume,
+  the L2 order book, OHLCV candles, historical funding, or a cross-venue
+  funding comparison (Hyperliquid vs Binance vs Bybit) for funding
+  arbitrage. Triggers: "Hyperliquid funding for BTC", "HL perp markets",
   "funding on BTC perp", "Hyperliquid order book", "HL open interest",
-  "funding arb Hyperliquid vs Binance", "show Hyperliquid positions for
-  0x...", "what is this wallet holding on HL", "Hyperliquid spot markets",
-  "hyperliquid", "HL DEX". READ-ONLY — never places, modifies, or cancels
-  orders, and never moves funds.
+  "funding arb Hyperliquid vs Binance", "Hyperliquid candles for SOL",
+  "Hyperliquid spot markets", "PURR price on Hyperliquid", "hyperliquid",
+  "hyperliquid.xyz", "HL DEX". READ-ONLY market data — no account, order,
+  or trade operations.
 ---
 
 # Hyperliquid Reader (Read-Only)
 
-Reads [Hyperliquid](https://app.hyperliquid.xyz) — the on-chain perps/spot DEX — for market data and account state via [opencli](https://github.com/jackwener/opencli) and the `hyperliquid` plugin in this repo's [`opencli-plugins/hyperliquid`](https://github.com/himself65/finance-skills/tree/main/opencli-plugins/hyperliquid) tree (a separate plugin from opencli's built-in adapters, installed via opencli's monorepo subpath syntax).
+Reads [Hyperliquid](https://app.hyperliquid.xyz) — the on-chain perps/spot DEX — for market data via [opencli](https://github.com/jackwener/opencli) and the `hyperliquid` plugin in this repo's [`opencli-plugins/hyperliquid`](https://github.com/himself65/finance-skills/tree/main/opencli-plugins/hyperliquid) tree (a separate plugin from opencli's built-in adapters, installed via opencli's monorepo subpath syntax).
 
-**This skill is read-only.** It reads Hyperliquid's fully public info API for analysis: market tables, funding, order book, candles, and any address's positions/orders/fills. It does NOT place, modify, or cancel orders, and never moves funds. There is no trading path in the plugin — order placement requires wallet-signed actions on a separate endpoint this adapter never calls.
+**This skill is read-only and market-data only.** It reads Hyperliquid's fully public info API for analysis: market tables, funding, order book, and candles. It does NOT read individual accounts, place/modify/cancel orders, or move funds. There is no trading path in the plugin — order placement requires wallet-signed actions on a separate endpoint this adapter never calls.
 
-**How it works**: every command issues a single `POST https://api.hyperliquid.xyz/info` with a `{ "type": "..." }` body and normalizes the response. **No API key, no wallet, no login, no running app** — the info API is public. Account data is read by public **0x address** (anyone's address; the user supplies whichever they want to inspect).
+**How it works**: every command issues a single `POST https://api.hyperliquid.xyz/info` with a `{ "type": "..." }` body and normalizes the response. **No API key, no wallet, no login, no running app** — the info API is public.
 
 ---
 
@@ -63,13 +60,10 @@ That's the entire setup — no auth, no launch step. Verify with `opencli hyperl
 | `opencli: command not found` | `npm install -g @jackwener/opencli` (Node ≥ 22) |
 | `Unknown command: hyperliquid` | `opencli plugin install github:himself65/finance-skills/hyperliquid` |
 | `hyperliquid info 429` | Rate limited — wait a few seconds and retry |
-| `--user must be a 0x-prefixed 40-hex-char address` | Pass a full 42-char `0x…` address to account commands |
 
 ---
 
 ## Step 2: Identify What the User Needs
-
-### Market data (no address required)
 
 | User Request | Command | Key Flags |
 |---|---|---|
@@ -82,16 +76,6 @@ That's the entire setup — no auth, no launch step. Verify with `opencli hyperl
 | Historical funding for a coin | `opencli hyperliquid funding-history --coin BTC` | `--hours`, `--limit` |
 | Funding arb: HL vs Binance vs Bybit | `opencli hyperliquid funding-compare` | `--coin`, `--sort`, `--limit` |
 
-### Account data (by 0x address — read any wallet)
-
-| User Request | Command | Key Flags |
-|---|---|---|
-| Account value / margin summary | `opencli hyperliquid account --user 0x…` | — |
-| Open perp positions | `opencli hyperliquid positions --user 0x…` | `--coin` |
-| Spot token balances | `opencli hyperliquid spot-balances --user 0x…` | — |
-| Resting open orders | `opencli hyperliquid open-orders --user 0x…` | `--coin` |
-| Recent fills / trade history | `opencli hyperliquid fills --user 0x…` | `--coin`, `--limit` |
-
 ---
 
 ## Step 3: Execute the Command
@@ -103,7 +87,7 @@ That's the entire setup — no auth, no launch step. Verify with `opencli hyperl
 opencli hyperliquid markets --sort fundingAprPct --limit 15 -f json
 opencli hyperliquid funding-compare --sort hlVsBinancePct --limit 20 -f md
 opencli hyperliquid candles --coin BTC --interval 4h --limit 50 -f csv
-opencli hyperliquid positions --user 0xABC...123 -f json
+opencli hyperliquid book --coin ETH --depth 5 -f json
 ```
 
 ### Key rules
@@ -114,10 +98,8 @@ opencli hyperliquid positions --user 0xABC...123 -f json
 4. **`funding-compare` is the funding-arb screen** — it annualizes each venue with its own interval (HL hourly, Binance/Bybit usually 4h) and reports `hlVsBinancePct` / `hlVsBybitPct` spreads. Default sort ranks by **absolute** HL-vs-Binance spread (widest dislocations first). A positive `hlVsBinancePct` means HL longs pay more than Binance longs.
 5. **`book` defaults to 10 levels per side** — raise `--depth` (max 20) for more, or `--n-sig-figs 2..5` to aggregate price levels. Compute the spread/mid from the top bid and ask.
 6. **`candles` pulls the most recent `--limit` candles** of `--interval` (default `1h`, 100 candles). Valid intervals: `1m 3m 5m 15m 30m 1h 2h 4h 8h 12h 1d 3d 1w 1M`. Max 5000.
-7. **Account commands need a full `0x` address** (42 chars). The skill reads *any* address — confirm whose wallet the user means if ambiguous. `positions`/`open-orders`/`fills` accept `--coin` to narrow to one asset.
-8. **`fills` defaults to the 50 most recent** (API holds up to 2000). Raise `--limit` for deeper history; each row carries `closedPnl` and `fee`.
-9. **`-f json`** for programmatic processing / feeding other skills; `-f md` or `-f table` for human-readable output.
-10. **NEVER call any write operation.** This skill is read-only — no order placement, modification, or cancellation, and no transfers. The plugin intentionally exposes no write endpoints.
+7. **`-f json`** for programmatic processing / feeding other skills; `-f md` or `-f table` for human-readable output.
+8. **NEVER call any write operation.** This skill is read-only market data — no account reads, no order placement, modification, or cancellation, and no transfers. The plugin intentionally exposes no write endpoints.
 
 ### Output format flag (`-f`)
 
@@ -138,11 +120,6 @@ opencli hyperliquid positions --user 0xABC...123 -f json
 - `candles` — `time`, `open`, `high`, `low`, `close`, `volume`, `trades`
 - `funding-history` — `coin`, `fundingRatePct`, `fundingAprPct`, `premiumPct`, `time`
 - `funding-compare` — `coin`, `hlAprPct`, `binanceAprPct`, `bybitAprPct`, `hlVsBinancePct`, `hlVsBybitPct`, `nextHlFunding`
-- `account` — `accountValue`, `totalNtlPos`, `totalRawUsd`, `totalMarginUsed`, `crossAccountValue`, `crossMaintenanceMarginUsed`, `withdrawable`, `numPositions`, `time`
-- `positions` — `coin`, `side`, `size`, `entryPx`, `positionValue`, `unrealizedPnl`, `roePct`, `leverage`, `leverageType`, `liquidationPx`, `marginUsed`, `fundingSinceOpen`
-- `spot-balances` — `coin`, `total`, `hold`, `available`, `entryNtl`
-- `open-orders` — `coin`, `side`, `orderType`, `limitPx`, `sz`, `origSz`, `oid`, `tif`, `reduceOnly`, `triggerCondition`, `triggerPx`, `time`
-- `fills` — `coin`, `dir`, `side`, `px`, `sz`, `notional`, `closedPnl`, `fee`, `feeToken`, `crossed`, `time`, `hash`
 
 ---
 
@@ -152,11 +129,9 @@ opencli hyperliquid positions --user 0xABC...123 -f json
 2. **Frame funding in carry terms** — e.g. "BTC perp funding is +10.9% APR (longs pay shorts)". Positive funding ⇒ longs pay shorts; negative ⇒ shorts pay longs.
 3. **For `funding-compare`, surface the widest dislocations first** — name the coin, both venues' APRs, and the spread, and remember the spread is annualized; a real arb also pays exchange/withdrawal frictions, so present it as a screen, not a guaranteed edge.
 4. **For `book`, report the spread** — best bid, best ask, mid, and spread in bps before (or instead of) dumping every level. Don't paste 20 levels unless asked.
-5. **For `positions`, summarize the book** — total account value and uPnL first, then the largest positions by `positionValue`; flag any position whose `liquidationPx` is close to the current mark.
-6. **For `candles`, describe the move** — first/last close, high/low, and direction; only show the full OHLCV table when the user wants the series.
-7. **Filter aggressively before showing** — `markets` has ~180 perps and `mids` ~700 markets; cap to top 15-20 by the relevant sort unless the user asks for the full list.
-8. **Treat addresses as the user provides them** — don't expose or guess wallet addresses; echo only what was supplied.
-9. **Cross-reference for trade decisions** — Hyperliquid is the on-chain venue; for equities/options context pair it with the `funda-data` or `tradingview-reader` skills. For funding/basis trades, `funding-compare` plus `markets` (premium, OI) is the core view.
+5. **For `candles`, describe the move** — first/last close, high/low, and direction; only show the full OHLCV table when the user wants the series.
+6. **Filter aggressively before showing** — `markets` has ~180 perps and `mids` ~700 markets; cap to top 15-20 by the relevant sort unless the user asks for the full list.
+7. **Cross-reference for trade decisions** — Hyperliquid is the on-chain venue; for equities/options context pair it with the `funda-data` or `tradingview-reader` skills. For funding/basis trades, `funding-compare` plus `markets` (premium, OI) is the core view.
 
 ---
 
@@ -178,11 +153,9 @@ A successful BTC row confirms opencli, the plugin, and the public API are all re
 | `hyperliquid info 429` | Rate limited | Wait a few seconds, then retry |
 | `hyperliquid info 422/500` | Malformed body or upstream issue | Re-check the coin/interval; retry after a wait |
 | `No perp market for coin "X"` | Wrong/unlisted symbol | Run `opencli hyperliquid markets` (or `mids`) to find the exact symbol |
-| `--user must be a 0x-prefixed 40-hex-char address` | Bad/short address | Pass the full 42-char `0x…` address |
-| Empty result for an address | Address has no Hyperliquid activity | Confirm the address actually trades on Hyperliquid |
 
 ---
 
 ## Reference Files
 
-- `references/commands.md` — Every command with all flags, output schemas, and analyst workflows (funding carry, basis/arb, position monitoring)
+- `references/commands.md` — Every command with all flags, output schemas, and analyst workflows (funding carry, basis/arb, spot snapshot)

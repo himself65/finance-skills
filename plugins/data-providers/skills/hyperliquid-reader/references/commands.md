@@ -1,6 +1,6 @@
 # Hyperliquid Reader — Command Reference
 
-Every command issues a single `POST https://api.hyperliquid.xyz/info` and prints normalized rows. All are **read-only** and accept `-f json|yaml|md|csv|table`. Market commands need no auth; account commands take a public `0x` address via `--user`.
+Every command issues a single `POST https://api.hyperliquid.xyz/info` and prints normalized rows. All are **read-only market data**, need no auth, and accept `-f json|yaml|md|csv|table`.
 
 > Symbols: perps are bare names (`BTC`, `ETH`, `HYPE`); spot pairs are `BASE/USDC` (`PURR/USDC`). `book` and `candles` accept either.
 
@@ -140,81 +140,6 @@ opencli hyperliquid funding-compare --sort hlAprPct --limit 15   # highest HL ca
 
 ---
 
-## Account data (by 0x address)
-
-All take `--user 0x…` (full 42-char address). They read **any** address — public on-chain state.
-
-### `account` — perp margin summary
-
-`clearinghouseState` → single row.
-
-Columns: `accountValue`, `totalNtlPos`, `totalRawUsd`, `totalMarginUsed`, `crossAccountValue`, `crossMaintenanceMarginUsed`, `withdrawable`, `numPositions`, `time`.
-
-```bash
-opencli hyperliquid account --user 0xABC...123
-```
-
-### `positions` — open perp positions
-
-`clearinghouseState` → one row per position.
-
-| Flag | Default | Notes |
-|---|---|---|
-| `--user` | (required) | 0x address |
-| `--coin` | (all) | Filter to one coin |
-
-Columns: `coin`, `side` (`long`/`short`), `size` (abs), `entryPx`, `positionValue`, `unrealizedPnl`, `roePct`, `leverage`, `leverageType` (`cross`/`isolated`), `liquidationPx`, `marginUsed`, `fundingSinceOpen`.
-
-```bash
-opencli hyperliquid positions --user 0xABC...123 -f json
-opencli hyperliquid positions --user 0xABC...123 --coin BTC
-```
-
-### `spot-balances` — spot token balances
-
-`spotClearinghouseState` → one row per token.
-
-Columns: `coin`, `total`, `hold`, `available` (= total − hold), `entryNtl`.
-
-```bash
-opencli hyperliquid spot-balances --user 0xABC...123
-```
-
-### `open-orders` — resting orders
-
-`frontendOpenOrders` → one row per order (includes type + trigger detail).
-
-| Flag | Default | Notes |
-|---|---|---|
-| `--user` | (required) | 0x address |
-| `--coin` | (all) | Filter to one coin |
-
-Columns: `coin`, `side` (`buy`/`sell`), `orderType`, `limitPx`, `sz`, `origSz`, `oid`, `tif`, `reduceOnly`, `triggerCondition`, `triggerPx`, `time`.
-
-```bash
-opencli hyperliquid open-orders --user 0xABC...123
-opencli hyperliquid open-orders --user 0xABC...123 --coin ETH -f json
-```
-
-### `fills` — recent fills / trades
-
-`userFills` → most-recent-first.
-
-| Flag | Default | Notes |
-|---|---|---|
-| `--user` | (required) | 0x address |
-| `--coin` | (all) | Filter to one coin |
-| `--limit` | `50` | Max fills (API holds up to 2000) |
-
-Columns: `coin`, `dir`, `side`, `px`, `sz`, `notional`, `closedPnl`, `fee`, `feeToken`, `crossed`, `time`, `hash`.
-
-```bash
-opencli hyperliquid fills --user 0xABC...123 --limit 100
-opencli hyperliquid fills --user 0xABC...123 --coin BTC -f json
-```
-
----
-
 ## Analyst workflows
 
 ### Funding carry scan
@@ -230,11 +155,6 @@ opencli hyperliquid fills --user 0xABC...123 --coin BTC -f json
 ### Basis / premium check
 1. `markets --coin <X>` — `premiumPct` shows perp rich/cheap vs oracle; `markPx` vs `oraclePx` is the absolute basis.
 2. `candles --coin <X> --interval 1h` — recent price action around the basis.
-
-### Wallet position monitor
-1. `account --user 0x…` — account value, margin used, withdrawable.
-2. `positions --user 0x…` — open positions; watch `liquidationPx` vs current mark (from `markets --coin`).
-3. `open-orders --user 0x…` and `fills --user 0x… --limit 50` — working orders and recent activity.
 
 ### Spot token snapshot
 1. `spot-markets --canonical-only --sort dayNtlVlm` — most active named pairs.

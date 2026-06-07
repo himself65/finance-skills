@@ -1,7 +1,7 @@
 {
   "name": "@himself65/opencli-plugin-hyperliquid",
   "version": "0.1.0",
-  "description": "Read-only opencli adapter for Hyperliquid's public info API — perp/spot markets, mids, L2 order book, candles, funding history + cross-venue funding-arb screen, and any address's account state, positions, spot balances, open orders, and fills. No API key.",
+  "description": "Read-only opencli adapter for Hyperliquid's public info API — perp/spot markets, mids, L2 order book, candles, funding history, and a cross-venue funding-arb screen. Market data only, no API key.",
   "type": "module",
   "private": true,
   "engines": {

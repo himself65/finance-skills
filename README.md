@@ -97,7 +97,7 @@ External API data — sentiment via Adanos, fundamental research and raw data vi
 | [funda-data](plugins/data-providers/skills/funda-data/) | [Funda AI](https://funda.ai) — MCP server for analyst-grade research synthesis (DCF, earnings recaps, sector deep-dives, filings) plus REST API fallback for raw data (real-time quotes, options chains, financials, 60+ endpoints) |
 | [hormuz-strait](plugins/data-providers/skills/hormuz-strait/) | Strait of Hormuz monitoring — shipping, oil impact, insurance risk, crisis timeline |
 | [tradingview-reader](plugins/data-providers/skills/tradingview-reader/) | Read-only TradingView desktop reader — quotes, full options chains with greeks/IV, expiries, chart state, screenshots — via [opencli](https://github.com/jackwener/opencli) + CDP |
-| [hyperliquid-reader](plugins/data-providers/skills/hyperliquid-reader/) | Read-only [Hyperliquid](https://app.hyperliquid.xyz) reader — perp/spot markets, funding (incl. cross-venue arb screen), order book, candles, and any address's positions/orders/fills — via [opencli](https://github.com/jackwener/opencli) + public info API |
+| [hyperliquid-reader](plugins/data-providers/skills/hyperliquid-reader/) | Read-only [Hyperliquid](https://app.hyperliquid.xyz) market-data reader — perp/spot markets, mids, funding (incl. cross-venue arb screen), order book, and candles — via [opencli](https://github.com/jackwener/opencli) + public info API |
 
 ### Startup Tools (`finance-startup-tools`)
 

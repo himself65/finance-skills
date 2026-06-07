@@ -1,6 +1,6 @@
 # opencli-plugin-hyperliquid
 
-Read-only [opencli](https://github.com/jackwener/opencli) adapter for **[Hyperliquid](https://app.hyperliquid.xyz)**, the on-chain perps/spot DEX. Exposes perp + spot markets, mid prices, L2 order book, OHLCV candles, funding history, a cross-venue funding-arb screen, and any address's account state, positions, spot balances, open orders, and fills — all from Hyperliquid's **public info API**. No API key, no wallet, no login.
+Read-only [opencli](https://github.com/jackwener/opencli) adapter for **[Hyperliquid](https://app.hyperliquid.xyz)**, the on-chain perps/spot DEX. Exposes perp + spot market data — markets, mid prices, L2 order book, OHLCV candles, funding history, and a cross-venue funding-arb screen — all from Hyperliquid's **public info API**. No API key, no wallet, no login.
 
 This plugin lives inside the [`himself65/finance-skills`](https://github.com/himself65/finance-skills) monorepo. Install it via opencli's monorepo subpath syntax:
 
@@ -16,11 +16,9 @@ npm install -g @jackwener/opencli
 opencli plugin install github:himself65/finance-skills/hyperliquid
 ```
 
-**Zero setup.** Every command hits `https://api.hyperliquid.xyz/info` directly — no API key, no auth, no cookies, no running app. Account data (positions/orders/fills/balances) is read by public 0x address.
+**Zero setup.** Every command hits `https://api.hyperliquid.xyz/info` directly — no API key, no auth, no cookies, no running app.
 
 ## Commands
-
-### Market data (no address)
 
 | Command | Description | Output columns |
 |---|---|---|
@@ -44,18 +42,6 @@ opencli plugin install github:himself65/finance-skills/hyperliquid
 
 `funding-compare` flags: `--coin`, `--sort {hlVsBinancePct|hlVsBybitPct|hlAprPct|binanceAprPct|bybitAprPct|coin}` (default `hlVsBinancePct`, ranked by absolute spread), `--limit`.
 
-### Account data (by 0x address)
-
-| Command | Description | Output columns |
-|---|---|---|
-| `hyperliquid account --user 0x…` | Perp margin summary | `accountValue`, `totalNtlPos`, `totalRawUsd`, `totalMarginUsed`, `crossAccountValue`, `crossMaintenanceMarginUsed`, `withdrawable`, `numPositions`, `time` |
-| `hyperliquid positions --user 0x…` | Open perp positions | `coin`, `side`, `size`, `entryPx`, `positionValue`, `unrealizedPnl`, `roePct`, `leverage`, `leverageType`, `liquidationPx`, `marginUsed`, `fundingSinceOpen` |
-| `hyperliquid spot-balances --user 0x…` | Spot token balances | `coin`, `total`, `hold`, `available`, `entryNtl` |
-| `hyperliquid open-orders --user 0x…` | Resting orders | `coin`, `side`, `orderType`, `limitPx`, `sz`, `origSz`, `oid`, `tif`, `reduceOnly`, `triggerCondition`, `triggerPx`, `time` |
-| `hyperliquid fills --user 0x…` | Recent fills/trades | `coin`, `dir`, `side`, `px`, `sz`, `notional`, `closedPnl`, `fee`, `feeToken`, `crossed`, `time`, `hash` |
-
-`positions` / `open-orders` accept an optional `--coin` filter. `fills` accepts `--coin` and `--limit` (default 50, API max 2000).
-
 All commands accept `-f json|yaml|md|csv|table`.
 
 ## Data path
@@ -71,12 +57,8 @@ Every command issues a single `POST https://api.hyperliquid.xyz/info` with a `{ 
 | `candles` | `candleSnapshot` |
 | `funding-history` | `fundingHistory` |
 | `funding-compare` | `predictedFundings` |
-| `account` / `positions` | `clearinghouseState` |
-| `spot-balances` | `spotClearinghouseState` |
-| `open-orders` | `frontendOpenOrders` |
-| `fills` | `userFills` |
 
-**Numbers** arrive as strings and are coerced to finite numbers (or `null`). **Funding** is reported per interval — Hyperliquid perps fund hourly, so APR = `rate × 24 × 365`; `funding-compare` annualizes each venue with its own interval (Binance/Bybit commonly 4h). **Side** is decoded from `A` (sell) / `B` (buy).
+**Numbers** arrive as strings and are coerced to finite numbers (or `null`). **Funding** is reported per interval — Hyperliquid perps fund hourly, so APR = `rate × 24 × 365`; `funding-compare` annualizes each venue with its own interval (Binance/Bybit commonly 4h).
 
 ## Auth model
 
@@ -97,10 +79,8 @@ opencli-plugins/hyperliquid/
 ├── opencli-plugin.json        # plugin manifest
 ├── package.json               # Node package (type: module)
 ├── lib/
-│   ├── api.js                 # infoFetch POST helper, num/pctChange/funding/address helpers
+│   ├── api.js                 # infoFetch POST helper, num/pctChange/funding/isoTime helpers
 │   ├── markets.js             # perp + spot market normalizers, allMids resolver
-│   ├── account.js             # margin summary, positions, spot balances
-│   ├── orders.js              # open orders + fills normalizers
 │   ├── funding.js             # funding history + cross-venue predicted-funding pivot
 │   ├── book.js                # l2 book flattener + spread summary
 │   └── candles.js             # interval table + OHLCV normalizer
@@ -111,16 +91,9 @@ opencli-plugins/hyperliquid/
 ├── candles.js                 # candleSnapshot → OHLCV
 ├── funding-history.js         # fundingHistory → historical funding
 ├── funding-compare.js         # predictedFundings → cross-venue arb screen
-├── account.js                 # clearinghouseState → margin summary
-├── positions.js               # clearinghouseState → open positions
-├── spot-balances.js           # spotClearinghouseState → spot balances
-├── open-orders.js             # frontendOpenOrders → resting orders
-├── fills.js                   # userFills → recent trades
 └── tests/
-    ├── api.test.js            # num, pctChange, fundingToApr, normalizeAddress, isoTime
+    ├── api.test.js            # num, pctChange, fundingToApr, isoTime
     ├── markets.test.js        # perp/spot normalizers, allMids resolver
-    ├── account.test.js        # margin summary, positions, spot balances
-    ├── orders.test.js         # open orders + fills (side decode, limit)
     ├── funding.test.js        # funding history + cross-venue pivot/APR
     ├── book.test.js           # l2 flatten + spread
     └── candles.test.js        # OHLCV normalizer
