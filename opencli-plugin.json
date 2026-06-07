@@ -1,10 +1,13 @@
 {
   "name": "finance-skills-opencli-plugins",
-  "description": "opencli plugins shipped alongside the finance-skills repo. Currently: tradingview (read-only TradingView desktop adapter).",
+  "description": "opencli plugins shipped alongside the finance-skills repo: tradingview (read-only TradingView desktop adapter) and hyperliquid (read-only Hyperliquid info-API adapter).",
   "version": "0.1.0",
   "plugins": {
     "tradingview": {
       "path": "opencli-plugins/tradingview"
+    },
+    "hyperliquid": {
+      "path": "opencli-plugins/hyperliquid"
     }
   }
 }

@@ -1,0 +1,6 @@
+{
+  "name": "hyperliquid",
+  "description": "Read-only adapter for Hyperliquid's public info API. Perp/spot markets, order book, candles, funding (incl. cross-venue arb screen), and any address's account state, positions, orders, and fills.",
+  "version": "0.1.0",
+  "opencli": ">=1.8.0"
+}

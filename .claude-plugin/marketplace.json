@@ -23,7 +23,7 @@
     {
       "name": "finance-data-providers",
       "source": "./plugins/data-providers",
-      "description": "External API data — sentiment via Adanos, comprehensive data via Funda AI, Hormuz Strait monitoring, and TradingView desktop reader.",
+      "description": "External API data — sentiment via Adanos, comprehensive data via Funda AI, Hormuz Strait monitoring, TradingView desktop reader, and Hyperliquid perp/spot reader.",
       "version": "8.0.1"
     },
     {
