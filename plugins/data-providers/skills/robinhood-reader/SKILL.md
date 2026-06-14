@@ -4,10 +4,11 @@ description: >
   Read-only reader for a user's Robinhood brokerage account via Robinhood's
   official Agentic Trading MCP server (agent.robinhood.com/mcp/trading). Use
   whenever the user wants to inspect their Robinhood holdings — portfolio
-  value and real-time buying power, equity and option positions with cost
-  basis, accounts and balances, equity/option order history, watchlists,
-  real-time equity and option quotes, option chains, index quotes, or
-  historical price data from their connected Robinhood account. Triggers: "my
+  value and real-time buying power, equity positions with cost basis, accounts
+  and balances, equity order history, watchlists, real-time equity quotes, or
+  historical price data from their connected Robinhood account. Options,
+  options chains, IV, and index quotes are not exposed on this connection.
+  Triggers: "my
   Robinhood portfolio", "Robinhood positions", "what do I hold on Robinhood",
   "Robinhood account balance", "my buying power", "Robinhood order history",
   "my Robinhood watchlist", "check my Robinhood", "robinhood", "robinhood
@@ -39,9 +40,9 @@ This skill's read-only guarantee is therefore **self-imposed**:
 - It calls **only** read tools (accounts, portfolio, positions, balances,
   orders/transactions, quotes, chains, watchlist reads, historicals).
 - It **never** calls any order, trade, or state-mutating tool — `place_*`,
-  `cancel_*`, `review_*`/preview, `add_*`, `follow_*`, `unfollow_*`,
-  `update_*`, or any future tool whose name or description implies placing,
-  cancelling, modifying, previewing, or changing anything.
+  `cancel_*`, `review_*`/preview, `add_*`, `remove_*`, `create_*`, `follow_*`,
+  `unfollow_*`, `update_*`, or any future tool whose name or description implies
+  placing, cancelling, modifying, previewing, or changing anything.
 - If the user asks this skill to buy, sell, cancel, or modify, **decline** and
   point them to the Robinhood app — this repository forbids AI trade execution.
 
@@ -109,25 +110,41 @@ description**, not from a fixed list:
   unfollows, updates, creates, or deletes. **Default unknown or ambiguous tools
   to forbidden.**
 
-### Known read tools (allowlist seed — verify spelling at runtime)
+### Observed live tools (equities beta, June 2026)
+
+The lists below were confirmed against a real connected account. Robinhood is
+still adding tools, and a different account/tier may expose a different set —
+so **classify what your registry actually shows**; treat these as a seed, not a
+guarantee.
+
+**Read (allowed):**
 
 | Group | Tools |
 |---|---|
 | Account / portfolio | `get_accounts`, `get_portfolio`, `get_equity_positions`, `get_equity_orders`, `get_equity_tradability` |
-| Quotes / market data | `get_equity_quotes`, `get_equity-historicals`, `get_indexes`, `get_indexes_quotes`, `search` |
-| Watchlists (read) | `get_popular_lists`, `get_watchlists`, `get_watchlist_items` |
-| Options (read) | `get_option_chains`, `get_option_instruments`, `get_option_quotes`, `get_option_positions`, `get_option_orders` |
+| Quotes / market data | `get_equity_quotes`, `get_equity_historicals`, `search` |
+| Watchlists (read) | `get_watchlists`, `get_watchlist_items`, `get_popular_watchlists`, `get_option_watchlist` |
 
-### Known write tools — NEVER call these (denylist)
+**Write — NEVER call (denylist):**
 
 | Type | Tools |
 |---|---|
-| Trade execution | `place_equity_order`, `cancel_equity_order`, `place_option_order`, `cancel_option_order` |
-| Order simulation (still off-limits — write-intent, precedes an order) | `review_equity_order`, `review_option_order` |
-| Watchlist mutation | `add_to_watchlist`, `follow_list`, `unfollow_list`, `update_watchlist` |
+| Trade execution | `place_equity_order`, `cancel_equity_order` |
+| Order simulation (off-limits — write-intent, precedes an order) | `review_equity_order` |
+| Watchlist mutation | `add_to_watchlist`, `add_option_to_watchlist`, `remove_from_watchlist`, `remove_option_from_watchlist`, `create_watchlist`, `update_watchlist`, `follow_watchlist`, `unfollow_watchlist` |
 
-Tool names above are the best-documented set, not a runtime guarantee (e.g.
-`get_equity-historicals` may render differently). Trust the live registry.
+**Not yet exposed on this connection (but in Robinhood's docs — expect them as
+the beta expands):** option market data (`get_option_chains`,
+`get_option_quotes`, option positions/orders) and index quotes
+(`get_indexes`, `get_indexes_quotes`). When any **option order** tool appears
+(`place_option_order`, `cancel_option_order`, `review_option_order`), it goes
+straight on the denylist. This is why the rule above is name/description-driven,
+not a fixed list.
+
+> **Naming note from the live wire:** Robinhood's docs render
+> `get_equity-historicals` with a hyphen, but the actual tool is
+> `get_equity_historicals` (underscore), and the docs' `get_popular_lists` is
+> really `get_popular_watchlists`. Always trust the live registry over the docs.
 
 ---
 
@@ -136,23 +153,23 @@ Tool names above are the best-documented set, not a runtime guarantee (e.g.
 | User Request | Read tool(s) |
 |---|---|
 | "My Robinhood accounts" / account list + numbers | `get_accounts` |
-| Portfolio value, asset-class breakdown, buying power | `get_portfolio` |
-| Current stock holdings (qty, cost basis, P&L) | `get_equity_positions` |
-| Current option holdings | `get_option_positions` |
-| Order history / status (stocks) | `get_equity_orders` |
-| Order history / status (options) | `get_option_orders` |
-| Live quote(s) for symbols (up to 20) | `get_equity_quotes` |
-| Historical price series for a symbol | `get_equity-historicals` |
-| Index level / index quote | `get_indexes`, `get_indexes_quotes` |
-| Option chain / specific contract quotes | `get_option_chains`, `get_option_instruments`, `get_option_quotes` |
-| Is a symbol tradable / fractionable | `get_equity_tradability` |
-| Ticker lookup by company name | `search` |
-| Watchlists and their contents | `get_watchlists`, `get_watchlist_items`, `get_popular_lists` |
-| "Buy / sell / cancel / set up an auto-trade" | **Decline** — read-only skill; direct to the Robinhood app |
+| Portfolio value, asset-class breakdown, buying power | `get_portfolio` (needs `account_number`) |
+| Current stock holdings (qty, avg cost) | `get_equity_positions` (needs `account_number`) |
+| Equity order history / status | `get_equity_orders` (needs `account_number`) |
+| Live quote(s) for symbols | `get_equity_quotes` (batch ≤20 to keep prior closes) |
+| Historical OHLCV series for a symbol | `get_equity_historicals` (needs `start_time`) |
+| Is a symbol tradable / fractionable | `get_equity_tradability` (needs `account_number`) |
+| Ticker / instrument lookup by name | `search` |
+| Watchlists and their contents | `get_watchlists`, `get_watchlist_items`, `get_popular_watchlists` |
+| Saved single-leg option contracts | `get_option_watchlist` (contract refs only — no quotes or IV) |
+| Option chains / quotes / IV, option positions or orders, index quotes | **Not exposed in this beta** — say so plainly; for options/IV pair with `funda-data` or `tradingview-reader` |
+| "Buy / sell / cancel / modify / edit a watchlist" | **Decline** — read-only skill; direct to the Robinhood app |
 
-For multi-part requests (e.g. "how's my Robinhood doing"), chain a few reads:
-`get_portfolio` (totals + buying power) + `get_equity_positions` (+
-`get_option_positions` if they hold options) gives a full snapshot.
+For multi-part requests (e.g. "how's my Robinhood doing"), call `get_accounts`
+first for the `account_number`, then chain `get_portfolio` (totals + buying
+power) + `get_equity_positions` for a full snapshot. **Options are not
+queryable** on this connection — there is no chain, quote, or IV tool, so an IV
+skew or options book must come from `tradingview-reader` / `funda-data`.
 
 ---
 
@@ -163,16 +180,22 @@ rules:
 
 1. **Reads only.** Before calling any tool, confirm it is on the read
    allowlist (or is clearly read-only by name/description). Never call a write
-   tool — not even to "preview" or "review" an order.
-2. **Batch quotes.** `get_equity_quotes` accepts up to **20 symbols** per call;
-   pass them together rather than one per call.
-3. **Pass exact symbols.** Resolve company names to tickers with `search`
-   first if needed.
-4. **Reads span all accounts.** `get_accounts` / `get_portfolio` /
-   `get_equity_positions` return data across *every* Robinhood account, not just
-   the Agentic one. Mention which account(s) data came from when relevant.
-5. **Don't refetch needlessly.** Account/position data is fresh per call; reuse
-   a result within the same turn instead of re-calling.
+   tool — not even to "preview" or "review" an order, and not to add a contract
+   to a watchlist.
+2. **Batch quotes, mind the 20 cap.** `get_equity_quotes` takes many symbols,
+   but above 20 it omits the prior-session closes (`closes_error` is set) —
+   keep batches ≤20 when you need closes.
+3. **Resolve names with `search`.** Turn a company name into a ticker /
+   `instrument_id` before quoting or pulling positions.
+4. **Most reads are per-account.** Only `get_accounts` enumerates accounts.
+   `get_portfolio`, `get_equity_positions`, `get_equity_orders`, and
+   `get_equity_tradability` each require an `account_number` — call
+   `get_accounts` first, and if the user has more than one account and didn't
+   say which, present the list and ask before querying (don't silently dump all
+   accounts). For buying power use `get_portfolio` (`get_accounts` does not
+   return reliable buying power).
+5. **Don't refetch needlessly.** Quotes/positions are fresh per call; reuse a
+   result within the same turn instead of re-calling.
 
 See `references/tools.md` for the full tool catalog, parameters, and analyst
 workflows (portfolio review, position concentration, order-history audit,

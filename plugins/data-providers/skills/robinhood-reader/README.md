@@ -10,13 +10,22 @@ account via Robinhood's official **Agentic Trading MCP server**
 After the user connects Robinhood's Trading MCP, this skill reads their account
 using only the **read** tools the server exposes:
 
-- **Accounts** — list of accounts and balances (account numbers are masked in output)
+- **Accounts** — list of accounts (account numbers are masked in output)
 - **Portfolio** — total value, asset-class breakdown, real-time buying power
-- **Positions** — open equity and option positions with cost basis (for P&L)
-- **Orders** — equity and option order history and status
-- **Quotes & market data** — real-time equity quotes (up to 20 symbols), index quotes, historical price series
-- **Options** — option chains, instruments, and quotes
-- **Watchlists** — the user's watchlists, their contents, and popular lists
+- **Positions** — open equity positions with cost basis (for P&L)
+- **Orders** — equity order history and status
+- **Quotes & market data** — real-time equity quotes (batch ≤20 for prior closes), historical OHLCV series
+- **Watchlists** — the user's watchlists, their contents, the options watchlist, and popular lists
+- **Search** — resolve a company name to a ticker / instrument
+
+> **Beta scope (verified June 2026).** A connected account currently exposes
+> **equities + watchlists + search** only. Robinhood's docs also list option
+> chains/quotes and index quotes, but those were **not** present on a live
+> connection (agentic options are still rolling out) — so there is **no option
+> chain, option quote, or implied-volatility data**, and an IV skew / options
+> book must come from `tradingview-reader` or `funda-data`. The skill enumerates
+> tools at runtime, so it picks up new reads automatically and keeps any new
+> order tools on the denylist.
 
 ## ⚠️ Read-only by design — important
 
@@ -27,10 +36,10 @@ server-side read-only mode**.
 
 This skill's read-only guarantee is **self-imposed** — it calls only read tools
 (`get_*`, `search`, …) and **never** calls any order/trade/state-changing tool
-(`place_*`, `cancel_*`, `review_*`, `add_*`, `follow_*`, `unfollow_*`,
-`update_*`), even if asked. It verifies the live tool list at runtime and
-treats unknown tools as forbidden. This matches the repository rule: **no AI
-trade execution.**
+(`place_*`, `cancel_*`, `review_*`, `add_*`, `remove_*`, `create_*`, `follow_*`,
+`unfollow_*`, `update_*`), even if asked. It verifies the live tool list at
+runtime and treats unknown tools as forbidden. This matches the repository rule:
+**no AI trade execution.**
 
 For a hard boundary independent of the skill, keep the dedicated **Agentic
 account unfunded** (or at the minimum balance) — trade writes are scoped to
