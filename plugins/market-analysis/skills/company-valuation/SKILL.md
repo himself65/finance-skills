@@ -36,7 +36,7 @@ Detect data source and runtime deps. The skill supports 3 method paths — pick 
 **Environment status:**
 
 ```
-!`python3 -c 'try: import yfinance, numpy, pandas; print("YFIN_OK"); except ImportError: print("YFIN_MISSING")'`
+!`python3 -c 'import yfinance, numpy, pandas; print("YFIN_OK")' 2>/dev/null || echo "YFIN_MISSING"`
 ```
 
 ```
@@ -44,7 +44,7 @@ Detect data source and runtime deps. The skill supports 3 method paths — pick 
 ```
 
 ```
-!`python3 -c 'try: import yfinance as yf; t=yf.Ticker("^TNX"); p=t.fast_info.last_price; print(f"RF_10Y={p/100:.4f}"); except Exception: print("RF_FETCH_FAIL")'`
+!`python3 -c 'import yfinance as yf; t=yf.Ticker("^TNX"); p=t.fast_info.last_price; print(f"RF_10Y={p/100:.4f}")' 2>/dev/null || echo "RF_FETCH_FAIL"`
 ```
 
 **Decision tree:**
