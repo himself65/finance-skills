@@ -89,7 +89,7 @@ Read-only social media and research feeds — Twitter/X, Discord, LinkedIn, Tele
 
 ### Data Providers (`finance-data-providers`)
 
-External API data — sentiment via Adanos, fundamental research and raw data via Funda AI (MCP + REST), Hormuz Strait monitoring, TradingView desktop app reading, and Hyperliquid perp/spot reading.
+External API data — sentiment via Adanos, fundamental research and raw data via Funda AI (MCP + REST), Hormuz Strait monitoring, TradingView desktop app reading, Hyperliquid perp/spot reading, and read-only Robinhood account reading.
 
 | Skill | Description |
 |---|---|
@@ -98,6 +98,7 @@ External API data — sentiment via Adanos, fundamental research and raw data vi
 | [hormuz-strait](plugins/data-providers/skills/hormuz-strait/) | Strait of Hormuz monitoring — shipping, oil impact, insurance risk, crisis timeline |
 | [tradingview-reader](plugins/data-providers/skills/tradingview-reader/) | Read-only TradingView desktop reader — quotes, full options chains with greeks/IV, expiries, chart state, screenshots — via [opencli](https://github.com/jackwener/opencli) + CDP |
 | [hyperliquid-reader](plugins/data-providers/skills/hyperliquid-reader/) | Read-only [Hyperliquid](https://app.hyperliquid.xyz) market-data reader — perp/spot markets, mids, funding (incl. cross-venue arb screen), order book, and candles — via [opencli](https://github.com/jackwener/opencli) + public info API |
+| [robinhood-reader](plugins/data-providers/skills/robinhood-reader/) | Read-only [Robinhood](https://robinhood.com/us/en/agentic-trading/) account reader — portfolio, buying power, positions & cost basis, order history, quotes, option chains, and watchlists via Robinhood's official Agentic Trading MCP (never places or cancels trades) |
 
 ### Startup Tools (`finance-startup-tools`)
 
