@@ -94,6 +94,7 @@ External API data — sentiment via Adanos, fundamental research and raw data vi
 | Skill | Description |
 |---|---|
 | [finance-sentiment](plugins/data-providers/skills/finance-sentiment/) | Stock sentiment research via Adanos Finance API — Reddit, X.com, news, Polymarket |
+| [crypto-narrative](plugins/data-providers/skills/crypto-narrative/) | Crypto/AI/macro narrative intelligence via [signaldaemon](https://signaldaemon.com) — cross-source convergence + narrative-vs-price divergence, MCP-native, fail-safe |
 | [funda-data](plugins/data-providers/skills/funda-data/) | [Funda AI](https://funda.ai) — MCP server for analyst-grade research synthesis (DCF, earnings recaps, sector deep-dives, filings) plus REST API fallback for raw data (real-time quotes, options chains, financials, 60+ endpoints) |
 | [hormuz-strait](plugins/data-providers/skills/hormuz-strait/) | Strait of Hormuz monitoring — shipping, oil impact, insurance risk, crisis timeline |
 | [tradingview-reader](plugins/data-providers/skills/tradingview-reader/) | Read-only TradingView desktop reader — quotes, full options chains with greeks/IV, expiries, chart state, screenshots — via [opencli](https://github.com/jackwener/opencli) + CDP |
