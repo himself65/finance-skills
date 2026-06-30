@@ -79,15 +79,33 @@ curl -s https://api.signaldaemon.com/v1/feed \
 If `coverage` is `thin`, say so. Treat divergence as **context and risk-framing, not
 a proven trading edge or the sole reason to trade** — let your own strategy decide.
 
+## Step 7: Or — one-call pre-trade gate (optional)
+
+If you already have a candidate trade, skip Steps 2–6 and ask the gate directly: it
+runs that read for you and returns a single narrative-layer stance.
+
+```bash
+curl -s https://api.signaldaemon.com/v1/vet \
+  -H "x-api-key: $SIGNALDAEMON_API_KEY" -H "content-type: application/json" \
+  -d '{"symbol":"ETH","side":"long"}'
+```
+
+Returns `verdict` ∈ `support` (your trade is *with* a funded, corroborated narrative) ·
+`caution` (loud but capital not confirming, or mixed) · `contradict` (against where
+capital + narrative point) · `no_signal` (no single-asset coverage — it abstains),
+plus `confidence`, the matched `narrative`, a `reason`, and `evidence`. It vets the
+**narrative dimension only** — `support`/`contradict` are alignment, **not** a buy/sell
+call; your strategy still decides.
+
 ## Notes
 
 - READ-ONLY. No trades, no mutations.
 - Crypto/AI/macro and narrative/sector-level — for single-name equity sentiment, pair
   with a stock-sentiment skill instead.
-- Fails safe: `no_asset` and `coverage: "thin"` are stated, never papered over.
+- Fails safe: `no_asset`, `coverage: "thin"`, and `no_signal` are stated, never papered over.
 - MCP alternative: the same data is available over remote MCP at
-  `https://api.signaldaemon.com/mcp` (header `x-api-key`), tools `get_market_narratives`
-  and `get_clean_feed`.
+  `https://api.signaldaemon.com/mcp` (header `x-api-key`), tools `get_market_narratives`,
+  `get_clean_feed`, and `vet_trade`.
 
 ## Reference files
 

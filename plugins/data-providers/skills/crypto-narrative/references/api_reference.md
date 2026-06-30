@@ -44,6 +44,18 @@ body: {"query": "restaking", "category": null, "limit": 8}
 
 Returns a de-noised, source-attributed feed. `coverage: "thin"` means partial — say so.
 
+### Pre-trade gate (vet a candidate trade)
+
+```text
+POST https://api.signaldaemon.com/v1/vet
+body: {"symbol": "ETH", "side": "long", "horizon": null, "source": null}
+```
+
+Returns `{verdict, confidence, narrative, reason, evidence}` where `verdict` ∈
+`support` · `caution` · `contradict` · `no_signal`. Read-only; vets the narrative
+dimension only (not a buy/sell call) and abstains (`no_signal`) when there is no
+single-asset narrative coverage for `symbol`.
+
 ### Quota self-check (free, no increment)
 
 ```text
@@ -72,7 +84,8 @@ GET https://api.signaldaemon.com/v1/quota
 ## MCP (alternative to REST)
 
 Remote MCP, Streamable HTTP: `https://api.signaldaemon.com/mcp`, header `x-api-key`.
-Tools (read-only): `get_market_narratives(limit)`, `get_clean_feed(query, category, limit)`.
+Tools (read-only): `get_market_narratives(limit)`, `get_clean_feed(query, category, limit)`,
+`vet_trade(symbol, side)`.
 
 ## Errors
 
