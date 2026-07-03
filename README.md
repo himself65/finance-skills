@@ -54,6 +54,36 @@ npx skills add himself65/finance-skills
 npx skills add himself65/finance-skills -a <agent-name>
 ```
 
+### Autohand Code
+
+Autohand Code loads `SKILL.md` directories from `~/.autohand/skills/` or the current project's `.autohand/skills/` directory. Until these finance skills are published to an Autohand Skills index, clone the repository and copy the skill directories you need.
+
+Install all skills globally:
+
+```bash
+git clone https://github.com/himself65/finance-skills.git
+mkdir -p ~/.autohand/skills
+cp -R finance-skills/plugins/*/skills/* ~/.autohand/skills/
+```
+
+Install one skill globally:
+
+```bash
+git clone https://github.com/himself65/finance-skills.git
+mkdir -p ~/.autohand/skills
+cp -R finance-skills/plugins/market-analysis/skills/yfinance-data ~/.autohand/skills/
+```
+
+Install into the current project instead:
+
+```bash
+git clone https://github.com/himself65/finance-skills.git
+mkdir -p .autohand/skills
+cp -R finance-skills/plugins/*/skills/* .autohand/skills/
+```
+
+If a skill is later published to an Autohand Skills index, install it with `autohand --skill-install <skill-name>`, or add `--project` to install it into the current project.
+
 ## Available Skills
 
 ### Market Analysis (`finance-market-analysis`)
