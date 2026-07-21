@@ -1,6 +1,6 @@
 {
   "name": "finance-data-providers",
-  "description": "External API data — sentiment via Adanos, comprehensive data via Funda AI, Hormuz Strait monitoring, TradingView desktop reader, and Hyperliquid perp/spot reader.",
+  "description": "External API data — sentiment via Adanos, comprehensive data via Funda AI, Fintel short-interest/ownership intelligence, Hormuz Strait monitoring, TradingView desktop reader, and Hyperliquid perp/spot reader.",
   "version": "9.0.0",
   "author": {
     "name": "himself65"
@@ -13,6 +13,10 @@
     "sentiment",
     "api",
     "funda",
+    "fintel",
+    "short-interest",
+    "13f",
+    "insider-trading",
     "geopolitical",
     "oil",
     "data-provider",
