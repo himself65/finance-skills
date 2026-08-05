@@ -41,7 +41,7 @@ If the status above shows `READY`, skip to Step 2. Otherwise:
 npm install -g @jackwener/opencli
 ```
 
-Requires Node.js >= 22 (built-in `fetch`).
+Requires Node.js >= 24 (built-in `fetch`).
 
 ### SETUP_NEEDED — Install the Hyperliquid plugin
 
@@ -57,7 +57,7 @@ That's the entire setup — no auth, no launch step. Verify with `opencli hyperl
 
 | Symptom | Fix |
 |---|---|
-| `opencli: command not found` | `npm install -g @jackwener/opencli` (Node ≥ 22) |
+| `opencli: command not found` | `npm install -g @jackwener/opencli` (Node ≥ 24) |
 | `Unknown command: hyperliquid` | `opencli plugin install github:himself65/finance-skills/hyperliquid` |
 | `hyperliquid info 429` | Rate limited — wait a few seconds and retry |
 
