@@ -47,7 +47,7 @@ See the [main README](../../../../README.md) for more installation options.
 
 ## Prerequisites
 
-- Node.js >= 21 — for `npm install -g @jackwener/opencli`
+- Node.js >= 24 — for `npm install -g @jackwener/opencli`
 - `TradingView.app` installed on macOS, logged in
 - The `tradingview` opencli plugin: `opencli plugin install github:himself65/finance-skills/tradingview` (installs from this repo's monorepo subpath)
 - Relaunch with CDP enabled: `opencli tradingview launch` (one-time per session — warn the user to save chart layouts first)

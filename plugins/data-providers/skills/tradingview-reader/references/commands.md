@@ -13,7 +13,7 @@ Install: `npm install -g @jackwener/opencli && opencli plugin install github:him
 The adapter connects to a running `TradingView.app` over Chrome DevTools Protocol (CDP) — no bot account, no API key, no Browser Bridge extension.
 
 **Requirements:**
-1. Node.js >= 21 (or Bun >= 1.0)
+1. Node.js >= 24 (the `tradingview` plugin declares `engines.node >= 24`)
 2. `TradingView.app` installed on macOS, logged in
 3. App launched with `--remote-debugging-port=9222` (the `launch` command handles this)
 

@@ -30,7 +30,7 @@ None. Hyperliquid's `info` market-data endpoints are fully public — nothing to
 
 ## Platform
 
-Works on **Claude Code** and other CLI-based agents (any OS with Node ≥ 22). Does **not** work on Claude.ai — the sandbox restricts the network access opencli needs. Unlike the TradingView reader, there is no desktop-app or macOS dependency — it's a plain HTTP API.
+Works on **Claude Code** and other CLI-based agents (any OS with Node ≥ 24). Does **not** work on Claude.ai — the sandbox restricts the network access opencli needs. Unlike the TradingView reader, there is no desktop-app or macOS dependency — it's a plain HTTP API.
 
 ## Setup
 
@@ -46,7 +46,7 @@ See the [main README](../../../../README.md) for more installation options.
 
 ## Prerequisites
 
-- Node.js >= 22 — for `npm install -g @jackwener/opencli` and the plugin's built-in `fetch`
+- Node.js >= 24 — for `npm install -g @jackwener/opencli`, and required by the plugin's `engines.node`
 - The `hyperliquid` opencli plugin: `opencli plugin install github:himself65/finance-skills/hyperliquid` (installs from this repo's monorepo subpath)
 
 No API key, no wallet, no launch step.

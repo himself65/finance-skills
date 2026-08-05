@@ -46,7 +46,7 @@ If the status above shows `READY`, skip to Step 2. Otherwise:
 npm install -g @jackwener/opencli
 ```
 
-Requires Node.js >= 21 (or Bun >= 1.0).
+Requires Node.js >= 24 — the `tradingview` plugin installed in the next step declares `engines.node >= 24`.
 
 ### SETUP_NEEDED — Install the TradingView plugin and launch with CDP
 
@@ -66,7 +66,7 @@ The `launch` step quits the running TradingView and reopens it with `--remote-de
 
 | Symptom | Fix |
 |---|---|
-| `opencli: command not found` | `npm install -g @jackwener/opencli` (Node ≥ 22 for built-in WebSocket) |
+| `opencli: command not found` | `npm install -g @jackwener/opencli` (Node ≥ 24) |
 | `Unknown command: tradingview` | `opencli plugin install github:himself65/finance-skills/tradingview` |
 | `Cannot reach CDP at http://127.0.0.1:9222` | App not launched with debug port — run `opencli tradingview launch` |
 | `No tradingview.com cookies found` | App is open but logged out — log in inside the desktop app |
