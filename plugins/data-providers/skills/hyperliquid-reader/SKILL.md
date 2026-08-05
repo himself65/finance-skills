@@ -41,7 +41,7 @@ If the status above shows `READY`, skip to Step 2. Otherwise:
 npm install -g @jackwener/opencli
 ```
 
-Requires Node.js >= 24 (built-in `fetch`).
+Requires Node.js >= 24 — the `hyperliquid` plugin declares `engines.node >= 24`.
 
 ### SETUP_NEEDED — Install the Hyperliquid plugin
 

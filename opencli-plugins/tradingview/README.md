@@ -11,7 +11,7 @@ opencli plugin install github:himself65/finance-skills/tradingview
 ## Install + launch
 
 ```bash
-# Prereqs: Node ≥ 24 (built-in WebSocket), TradingView.app installed + logged in
+# Prereqs: Node ≥ 24 (see engines.node), TradingView.app installed + logged in
 npm install -g @jackwener/opencli
 opencli plugin install github:himself65/finance-skills/tradingview
 

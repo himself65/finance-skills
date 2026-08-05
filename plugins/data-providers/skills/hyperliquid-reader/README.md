@@ -46,7 +46,7 @@ See the [main README](../../../../README.md) for more installation options.
 
 ## Prerequisites
 
-- Node.js >= 24 — for `npm install -g @jackwener/opencli` and the plugin's built-in `fetch`
+- Node.js >= 24 — for `npm install -g @jackwener/opencli`, and required by the plugin's `engines.node`
 - The `hyperliquid` opencli plugin: `opencli plugin install github:himself65/finance-skills/hyperliquid` (installs from this repo's monorepo subpath)
 
 No API key, no wallet, no launch step.

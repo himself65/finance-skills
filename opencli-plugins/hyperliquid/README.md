@@ -11,7 +11,7 @@ opencli plugin install github:himself65/finance-skills/hyperliquid
 ## Install
 
 ```bash
-# Prereqs: Node ≥ 24 (built-in fetch)
+# Prereqs: Node ≥ 24 (see engines.node)
 npm install -g @jackwener/opencli
 opencli plugin install github:himself65/finance-skills/hyperliquid
 ```
