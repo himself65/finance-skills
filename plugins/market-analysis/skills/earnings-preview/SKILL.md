@@ -31,7 +31,7 @@ Generates a pre-earnings briefing using Yahoo Finance data via [yfinance](https:
 **Current environment status:**
 
 ```
-!`python3 -c "import yfinance; print('yfinance ' + yfinance.__version__ + ' installed')" 2>/dev/null || echo "YFINANCE_NOT_INSTALLED"`
+!`python3 -c "exec('try:\n import yfinance\n print(\'yfinance \' + yfinance.__version__ + \' installed\')\nexcept Exception:\n print(\'YFINANCE_NOT_INSTALLED\')')"`
 ```
 
 If `YFINANCE_NOT_INSTALLED`, install it:

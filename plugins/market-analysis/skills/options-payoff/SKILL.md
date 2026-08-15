@@ -42,7 +42,7 @@ When the user provides a screenshot or text, extract:
 
 **Current SPX reference price:**
 ```
-!`python3 -c "import yfinance as yf; print(f'SPX ≈ {yf.Ticker(\"^GSPC\").fast_info[\"lastPrice\"]:.0f}')" 2>/dev/null || echo "SPX price unavailable — check market data"`
+!`python3 -c "exec('try:\n import yfinance as yf\n p=yf.Ticker(\'^GSPC\').fast_info[\'lastPrice\']\n print(f\'SPX ≈ {p:.0f}\')\nexcept Exception:\n print(\'SPX price unavailable — check market data\')')"`
 ```
 
 ---
