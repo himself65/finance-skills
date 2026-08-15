@@ -24,6 +24,8 @@ Reads TradingView's desktop macOS app for quotes, options chains, and chart stat
 
 **This skill is read-only.** Designed for analysis: pulling options chains, checking IV/greeks, capturing chart state. It does NOT place trades, post ideas, modify watchlists, or change chart layouts.
 
+> **Headless alternative**: for plain quotes, TA readouts, screeners, futures, or a greeks-free options chain, prefer the sibling `tradingview-mcp` skill (bundled MCP server, no desktop app, no CDP relaunch). Use *this* skill when you need greeks / per-strike IV skew, expiries with contract counts, or account-bound data (watchlists, alerts, charts, TV news).
+
 **Important**: Unlike browser-based opencli readers (twitter, linkedin), this one talks directly to a running TradingView desktop app over Chrome DevTools Protocol. The user must (a) have `TradingView.app` installed, and (b) be logged in inside that app. The plugin handles relaunching with the debug port.
 
 **How it works**: data commands harvest session cookies via CDP `Storage.getCookies`, then fire HTTP requests from Node directly. Page-context fetch is blocked by browser CORS preflight even from TradingView's own pages — the desktop app uses Electron's main process (Node network stack) to bypass this, and we replicate that path. No Browser Bridge extension required, no `apps.yaml` registration needed.

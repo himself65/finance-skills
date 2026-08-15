@@ -41,8 +41,8 @@ Works on **Claude.ai** (via the built-in `show_widget` tool) or with the [genera
 ## Setup
 
 ```bash
-# As a plugin (recommended — installs all skills)
-npx plugins add himself65/finance-skills --plugin finance-market-analysis
+# Choose finance-market-analysis when prompted.
+npx plugins add himself65/finance-skills
 
 # Or install just this skill
 npx skills add himself65/finance-skills --skill options-payoff

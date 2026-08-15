@@ -29,8 +29,8 @@ Works on **Claude Code** and other CLI-based agents (web search required). May w
 ## Setup
 
 ```bash
-# As a plugin (recommended — installs all skills)
-npx plugins add himself65/finance-skills --plugin finance-startup-tools
+# Choose finance-startup-tools when prompted.
+npx plugins add himself65/finance-skills
 
 # Or install just this skill
 npx skills add himself65/finance-skills --skill startup-analysis

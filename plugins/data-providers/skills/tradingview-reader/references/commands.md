@@ -1,6 +1,6 @@
 # opencli TradingView Command Reference (Read-Only)
 
-Complete read-only reference for the `tradingview` opencli adapter that lives in this repo's [`opencli-plugins/tradingview`](../../../../opencli-plugins/tradingview/) tree, scoped to financial research use cases.
+Complete read-only reference for the `tradingview` opencli adapter that lives in this repo's [`opencli-plugins/tradingview`](../../../../../opencli-plugins/tradingview/) tree, scoped to financial research use cases.
 
 Install: `npm install -g @jackwener/opencli && opencli plugin install github:himself65/finance-skills/tradingview`
 

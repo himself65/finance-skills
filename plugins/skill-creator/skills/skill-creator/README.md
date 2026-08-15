@@ -27,8 +27,8 @@ Works on **Claude Code** and other CLI-based agents. Also works on **Claude.ai**
 ## Setup
 
 ```bash
-# As a plugin (recommended)
-npx plugins add himself65/finance-skills --plugin finance-skill-creator
+# Choose finance-skill-creator when prompted.
+npx plugins add himself65/finance-skills
 
 # Or install just this skill
 npx skills add himself65/finance-skills --skill skill-creator

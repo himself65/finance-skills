@@ -13,7 +13,7 @@ Install: `npm install -g @jackwener/opencli`
 opencli connects to Discord Desktop via Chrome DevTools Protocol (CDP) — no bot account, token extraction, or Browser Bridge extension needed.
 
 **Requirements:**
-1. Node.js >= 21 (or Bun >= 1.0)
+1. Node.js >= 20 (or Bun >= 1.0)
 2. Discord Desktop running with `--remote-debugging-port=9232`
 3. `OPENCLI_CDP_ENDPOINT` environment variable set
 

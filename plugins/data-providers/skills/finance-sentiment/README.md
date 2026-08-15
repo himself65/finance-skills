@@ -43,8 +43,8 @@ Works on **all platforms** that support shell commands and outbound HTTP request
 ## Setup
 
 ```bash
-# As a plugin (recommended — installs all skills)
-npx plugins add himself65/finance-skills --plugin finance-data-providers
+# Choose finance-data-providers when prompted.
+npx plugins add himself65/finance-skills
 
 # Or install just this skill
 npx skills add himself65/finance-skills --skill finance-sentiment

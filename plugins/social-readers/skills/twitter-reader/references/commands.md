@@ -13,7 +13,7 @@ Install: `npm install -g @jackwener/opencli`
 opencli authenticates via your existing Chrome browser session — no API keys or credentials needed.
 
 **Requirements:**
-1. Node.js >= 21 (or Bun >= 1.0)
+1. Node.js >= 20 (or Bun >= 1.0)
 2. Chrome with the Browser Bridge extension installed
 3. Logged into x.com in Chrome
 

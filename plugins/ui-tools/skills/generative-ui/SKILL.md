@@ -146,7 +146,7 @@ For charts, use `onload` callback pattern to handle script load ordering:
   <span style="font-size: 14px; font-weight: 500; min-width: 32px;" id="param-out">50</span>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" onload="initChart()"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.1/chart.umd.js" onload="initChart()"></script>
 <script>
 function initChart() {
   const slider = document.getElementById('param');
@@ -256,7 +256,7 @@ For interactive explainers (sliders, live calculations, inline SVG):
   <canvas id="chart"></canvas>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" onload="initChart()"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.1/chart.umd.js" onload="initChart()"></script>
 <script>
 function initChart() {
   // slider logic, chart rendering, sendPrompt() for follow-ups
