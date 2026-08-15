@@ -36,8 +36,8 @@ Works on **all platforms** (Claude Code, Claude.ai with code execution, etc.).
 ## Setup
 
 ```bash
-# As a plugin (recommended — installs all skills)
-npx plugins add himself65/finance-skills --plugin finance-market-analysis
+# Choose finance-market-analysis when prompted.
+npx plugins add himself65/finance-skills
 
 # Or install just this skill
 npx skills add himself65/finance-skills --skill yfinance-data

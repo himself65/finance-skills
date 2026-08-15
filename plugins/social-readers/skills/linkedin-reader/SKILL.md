@@ -42,7 +42,7 @@ If `SETUP_NEEDED`, guide the user through setup:
 
 ### Setup
 
-opencli requires Node.js >= 21 and a Chrome browser with the Browser Bridge extension:
+opencli requires Node.js >= 20 and a Chrome browser with the Browser Bridge extension:
 
 1. **Install the Browser Bridge extension:**
    - Download the latest `opencli-extension-v{version}.zip` from the [GitHub Releases page](https://github.com/jackwener/opencli/releases)

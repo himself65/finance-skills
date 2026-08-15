@@ -35,8 +35,8 @@ Works on **Claude Code** and other CLI-based agents (any OS with Node ≥ 24). D
 ## Setup
 
 ```bash
-# As a plugin (recommended — installs all skills in this group)
-npx plugins add himself65/finance-skills --plugin finance-data-providers
+# Choose finance-data-providers when prompted.
+npx plugins add himself65/finance-skills
 
 # Or install just this skill
 npx skills add himself65/finance-skills --skill hyperliquid-reader

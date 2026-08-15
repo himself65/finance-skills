@@ -1,6 +1,6 @@
 {
   "name": "finance-data-providers",
-  "version": "9.1.0",
+  "version": "9.2.0",
   "author": {
     "name": "himself65"
   },
@@ -19,6 +19,11 @@
     "oil",
     "data-provider",
     "tradingview",
+    "mcp",
+    "technical-analysis",
+    "screener",
+    "futures",
+    "backtest",
     "options",
     "opencli",
     "hyperliquid",

@@ -35,8 +35,8 @@ Works on **Claude Code** and other CLI-based agents. Does **not** work on Claude
 ## Setup
 
 ```bash
-# As a plugin (recommended — installs all skills)
-npx plugins add himself65/finance-skills --plugin finance-social-readers
+# Choose finance-social-readers when prompted.
+npx plugins add himself65/finance-skills
 
 # Or install just this skill
 npx skills add himself65/finance-skills --skill twitter-reader
@@ -46,7 +46,7 @@ See the [main README](../../../../README.md) for more installation options.
 
 ## Prerequisites
 
-- Node.js >= 21 (for `npm install -g @jackwener/opencli`)
+- Node.js >= 20 (for `npm install -g @jackwener/opencli`)
 - Chrome with the [Browser Bridge extension](https://github.com/jackwener/opencli/releases) installed (load unpacked from `chrome://extensions` in Developer mode)
 - Logged into x.com in Chrome
 

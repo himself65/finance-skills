@@ -42,7 +42,7 @@ If `SETUP_NEEDED`, guide the user through setup:
 
 ### Setup
 
-opencli requires Node.js >= 21. It connects to Discord Desktop via CDP (Chrome DevTools Protocol) — no Browser Bridge extension is needed for the Discord adapter. Two things are required:
+opencli requires Node.js >= 20. It connects to Discord Desktop via CDP (Chrome DevTools Protocol) — no Browser Bridge extension is needed for the Discord adapter. Two things are required:
 
 1. **Start Discord with remote debugging enabled:**
 

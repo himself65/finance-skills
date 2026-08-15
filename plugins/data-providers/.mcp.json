@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "tradingview": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/atilaahmettaner/tradingview-mcp@d77db101edc1b57b260450ddda5ca4f7f0211ecd",
+        "tradingview-mcp"
+      ]
+    }
+  }
+}

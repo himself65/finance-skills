@@ -4,7 +4,7 @@ Generic read-only **fallback** skill for fetching data from any site opencli sup
 
 ## What it does
 
-Routes the user's request to the right [opencli](https://github.com/jackwener/opencli) adapter by discovering commands at runtime (`opencli list -f json`, `opencli <site> --help`) instead of relying on a stale hand-maintained list. Covers 90+ sites including:
+Routes the user's request to the right [opencli](https://github.com/jackwener/opencli) adapter by discovering commands at runtime (`opencli list -f json`, `opencli <site> --help`) instead of relying on a stale hand-maintained list. Covers 100+ sites including:
 
 - **Market data** — Yahoo Finance, Bloomberg, Reuters, Barchart, Eastmoney, Xueqiu, Sinafinance, TDX, THS
 - **Community / sentiment** — Reddit, HackerNews, Bluesky, Weibo, Jike, Xiaohongshu, Zhihu, 36kr
@@ -47,8 +47,8 @@ Works on **Claude Code** and other CLI-based agents. Does **not** work on Claude
 ## Setup
 
 ```bash
-# As part of the plugin (recommended — installs all social readers)
-npx plugins add himself65/finance-skills --plugin finance-social-readers
+# Choose finance-social-readers when prompted.
+npx plugins add himself65/finance-skills
 
 # Or just this skill
 npx skills add himself65/finance-skills --skill opencli-reader
@@ -58,7 +58,7 @@ See the [main README](../../../../README.md) for more installation options.
 
 ## Prerequisites
 
-- Node.js >= 21 (for `npm install -g @jackwener/opencli`)
+- Node.js >= 20 (for `npm install -g @jackwener/opencli`)
 - For browser-backed adapters (`COOKIE` / `HEADER` / `INTERCEPT` / `UI` strategies):
   - Chrome with the [Browser Bridge extension](https://github.com/jackwener/opencli/releases) loaded unpacked (Developer mode in `chrome://extensions`)
   - Logged into the target site in Chrome

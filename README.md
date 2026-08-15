@@ -21,27 +21,22 @@ A collection of agent skills for financial analysis and trading, following the [
 
 ## Quick Start
 
-### Claude Code — All Plugins
+### Plugin Groups (Claude Code, Codex, Cursor, and More)
 
 ```bash
 npx plugins add himself65/finance-skills
 ```
 
-### Claude Code — Individual Plugins
+The installer prompts you to select one or more plugin groups. To install every group non-interactively:
 
 ```bash
-npx plugins add himself65/finance-skills --plugin finance-market-analysis
-npx plugins add himself65/finance-skills --plugin finance-social-readers
-npx plugins add himself65/finance-skills --plugin finance-data-providers
-npx plugins add himself65/finance-skills --plugin finance-startup-tools
-npx plugins add himself65/finance-skills --plugin finance-ui-tools
-npx plugins add himself65/finance-skills --plugin finance-skill-creator
+npx plugins add himself65/finance-skills --yes
 ```
 
-### Claude Code — Individual Skills
+### Individual Skills
 
 ```bash
-npx skills add himself65/finance-skills
+npx skills add himself65/finance-skills --skill yfinance-data
 ```
 
 ### Other Agents
@@ -72,13 +67,13 @@ Stock analysis, earnings, estimates, correlations, liquidity, ETFs, options payo
 
 ### Social Readers (`finance-social-readers`)
 
-Read-only social media and research feeds — Twitter/X, Discord, LinkedIn, Telegram, Y Combinator, and a generic opencli fallback for 90+ other sources.
+Read-only social media and research feeds — Twitter/X, Discord, LinkedIn, Telegram, Y Combinator, and a generic opencli fallback for 100+ other sources.
 
 | Skill | Description |
 |---|---|
 | [discord-reader](plugins/social-readers/skills/discord-reader/) | Read-only Discord research via [opencli](https://github.com/jackwener/opencli) |
 | [linkedin-reader](plugins/social-readers/skills/linkedin-reader/) | Read-only LinkedIn feed & job search via [opencli](https://github.com/jackwener/opencli) |
-| [opencli-reader](plugins/social-readers/skills/opencli-reader/) | Generic read-only fallback for 90+ [opencli](https://github.com/jackwener/opencli) adapters — Yahoo Finance, Bloomberg, Reuters, Eastmoney, Xueqiu, Reddit, HackerNews, Substack, arXiv, and more |
+| [opencli-reader](plugins/social-readers/skills/opencli-reader/) | Generic read-only fallback for 100+ [opencli](https://github.com/jackwener/opencli) adapters — Yahoo Finance, Bloomberg, Reuters, Eastmoney, Xueqiu, Reddit, HackerNews, Substack, arXiv, and more |
 | [telegram-reader](plugins/social-readers/skills/telegram-reader/) | Read-only Telegram channel reader via [tdl](https://github.com/iyear/tdl) |
 | [twitter-reader](plugins/social-readers/skills/twitter-reader/) | Read-only Twitter/X research via [opencli](https://github.com/jackwener/opencli) |
 | [yc-reader](plugins/social-readers/skills/yc-reader/) | Y Combinator company data via [yc-oss/api](https://github.com/yc-oss/api) |
@@ -91,7 +86,8 @@ Read-only social media and research feeds — Twitter/X, Discord, LinkedIn, Tele
 | [finance-sentiment](plugins/data-providers/skills/finance-sentiment/) | Stock sentiment research via Adanos Finance API — Reddit, X.com, news, Polymarket |
 | [fintel-data](plugins/data-providers/skills/fintel-data/) | [Fintel](https://fintel.io) — short interest, borrow rates, short volume, fails-to-deliver, 13F institutional ownership, insider transactions, analyst targets, calendars — via REST API or official MCP server |
 | [hormuz-strait](plugins/data-providers/skills/hormuz-strait/) | Strait of Hormuz monitoring — shipping, oil impact, insurance risk, crisis timeline |
-| [tradingview-reader](plugins/data-providers/skills/tradingview-reader/) | Read-only TradingView desktop reader — quotes, full options chains with greeks/IV, expiries, chart state, screenshots — via [opencli](https://github.com/jackwener/opencli) + CDP |
+| [tradingview-mcp](plugins/data-providers/skills/tradingview-mcp/) | Headless TradingView data via a bundled [tradingview-mcp](https://github.com/atilaahmettaner/tradingview-mcp) server — TA readouts, multi-timeframe alignment, exchange scans, futures overview/movers, extended hours, options chain (no greeks), backtests. No app, no login |
+| [tradingview-reader](plugins/data-providers/skills/tradingview-reader/) | Read-only TradingView desktop reader — quotes, full options chains with greeks/IV, expiries, watchlists, alerts, chart state, screenshots — via [opencli](https://github.com/jackwener/opencli) + CDP |
 | [hyperliquid-reader](plugins/data-providers/skills/hyperliquid-reader/) | Read-only [Hyperliquid](https://app.hyperliquid.xyz) market-data reader — perp/spot markets, mids, funding (incl. cross-venue arb screen), order book, and candles — via [opencli](https://github.com/jackwener/opencli) + public info API |
 
 ### Startup Tools (`finance-startup-tools`)

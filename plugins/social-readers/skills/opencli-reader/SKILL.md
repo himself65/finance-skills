@@ -15,7 +15,7 @@ description: >
 
 # opencli Reader (Generic Fallback, Read-Only)
 
-Generic fallback for any source opencli supports via its [adapter registry](https://github.com/jackwener/opencli) (90+ sites, growing). Use this skill only when **no dedicated finance-skill covers the source** — the specialized skills (`twitter-reader`, `linkedin-reader`, `discord-reader`, `telegram-reader`, `yc-reader`) are always preferred when the request matches one of them.
+Generic fallback for any source opencli supports via its [adapter registry](https://github.com/jackwener/opencli) (100+ sites, growing). Use this skill only when **no dedicated finance-skill covers the source** — the specialized skills (`twitter-reader`, `linkedin-reader`, `discord-reader`, `telegram-reader`, `yc-reader`) are always preferred when the request matches one of them.
 
 **This skill is read-only.** Write commands that opencli exposes (post, like, comment, send, save, upvote, subscribe, follow, delete, reply-dm, etc.) must not be invoked.
 
@@ -59,7 +59,7 @@ If `SETUP_NEEDED`, guide the user through Browser Bridge setup (only required fo
 3. Click **Load unpacked** and select the unzipped folder
 4. Make sure Chrome is logged into the target site, then re-run `opencli doctor`
 
-Requires Node.js >= 21 (or Bun >= 1.0).
+Requires Node.js >= 20 (or Bun >= 1.0).
 
 ---
 

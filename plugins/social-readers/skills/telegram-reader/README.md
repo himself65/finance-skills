@@ -31,8 +31,8 @@ Works on **Claude Code** and other CLI-based agents. Does **not** work on Claude
 ## Setup
 
 ```bash
-# As a plugin (recommended — installs all skills)
-npx plugins add himself65/finance-skills --plugin finance-social-readers
+# Choose finance-social-readers when prompted.
+npx plugins add himself65/finance-skills
 
 # Or install just this skill
 npx skills add himself65/finance-skills --skill telegram-reader

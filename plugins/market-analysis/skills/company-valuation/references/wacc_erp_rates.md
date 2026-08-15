@@ -1,17 +1,29 @@
 # WACC, ERP, Risk-Free Rates & Sector Benchmarks
 
-Reference values for cost-of-capital inputs. Prefer live values over these defaults when available.
+Reference values for cost-of-capital inputs. Prefer live values over snapshots and record the observation date for every rate.
+
+## Freshness policy
+
+- Use a risk-free rate observed within the last five trading days.
+- Use Damodaran's latest monthly US implied ERP and latest quarterly country-risk update.
+- Use the latest annual industry beta and cost-of-capital tables, then relever beta to the subject company's target capital structure.
+- Keep risk-free rate and ERP conventions consistent. If you subtract a sovereign default spread from the Treasury yield, add that spread to the US ERP as Damodaran specifies.
+- Label every fallback with its as-of date. Never present a snapshot as current live data.
+
+**Latest checked snapshot (August 1, 2026):** Damodaran reported a 4.28% US implied ERP, a 4.74% US Treasury rate, and a 0.22% US default spread. These are offline fallbacks only; refresh them at runtime.
+
+Primary references: [monthly implied ERP](https://pages.stern.nyu.edu/~adamodar/New_Home_Page/home.htm), [country risk premiums](https://pages.stern.nyu.edu/adamodar/New_Home_Page/datafile/ctryprem.html), [US industry betas](https://pages.stern.nyu.edu/adamodar/New_Home_Page/datafile/Betas.html), and [US industry costs of capital](https://pages.stern.nyu.edu/adamodar/New_Home_Page/datafile/wacc.html).
 
 ## Risk-Free Rate
 
 Use the 10-year sovereign yield of the company's reporting currency.
 
-| Market | Instrument | yfinance ticker | Typical range |
-|---|---|---|---|
-| US | 10Y Treasury | `^TNX` (note: quoted in %, divide by 100) | 3.5-5.0% |
-| UK | 10Y Gilt | `^TNX` does not cover; use FRED or manual | 3.0-4.5% |
-| Germany | 10Y Bund | Manual (ECB) | 2.0-3.5% |
-| Japan | 10Y JGB | Manual (BoJ) | 0.5-1.5% |
+| Market | Instrument | Preferred live source |
+|---|---|---|
+| US | 10Y Treasury | US Treasury or FRED `DGS10`; `^TNX` is a market-data fallback quoted in percent |
+| UK | 10Y Gilt | Bank of England yield-curve data |
+| Euro | 10Y AAA euro-area central-government spot rate | ECB yield-curve data |
+| Japan | 10Y JGB | Bank of Japan or Japan Ministry of Finance |
 
 **Live fetch:**
 ```python
@@ -19,20 +31,17 @@ import yfinance as yf
 rf = yf.Ticker("^TNX").fast_info.last_price / 100
 ```
 
-**Default (when fetch fails):** `rf = 0.045` (4.5%). Flag as stale.
+**Offline US fallback:** `rf = 0.0474` (4.74%, August 1, 2026). Flag it as stale and include the date. If using Damodaran's default-adjusted dollar risk-free convention instead, use 4.52% and increase the paired ERP by 0.22 percentage points.
 
 ## Equity Risk Premium (ERP)
 
-Use Damodaran's monthly ERP update (damodaran.nyu.edu) as anchor. Intra-year, 5.5% is a reasonable mid-range.
+Use Damodaran's monthly ERP update as the US anchor and his latest country-risk spreadsheet for other markets. Do not rely on an undated long-run average when an implied ERP is available.
 
-| Market | ERP (default) | Source |
+| Market | Runtime method | Offline fallback |
 |---|---|---|
-| US | 5.5% | Damodaran implied ERP (S&P 500) |
-| Developed Europe | 6.0-6.5% | Country risk + base ERP |
-| Japan | 6.0% | Country risk + base ERP |
-| China | 7.5-8.5% | Base + country risk premium |
-| India | 7.5% | Base + country risk premium |
-| Emerging (broad) | 8.0-10.0% | Base + country risk |
+| US | Latest monthly Damodaran implied ERP | 4.28% (August 1, 2026) |
+| Mature market without added country risk | US ERP minus the contemporaneous US default spread | 4.06% using the August 2026 pair |
+| Other countries | Mature-market ERP + latest country risk premium | Read the latest Damodaran country table; do not hardcode a regional bucket |
 
 Adjust with country risk premium (CRP) for emerging markets:
 ```
@@ -45,62 +54,63 @@ ERP_country = ERP_mature + CRP
 
 **Fallback: credit rating spreads over risk-free rate.**
 
-| Rating | Spread over RF | Kd range (at RF=4.5%) |
-|---|---|---|
-| AAA | 0.5-0.8% | 5.0-5.3% |
-| AA | 0.8-1.2% | 5.3-5.7% |
-| A | 1.2-1.8% | 5.7-6.3% |
-| BBB | 1.8-2.5% | 6.3-7.0% |
-| BB | 3.5-5.0% | 8.0-9.5% |
-| B | 5.5-7.5% | 10.0-12.0% |
-| CCC+ | 9.0%+ | 13.5%+ |
+| Rating | Illustrative spread over RF |
+|---|---|
+| AAA | 0.5-0.8% |
+| AA | 0.8-1.2% |
+| A | 1.2-1.8% |
+| BBB | 1.8-2.5% |
+| BB | 3.5-5.0% |
+| B | 5.5-7.5% |
+| CCC+ | 9.0%+ |
 
-**Default (when unknown):** `kd = 0.055` for large-caps, `0.07` for mid-caps.
+Refresh synthetic-rating spreads from Damodaran's current ratings table. If no rating or coverage ratio is available, use a size-appropriate spread over the live risk-free rate and disclose it; do not use a fixed nominal cost of debt.
 
 ## Levered Beta Defaults (by sector)
 
 Use when yfinance returns `None` or an implausible value (e.g., beta < 0 for a non-gold stock).
 
-| Sector | Default beta |
+| Damodaran US industry | January 2026 beta |
 |---|---|
-| Utilities | 0.55 |
-| Consumer staples | 0.70 |
-| Telecom | 0.85 |
-| Healthcare / pharma | 0.90 |
-| REITs | 0.90 |
-| Industrials | 1.05 |
-| Financials (banks) | 1.15 |
-| Consumer discretionary | 1.20 |
-| Energy (integrated) | 1.10 |
-| Energy (E&P) | 1.40 |
-| Technology (large-cap) | 1.15 |
-| Technology (SaaS high-growth) | 1.35 |
-| Semiconductors | 1.45 |
-| Biotech (clinical stage) | 1.60 |
-| Auto (EV pure-play) | 1.80 |
+| Utility (General) | 0.24 |
+| Food Processing | 0.61 |
+| Telecom Services | 0.63 |
+| Drugs (Pharmaceutical) | 0.98 |
+| R.E.I.T. | 0.64 |
+| Business & Consumer Services | 0.89 |
+| Banks (Regional) | 0.40 |
+| Bank (Money Center) | 0.76 |
+| Auto & Truck | 1.46 |
+| Oil/Gas (Integrated) | 0.30 |
+| Oil/Gas (Production and Exploration) | 0.72 |
+| Software (System & Application) | 1.28 |
+| Software (Internet) | 1.69 |
+| Semiconductor | 1.52 |
+| Drugs (Biotechnology) | 1.14 |
 
-Source: Damodaran industry betas (levered, US-listed, recent year-end update).
+Source: Damodaran industry betas for US-listed companies, data as of January 2026. Use the exact industry row where possible; these selected rows are fallbacks, not a substitute for relevering.
 
-## WACC Sanity Ranges by Sector
+## Cost-of-Capital Sanity Anchors by Sector
 
-If computed WACC falls outside these bands, double-check inputs (beta, capital structure, kd).
+Compare computed WACC with the current Damodaran industry table. The selected January 2026 US anchors below are useful for detecting unit, beta, leverage, or tax mistakes, but they are not valuation inputs by themselves.
 
-| Sector | WACC range | Notes |
+| Damodaran US industry | January 2026 cost of capital | Notes |
 |---|---|---|
-| Utilities | 5-7% | High debt capacity, low beta |
-| Consumer staples | 7-9% | Low beta, moderate leverage |
-| Telecom (large) | 7-9% | Heavy debt, moderate beta |
-| Healthcare / pharma | 8-10% | Moderate beta, moderate leverage |
-| REITs | 6-8% | High debt (but use WACD + cost of equity separately) |
-| Industrials | 8-11% | Cyclical, moderate leverage |
-| Financials | 9-12% | High beta, but debt is operational (use cost of equity only) |
-| Consumer discretionary | 9-11% | Cyclical, higher beta |
-| Energy (majors) | 8-10% | Moderate beta, strong BS |
-| Energy (E&P) | 10-12% | High beta, commodity exposure |
-| Technology (large-cap) | 8-11% | Low debt, moderate beta |
-| SaaS high-growth | 10-13% | High beta, minimal debt → cost of equity dominates |
-| Semiconductors | 10-12% | High beta, cyclical |
-| Biotech | 11-14% | Very high beta, often pre-revenue |
+| Utility (General) | 4.36% | High debt capacity and low beta |
+| Food Processing | 5.79% | Defensive demand, moderate leverage |
+| Telecom Services | 5.39% | Heavy debt and lower beta |
+| Drugs (Pharmaceutical) | 7.85% | Diversified operating companies |
+| R.E.I.T. | 5.32% | Cross-check with property-level cap rates and debt costs |
+| Business & Consumer Services | 7.23% | Broad services proxy |
+| Auto & Truck | 9.38% | Cyclical and capital intensive |
+| Oil/Gas (Integrated) | 5.07% | Large integrated producers |
+| Oil/Gas (Production and Exploration) | 6.25% | Commodity-sensitive upstream producers |
+| Software (System & Application) | 9.34% | Mature and growth software mix |
+| Software (Internet) | 10.66% | Higher-beta internet software |
+| Semiconductor | 10.55% | Cyclical, equity-heavy capital structure |
+| Drugs (Biotechnology) | 8.49% | Broad biotech sample; clinical-stage firms may require scenario methods |
+
+For banks and insurers, debt is operational funding. Prefer cost of equity and sector-appropriate valuation methods instead of a conventional industrial-company WACC.
 
 ## Size Premium (CRSP / Ibbotson style)
 

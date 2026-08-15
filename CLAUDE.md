@@ -30,6 +30,7 @@ plugins/
     plugin.json
     skills/...
     plugin.json
+    .mcp.json             # Bundled MCP servers (tradingview — headless TradingView scanner, pinned to a git SHA)
     skills/...
   startup-tools/          # Startup analysis
     plugin.json
@@ -141,9 +142,10 @@ This repo ships as a Claude Code plugin marketplace containing 6 plugins:
 
 - `.claude-plugin/marketplace.json` — marketplace listing with all 6 plugin entries.
 - `plugins/<group>/plugin.json` — per-plugin manifest (name, version, keywords). Skills under `plugins/<group>/skills/` with SKILL.md frontmatter are auto-discovered by the plugin loader.
+- `plugins/<group>/.mcp.json` — optional bundled MCP servers, started automatically when the plugin is enabled. Tools are namespaced `mcp__plugin_<plugin-name>_<server-name>__<tool>`. Currently: `data-providers/.mcp.json` runs [tradingview-mcp](https://github.com/atilaahmettaner/tradingview-mcp) via `uvx`, pinned to an upstream commit SHA (bump the SHA deliberately and re-verify `tools/list` — upstream reuses version numbers, so PyPI lags git).
 - `.agents/` — auto-generated mirror for agent distribution. **Do not edit directly** — this is produced from `plugins/` content.
 
-Users install all plugins via `npx plugins add himself65/finance-skills`. Individual plugins can be installed via `npx plugins add himself65/finance-skills --plugin <plugin-name>`. Individual skills can be installed via `npx skills add himself65/finance-skills --skill <name>`.
+Users run `npx plugins add himself65/finance-skills` and select one or more plugin groups interactively; `--yes` installs every discovered group. The current `plugins` CLI has no `--plugin` flag. Individual skills can be installed via `npx skills add himself65/finance-skills --skill <name>`.
 
 When a skill is invoked as a plugin, it is namespaced as `<plugin-name>:<skill-name>` (e.g., `/finance-market-analysis:options-payoff`).
 
