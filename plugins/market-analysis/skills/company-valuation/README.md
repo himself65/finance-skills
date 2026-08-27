@@ -20,7 +20,6 @@ Estimate the intrinsic value of a public company via DCF, relative (peer multipl
 - Python 3.8+
 - `yfinance`, `numpy`, `pandas` (auto-installed if missing)
 
-
 ## Platform
 
 CLI-based agents (Claude Code). Requires shell + pip.

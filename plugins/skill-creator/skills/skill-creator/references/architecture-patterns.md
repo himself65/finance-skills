@@ -120,6 +120,7 @@ Step 5: Respond with brief explanation
 
 **Structure:** 3-5 steps + heavy reference files (one per endpoint category).
 
+**Example:** `fintel-data`
 ```
 Step 1: Check API key
 Step 2: Identify what user needs (mega routing table)

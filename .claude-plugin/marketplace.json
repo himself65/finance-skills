@@ -23,6 +23,7 @@
     {
       "name": "finance-data-providers",
       "source": "./plugins/data-providers",
+      "description": "External API data — sentiment via Adanos, Fintel short-interest/ownership intelligence, Hormuz Strait monitoring, TradingView via a bundled headless MCP server or the desktop reader, and Hyperliquid perp/spot reader.",
       "version": "10.0.0"
     },
     {

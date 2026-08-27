@@ -36,11 +36,13 @@ Market data via the bundled [`tradingview` MCP server](https://github.com/atilaa
 | Options chain **with greeks** (delta/gamma/theta/vega), IV skew, expiries with contract counts | `tradingview-reader` (desktop app) |
 | Watchlists, alerts, TV news, chart state / screenshots, custom-column screener | `tradingview-reader` (desktop app) |
 
+Rule of thumb: this skill first for anything price/TA/scan shaped — it needs zero setup and won't force a CDP relaunch of the user's TradingView app. Drop to `tradingview-reader` only for greeks or account-bound data (watchlists, alerts, charts).
 
 ## Step 1: Check requirements
 
 - `uv` installed (`brew install uv`) — the server runs via `uvx` and self-installs on first launch (give the first call ~30s).
 - Python 3.10–3.13. The pinned upstream currently excludes Python 3.14.
+- Optional: `MARKETAUX_API_TOKEN` enables `market_sentiment`, `financial_news`, and the news legs of combined analysis.
 
 If the MCP tools are missing, ask the user to restart the agent after enabling the plugin. Do not silently replace market data with invented values.
 
@@ -105,6 +107,7 @@ Prefer one focused call for a simple question. For a research brief, combine onl
 
 ### News & sentiment (needs `MARKETAUX_API_TOKEN`)
 
+`market_sentiment(symbol, category)` · `financial_news(symbol, category, limit)`
 
 ### Regional extras
 
@@ -122,6 +125,7 @@ Prefer one focused call for a simple question. For a research brief, combine onl
 1. Check timestamps, exchange, symbol, session, and currency before drawing conclusions.
 2. Treat a returned error envelope as an error, not as an empty result. Use its retryability and symbol suggestions; retry at most once when marked retryable.
 3. Filter wide scanner results to roughly 10 rows and the columns relevant to the question.
+4. Treat Yahoo options IV as suitable for chain shape and OI/volume positioning, not precise IV rank or skew. Cross-check IV-sensitive work with `tradingview-reader`.
 5. Backtests are historical simulations. Report the period, interval, costs, sample size, benchmark, and walk-forward result when available; do not present them as forecasts.
 
 ## Step 5: Respond to the user

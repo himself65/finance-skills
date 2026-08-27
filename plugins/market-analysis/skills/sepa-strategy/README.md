@@ -28,6 +28,7 @@ All (works on Claude Code, Claude.ai, and other agents)
 
 ## Setup
 
+No special setup required. Works best with access to market data tools (yfinance) for real-time prices and fundamentals.
 
 ## Reference Files
 

@@ -146,12 +146,17 @@ For skills that wrap external APIs.
 !`echo $API_KEY | head -c 8 && echo "...KEY_SET" || echo "KEY_NOT_SET"`
 ```
 
+### Real Example: fintel-data
 
 ```markdown
 ` ` `
+!`echo $FINTEL_API_KEY | head -c 8 && echo "...KEY_SET" || echo "KEY_NOT_SET"`
 ` ` `
 
 If `KEY_NOT_SET`:
+- Ask the user for their Fintel API key
+- Guide them to https://fintel.io/api to get one
+- Once provided, export it: `export FINTEL_API_KEY=<key>`
 ```
 
 ### Real Example: finance-sentiment (multi-line Python check)

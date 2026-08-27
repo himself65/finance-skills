@@ -30,6 +30,7 @@ description: >
 **Writing a high-quality description:**
 
 1. Start with a concrete action verb: "Analyze", "Generate", "Fetch", "Evaluate" (not "Use" or "Handle")
+2. Name specific tools/APIs: "via yfinance", "using the Fintel API"
 3. List 5+ explicit trigger phrases in quotes
 4. Include 2+ sideways entry points (unexpected phrasings)
 5. End with context triggers ("also when the user...")
@@ -70,6 +71,9 @@ Declare API keys or tokens the skill needs. These are secrets stored in `~/.herm
 
 ```yaml
 required_environment_variables:
+  - name: FINTEL_API_KEY
+    prompt: "Fintel API key"
+    help: "Get one at https://fintel.io/api"
     required_for: "API access"
 ```
 

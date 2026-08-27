@@ -31,15 +31,12 @@ Always present a WACC × terminal-growth sensitivity table and Bull/Base/Bear sc
 
 ## Step 1: Detection Flow
 
-Detect data source and runtime deps. The skill supports 3 method paths — pick the richest one available.
+Detect data source and runtime deps. The skill supports 2 method paths — pick the richest one available.
 
 **Environment status:**
 
 ```
 !`python3 -c "exec('try:\n import yfinance, numpy, pandas\n print(\'YFIN_OK\')\nexcept Exception:\n print(\'YFIN_MISSING\')')"`
-```
-
-```
 ```
 
 ```
@@ -51,7 +48,7 @@ Detect data source and runtime deps. The skill supports 3 method paths — pick 
 | Condition | Method path |
 |---|---|
 | `YFIN_OK` | **Path A** (primary): yfinance for financials + peer multiples |
-| Both missing | **Path C**: pip-install yfinance, then Path A. `python3 -m pip install -q yfinance numpy pandas` |
+| `YFIN_MISSING` | **Path B**: pip-install yfinance, then Path A. `python3 -m pip install -q yfinance numpy pandas` |
 | `RF_FETCH_FAIL` | Use default `rf = 0.045` and note stale risk-free rate in output |
 
 If `RF_10Y=` printed, use that value as `rf` in Step 4d instead of the hardcoded 4.5%.

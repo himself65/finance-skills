@@ -241,19 +241,6 @@ opencli tradingview options-chain --ticker AAPL --expiry 2026-06-19 \
 # Avoid legs with > 5–10% relative spread on liquid names
 ```
 
-
-TradingView's options data is convenient (no API key, runs against your logged-in session) but can lag. For trade entry decisions:
-
-```bash
-# 1. Pull the chain from TradingView
-opencli tradingview options-chain --ticker SNDK --expiry 2026-05-22 \
-    --strikes-around-spot 6 -f json > tv_chain.json
-
-#    GET /v1/options/stock?ticker=SNDK&type=option-chains&expiry=2026-05-22
-
-# 3. Reconcile bid/ask/IV/greeks; flag any large divergence
-```
-
 ### Capture a chart for research notes
 
 ```bash

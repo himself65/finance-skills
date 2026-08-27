@@ -131,6 +131,7 @@ opencli hyperliquid book --coin ETH --depth 5 -f json
 4. **For `book`, report the spread** — best bid, best ask, mid, and spread in bps before (or instead of) dumping every level. Don't paste 20 levels unless asked.
 5. **For `candles`, describe the move** — first/last close, high/low, and direction; only show the full OHLCV table when the user wants the series.
 6. **Filter aggressively before showing** — `markets` has ~180 perps and `mids` ~700 markets; cap to top 15-20 by the relevant sort unless the user asks for the full list.
+7. **Cross-reference for trade decisions** — Hyperliquid is the on-chain venue; for equities/options context pair it with the `tradingview-reader` skill. For funding/basis trades, `funding-compare` plus `markets` (premium, OI) is the core view.
 
 ---
 

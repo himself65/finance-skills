@@ -7,18 +7,6 @@ A collection of agent skills for financial analysis and trading, following the [
 
 **Visit [skills.himself65.com](https://skills.himself65.com/) for documentation, demos, and setup instructions.**
 
----
-
-<div align="center">
-
-</a>
-
-
-
-</div>
-
----
-
 ## Quick Start
 
 ### Plugin Groups (Claude Code, Codex, Cursor, and More)
@@ -80,6 +68,7 @@ Read-only social media and research feeds — Twitter/X, Discord, LinkedIn, Tele
 
 ### Data Providers (`finance-data-providers`)
 
+External API data — sentiment via Adanos, Fintel short-interest/ownership intelligence, Hormuz Strait monitoring, TradingView data via a bundled headless MCP server or the desktop app, and Hyperliquid perp/spot reading.
 
 | Skill | Description |
 |---|---|

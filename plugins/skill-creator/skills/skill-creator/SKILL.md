@@ -63,6 +63,7 @@ Before writing SKILL.md, plan the structure. Read `references/architecture-patte
 | **Router** | Multiple sub-tasks under one umbrella | 3 + sub-skills | stock-correlation (4 sub-skills) |
 | **Methodology** | Complex domain framework with sequential gates | 7-9 | sepa-strategy (9-step trading methodology) |
 | **Widget** | Generates interactive UI output | 4-5 | options-payoff (extract + compute + render) |
+| **API Wrapper** | Wraps an external API with many endpoints | 3-5 + heavy references | fintel-data (6 steps, 1 reference file) |
 
 ### Plan the Step Outline
 
