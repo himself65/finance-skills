@@ -103,6 +103,10 @@ Create, evaluate, and iterate on high-quality agent skills with structured guida
 |---|---|
 | [skill-creator](plugins/skill-creator/skills/skill-creator/) | Create new skills, evaluate existing ones against a 10-dimension rubric, and improve skill quality |
 
+## Related
+
+- [us-watchlist-alerts](https://github.com/eli-alvarado/us-watchlist-alerts) - US stock watchlist, de-duplicated price alerts and NYSE-aware briefs (no API key, never trades).
+
 ## License
 
 MIT
