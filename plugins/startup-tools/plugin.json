@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "finance-startup-tools",
   "description": "Multi-perspective startup analysis frameworks for VC investors, job applicants, and founders.",
-  "version": "11.1.0",
+  "version": "11.2.0",
   "author": {
     "name": "himself65"
   },
