@@ -12,6 +12,8 @@ description: >
 
 # Finance Sentiment Skill
 
+If your host has not already executed the shell probes below (for example, in Codex), run the commands inside the `!` wrappers with its shell tool before choosing a setup path. Use the actual output; if shell access is unavailable, report that limitation.
+
 Fetches structured stock sentiment from the Adanos Finance API.
 
 This skill is read-only. It is designed for research questions that are easier to answer with normalized sentiment signals than with raw social feeds.

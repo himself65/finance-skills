@@ -14,6 +14,8 @@ description: >
 
 # yfinance Data Skill
 
+If your host has not already executed the shell probes below (for example, in Codex), run the commands inside the `!` wrappers with its shell tool before choosing a setup path. Use the actual output; if shell access is unavailable, report that limitation.
+
 Fetches financial and market data from Yahoo Finance using the [yfinance](https://github.com/ranaroussi/yfinance) Python library.
 
 **Important**: yfinance is not affiliated with Yahoo, Inc. Data is for research and educational purposes.

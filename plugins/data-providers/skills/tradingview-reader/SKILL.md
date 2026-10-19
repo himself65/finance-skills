@@ -15,6 +15,8 @@ description: >
 
 # TradingView Reader (Read-Only)
 
+If your host has not already executed the shell probes below (for example, in Codex), run the commands inside the `!` wrappers with its shell tool before choosing a setup path. Use the actual output; if shell access is unavailable, report that limitation.
+
 Reads TradingView's desktop macOS app for quotes, options chains, and chart state via [opencli](https://github.com/jackwener/opencli) and a CDP attach to the running TradingView.app process. Powered by the `tradingview` plugin in this repo's [`opencli-plugins/tradingview`](https://github.com/himself65/finance-skills/tree/main/opencli-plugins/tradingview) tree (a separate plugin from opencli's built-in adapters, installed via opencli's monorepo subpath syntax).
 
 **This skill is read-only.** Designed for analysis: pulling options chains, checking IV/greeks, capturing chart state. It does NOT place trades, post ideas, modify watchlists, or change chart layouts.

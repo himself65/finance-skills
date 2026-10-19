@@ -1,0 +1,14 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "tradingview": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/atilaahmettaner/tradingview-mcp@099090e15fb71857dcb6b8bb4f5d41faeb9968cf",
+        "tradingview-mcp"
+      ]
+    }
+  }
+}

@@ -20,7 +20,7 @@ description: >
 
 # TradingView MCP (Headless Market Data)
 
-Market data via the bundled [`tradingview` MCP server](https://github.com/atilaahmettaner/tradingview-mcp) — TradingView's public scanner API plus Yahoo Finance, spoken over MCP. **No TradingView desktop app or account.** Most tools need no API key. The server ships with this plugin (`.mcp.json`) and starts automatically; its 39 tools appear under the plugin's `tradingview` MCP namespace (load them through the client's deferred-tool mechanism when necessary).
+Market data via the bundled [`tradingview` MCP server](https://github.com/atilaahmettaner/tradingview-mcp) — TradingView's public scanner API plus Yahoo Finance, spoken over MCP. **No TradingView desktop app or account.** Most tools need no API key. The server ships with the full plugin (`mcp.json` for portable/Codex packages, `.mcp.json` for legacy clients) and starts when enabled in a host that supports local stdio MCP processes. Its 39 tools appear under the plugin's `tradingview` MCP namespace (load them through the client's deferred-tool mechanism when necessary). Installing only the skill does not install the MCP server; use the full `finance-data-providers` plugin or configure the server separately.
 
 **Read-only.** Nothing here places trades or mutates any account.
 

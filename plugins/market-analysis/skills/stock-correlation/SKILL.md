@@ -14,6 +14,8 @@ description: >
 
 # Stock Correlation Analysis Skill
 
+If your host has not already executed the shell probes below (for example, in Codex), run the commands inside the `!` wrappers with its shell tool before choosing a setup path. Use the actual output; if shell access is unavailable, report that limitation.
+
 Finds and analyzes correlated stocks using historical price data from Yahoo Finance via [yfinance](https://github.com/ranaroussi/yfinance). Routes to specialized sub-skills based on user intent.
 
 **Important**: This is for research and educational purposes only. Not financial advice. yfinance is not affiliated with Yahoo, Inc.

@@ -13,6 +13,8 @@ description: >
 
 # Hyperliquid Reader (Read-Only)
 
+If your host has not already executed the shell probes below (for example, in Codex), run the commands inside the `!` wrappers with its shell tool before choosing a setup path. Use the actual output; if shell access is unavailable, report that limitation.
+
 Reads [Hyperliquid](https://app.hyperliquid.xyz) — the on-chain perps/spot DEX — for market data via [opencli](https://github.com/jackwener/opencli) and the `hyperliquid` plugin in this repo's [`opencli-plugins/hyperliquid`](https://github.com/himself65/finance-skills/tree/main/opencli-plugins/hyperliquid) tree (a separate plugin from opencli's built-in adapters, installed via opencli's monorepo subpath syntax).
 
 **This skill is read-only and market-data only.** It reads Hyperliquid's fully public info API for analysis: market tables, funding, order book, and candles. It does NOT read individual accounts, place/modify/cancel orders, or move funds. There is no trading path in the plugin — order placement requires wallet-signed actions on a separate endpoint this adapter never calls.

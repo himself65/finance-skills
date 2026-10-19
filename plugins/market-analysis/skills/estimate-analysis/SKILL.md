@@ -12,6 +12,8 @@ description: >
 
 # Estimate Analysis Skill
 
+If your host has not already executed the shell probes below (for example, in Codex), run the commands inside the `!` wrappers with its shell tool before choosing a setup path. Use the actual output; if shell access is unavailable, report that limitation.
+
 Deep-dives into analyst estimates and revision trends using Yahoo Finance data via [yfinance](https://github.com/ranaroussi/yfinance). Covers EPS and revenue estimate distributions, revision momentum, growth projections, and multi-period comparisons — the full picture of where the street thinks a company is heading.
 
 **Important**: Data is for research and educational purposes only. Not financial advice. yfinance is not affiliated with Yahoo, Inc.

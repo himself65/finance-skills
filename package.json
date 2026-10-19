@@ -1,7 +1,12 @@
 {
   "private": true,
   "scripts": {
-    "bump": "ccbump"
+    "bump": "ccbump --execute \"python3 scripts/package_plugins.py sync\"",
+    "plugins:sync": "python3 scripts/package_plugins.py sync",
+    "plugins:check": "python3 scripts/package_plugins.py check",
+    "plugins:build": "python3 scripts/package_plugins.py build",
+    "plugins:smoke": "python3 scripts/smoke_codex.py",
+    "test:plugins": "python3 -m unittest discover -s scripts/tests -v"
   },
   "packageManager": "pnpm@12.11.2",
   "devDependencies": {

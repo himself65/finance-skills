@@ -14,7 +14,9 @@ description: >
 
 # Options Payoff Curve Skill
 
-Generates a fully interactive HTML widget (via `visualize:show_widget`) showing:
+If your host has not already executed the shell probes below (for example, in Codex), run the commands inside the `!` wrappers with its shell tool before choosing a setup path. Use the actual output; if shell access is unavailable, report that limitation.
+
+Generates an interactive HTML chart using the host's available visualization tool, or a standalone HTML file in Codex, showing:
 - **Expiry payoff curve** (dashed gray line) — intrinsic value at expiration
 - **Theoretical value curve** (solid colored line) — Black-Scholes price at current DTE/IV
 - Dynamic sliders for all key parameters
@@ -116,7 +118,7 @@ payoff = credit_received - put_spread - call_spread
 
 ## Step 4: Render the Widget
 
-Use `visualize:read_me` with modules `["chart", "interactive"]` before building.
+When `visualize:read_me` is available, read modules `["chart", "interactive"]` before building and use `visualize:show_widget` to render. Otherwise use an available host visualization tool according to its documented interface. In Codex without an inline renderer, save a complete HTML document in the workspace, include the chart dependencies and CSS, verify it in a browser when available, and return a clickable file link. Preserve all controls and calculations below. Do not call tools that the host does not expose.
 
 ### Required Controls (sliders)
 

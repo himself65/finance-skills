@@ -9,7 +9,21 @@ A collection of agent skills for financial analysis and trading, following the [
 
 ## Quick Start
 
-### Plugin Groups (Claude Code, Codex, Cursor, and More)
+### OpenAI Codex
+
+Add this repository as a native Codex marketplace, then install the groups you need:
+
+```bash
+codex plugin marketplace add himself65/finance-skills
+codex plugin add finance-market-analysis@finance-skills
+codex plugin add finance-data-providers@finance-skills
+```
+
+In the desktop app, select **Finance Skills** in the plugin directory after registering the marketplace. Restart or refresh the app if the source is not visible yet. Older clients without `codex plugin` can install individual skills with `npx skills add himself65/finance-skills -a codex`; that route does not include bundled MCP servers.
+
+GitHub releases also provide one importable plugin ZIP per group, a complete local marketplace ZIP, and the existing individual skill ZIPs. See [Codex installation and release guide](docs/codex.md) for ZIP selection, requirements, and maintainer commands.
+
+### Plugin Groups (Claude Code, Cursor, and More)
 
 ```bash
 npx plugins add himself65/finance-skills
@@ -89,11 +103,11 @@ Multi-perspective startup analysis frameworks for VC investors, job applicants, 
 
 ### UI Tools (`finance-ui-tools`)
 
-Generative UI design system for rendering interactive HTML/SVG widgets in Claude conversations.
+Generative UI design system for interactive HTML/SVG widgets, using the host's renderer or standalone HTML in Codex.
 
 | Skill | Description |
 |---|---|
-| [generative-ui](plugins/ui-tools/skills/generative-ui/) | Generative UI design system for Claude's `show_widget` |
+| [generative-ui](plugins/ui-tools/skills/generative-ui/) | Generative UI design system with native widget rendering and a standalone HTML fallback |
 
 ### Skill Creator (`finance-skill-creator`)
 

@@ -12,6 +12,8 @@ description: >
 
 # Twitter Skill (Read-Only)
 
+If your host has not already executed the shell probes below (for example, in Codex), run the commands inside the `!` wrappers with its shell tool before choosing a setup path. Use the actual output; if shell access is unavailable, report that limitation.
+
 Reads Twitter/X for financial research using [opencli](https://github.com/jackwener/opencli), a universal CLI tool that bridges web services to the terminal via browser session reuse.
 
 **This skill is read-only.** It is designed for financial research: searching market discussions, reading analyst tweets, tracking sentiment, and monitoring financial news on Twitter/X. It does NOT support posting, liking, retweeting, replying, or any write operations.
