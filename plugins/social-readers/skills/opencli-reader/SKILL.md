@@ -15,6 +15,8 @@ description: >
 
 # opencli Reader (Generic Fallback, Read-Only)
 
+If your host has not already executed the shell probes below (for example, in Codex), run the commands inside the `!` wrappers with its shell tool before choosing a setup path. Use the actual output; if shell access is unavailable, report that limitation.
+
 Generic fallback for any source opencli supports via its [adapter registry](https://github.com/jackwener/opencli) (100+ sites, growing). Use this skill only when **no dedicated finance-skill covers the source** — the specialized skills (`twitter-reader`, `linkedin-reader`, `discord-reader`, `telegram-reader`, `yc-reader`) are always preferred when the request matches one of them.
 
 **This skill is read-only.** Write commands that opencli exposes (post, like, comment, send, save, upvote, subscribe, follow, delete, reply-dm, etc.) must not be invoked.

@@ -13,6 +13,8 @@ description: >
 
 # Stock Liquidity Analysis Skill
 
+If your host has not already executed the shell probes below (for example, in Codex), run the commands inside the `!` wrappers with its shell tool before choosing a setup path. Use the actual output; if shell access is unavailable, report that limitation.
+
 Analyzes stock liquidity across multiple dimensions — bid-ask spreads, volume patterns, order book depth, estimated market impact, and turnover ratios — using data from Yahoo Finance via [yfinance](https://github.com/ranaroussi/yfinance).
 
 Liquidity matters because it determines the real cost of trading. The quoted price is not what you actually pay — spreads, slippage, and market impact all eat into returns, especially for larger positions or less liquid names.

@@ -1,0 +1,24 @@
+name: Plugin Packages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  packages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Check generated Codex metadata
+        run: python3 scripts/package_plugins.py check
+      - name: Test release packaging
+        run: python3 -m unittest discover -s scripts/tests -v
+      - name: Build release archives
+        run: python3 scripts/package_plugins.py build

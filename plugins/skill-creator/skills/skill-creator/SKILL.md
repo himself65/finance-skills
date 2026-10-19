@@ -106,7 +106,7 @@ Read `references/writing-guide.md` for detailed instructions on writing each sec
 
 1. **Frontmatter first**: `name` (lowercase-hyphenated, max 64 chars) and `description` (max 1024 chars, no angle brackets) are required. The description is routing text that rides along in every request: say what the skill does, name the categories of requests it serves and the distinctive vocabulary users will use (methods, tools, data types, entities), and point to sibling skills for neighboring requests. Name intent categories instead of listing near-synonymous phrasings.
 
-2. **Detection flow for external dependencies**: use `!`command`` probes with fallback sentinels to detect tools, auth state, and runtime, then route to a method. Offer a second path where a real alternative exists (CLI vs Python library vs built-in tool). See `references/dynamic-calling.md`.
+2. **Detection flow for external dependencies**: use `!`command`` probes with fallback sentinels to detect tools, auth state, and runtime, then route to a method. For Codex and other hosts without command preprocessing, explicitly instruct the agent to run the enclosed commands with its shell tool and use the real output. Offer a second path where a real alternative exists (CLI vs Python library vs built-in tool). See `references/dynamic-calling.md`.
 
 3. **Match specificity to fragility**: give exact commands, flags, and code for fragile operations — installs, auth, CLI syntax, API contracts, calculations that must be right. For judgment work — analysis, interpretation, writing — state the goal, the criteria, and the domain heuristics, and let the model plan. Put a pass/fail gate wherever a failed check really ends the analysis.
 

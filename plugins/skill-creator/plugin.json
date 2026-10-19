@@ -1,4 +1,5 @@
 {
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "finance-skill-creator",
   "description": "Create, evaluate, and iterate on high-quality agent skills with structured guidance, quality scoring, and best-practice enforcement.",
   "version": "11.1.0",
@@ -15,5 +16,20 @@
     "agent",
     "authoring",
     "meta"
-  ]
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Finance Skill Creator",
+        "shortDescription": "Create and improve skills",
+        "longDescription": "Create, evaluate, and iterate on high-quality agent skills with structured guidance, quality scoring, and best-practice enforcement.",
+        "developerName": "himself65",
+        "category": "Productivity",
+        "websiteURL": "https://github.com/himself65/finance-skills",
+        "defaultPrompt": [
+          "Review an agent skill and suggest focused improvements."
+        ]
+      }
+    }
+  }
 }

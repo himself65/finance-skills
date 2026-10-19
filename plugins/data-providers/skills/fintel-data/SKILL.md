@@ -14,6 +14,8 @@ description: >
 
 # Fintel Data Skill
 
+If your host has not already executed the shell probes below (for example, in Codex), run the commands inside the `!` wrappers with its shell tool before choosing a setup path. Use the actual output; if shell access is unavailable, report that limitation.
+
 Fintel ([fintel.io](https://fintel.io)) is an institutional-grade market
 intelligence platform.
 Its strongest datasets are the ones most other providers lack: **short

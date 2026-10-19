@@ -11,6 +11,8 @@ description: >
 
 # Telegram News Skill (Read-Only)
 
+If your host has not already executed the shell probes below (for example, in Codex), run the commands inside the `!` wrappers with its shell tool before choosing a setup path. Use the actual output; if shell access is unavailable, report that limitation.
+
 Reads Telegram channels and groups for financial news and market research using [tdl](https://github.com/iyear/tdl), a Telegram CLI tool.
 
 **This skill is read-only.** It is designed for financial research: reading channel messages, monitoring financial news channels, and exporting message history. It does NOT support sending messages, joining/leaving channels, or any write operations.

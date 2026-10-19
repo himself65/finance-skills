@@ -1,0 +1,80 @@
+{
+  "name": "finance-skills",
+  "interface": {
+    "displayName": "Finance Skills"
+  },
+  "plugins": [
+    {
+      "name": "finance-market-analysis",
+      "source": {
+        "source": "local",
+        "path": "./plugins/market-analysis"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "finance-social-readers",
+      "source": {
+        "source": "local",
+        "path": "./plugins/social-readers"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "finance-data-providers",
+      "source": {
+        "source": "local",
+        "path": "./plugins/data-providers"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "finance-startup-tools",
+      "source": {
+        "source": "local",
+        "path": "./plugins/startup-tools"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "finance-ui-tools",
+      "source": {
+        "source": "local",
+        "path": "./plugins/ui-tools"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "finance-skill-creator",
+      "source": {
+        "source": "local",
+        "path": "./plugins/skill-creator"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

@@ -11,6 +11,8 @@ description: >
 
 # Y Combinator Reader (Read-Only)
 
+If your host has not already executed the shell probes below (for example, in Codex), run the commands inside the `!` wrappers with its shell tool before choosing a setup path. Use the actual output; if shell access is unavailable, report that limitation.
+
 Fetches Y Combinator company data from the [yc-oss/api](https://github.com/yc-oss/api), an unofficial open-source API that indexes all publicly launched YC companies. The data is sourced from YC's Algolia search index and updated daily via GitHub Actions.
 
 **This is a read-only data source.** It provides company profiles, batch listings, industry/tag breakdowns, hiring status, and diversity data. No write operations exist — the API serves static JSON files.

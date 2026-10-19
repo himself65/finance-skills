@@ -1,4 +1,5 @@
 {
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "finance-data-providers",
   "description": "External API data — sentiment via Adanos, Fintel short-interest/ownership intelligence, Hormuz Strait monitoring, TradingView via a bundled headless MCP server or the desktop reader, and Hyperliquid perp/spot reader.",
   "version": "11.1.0",
@@ -32,5 +33,20 @@
     "funding",
     "crypto",
     "dex"
-  ]
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Finance Data Providers",
+        "shortDescription": "Market data and sentiment",
+        "longDescription": "External API data — sentiment via Adanos, Fintel short-interest/ownership intelligence, Hormuz Strait monitoring, TradingView via a bundled headless MCP server or the desktop reader, and Hyperliquid perp/spot reader.",
+        "developerName": "himself65",
+        "category": "Productivity",
+        "websiteURL": "https://github.com/himself65/finance-skills",
+        "defaultPrompt": [
+          "Compare technical indicators for AAPL and MSFT."
+        ]
+      }
+    }
+  }
 }

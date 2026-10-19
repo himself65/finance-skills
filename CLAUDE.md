@@ -9,7 +9,7 @@ A collection of agent skills for financial analysis and trading, following the [
 ## Repository structure
 
 This repo is three things at once:
-1. A **Claude Code plugin marketplace** (`.claude-plugin/marketplace.json` + `plugins/`)
+1. A **Claude Code and OpenAI Codex plugin marketplace** (`.claude-plugin/marketplace.json`, generated `.agents/plugins/marketplace.json`, and `plugins/`)
 2. An **Agent Skills** repository (the `SKILL.md` files inside `plugins/<group>/skills/`)
 3. An **opencli plugin monorepo** (`opencli-plugin.json` at root + `opencli-plugins/`) — Node code for adapters that some skills depend on
 
@@ -20,7 +20,8 @@ Skills are organized into plugin groups by usage; opencli plugins are separate N
   marketplace.json        # Marketplace definition — lists all 6 plugins
 plugins/
   market-analysis/        # Stock analysis, earnings, correlations, options via yfinance
-    plugin.json           # Plugin manifest for this group
+    plugin.json           # Portable Agent Plugins manifest + extensions.com.openai
+    .codex-plugin/        # Generated compatibility manifest; do not edit directly
     skills/
       <skill-name>/
         SKILL.md
@@ -51,10 +52,12 @@ opencli-plugins/          # Source for opencli adapters (Node code, has tests)
     lib/                  # shared helpers
     tests/                # node:test units
 workspaces/               # Development workspaces (not distributed)
-.agents/                  # Auto-generated mirror for agent distribution (do not edit directly)
+.agents/plugins/          # Generated Codex marketplace (do not edit directly)
+scripts/                  # Stdlib Python metadata generation, packaging, tests, Codex smoke
 .github/workflows/
   release-skills.yml      # Zips each skill and publishes as GitHub release on tag
   skill-lint.yml          # Lints all SKILL.md files
+  plugin-packages.yml     # Checks generated metadata and tests/builds release packages
 ```
 
 ## How skills work
@@ -150,9 +153,11 @@ This repo ships as a Claude Code plugin marketplace containing 6 plugins:
 | `finance-skill-creator` | Skill authoring, evaluation, and improvement |
 
 - `.claude-plugin/marketplace.json` — marketplace listing with all 6 plugin entries.
+- `.agents/plugins/marketplace.json` — generated native Codex marketplace. Register with `codex plugin marketplace add himself65/finance-skills`, then install a group with `codex plugin add finance-market-analysis@finance-skills`.
+- `plugins/<group>/.codex-plugin/plugin.json` and `plugins/data-providers/mcp.json` — generated Codex compatibility and portable MCP metadata. Run `npm run plugins:sync` after editing source manifests or `.mcp.json`; CI checks for drift. See `docs/codex.md` for installation and release details.
 - `plugins/<group>/plugin.json` — per-plugin manifest (name, version, keywords). Skills under `plugins/<group>/skills/` with SKILL.md frontmatter are auto-discovered by the plugin loader.
 - `plugins/<group>/.mcp.json` — optional bundled MCP servers, started automatically when the plugin is enabled. Tools are namespaced `mcp__plugin_<plugin-name>_<server-name>__<tool>`. Currently: `data-providers/.mcp.json` runs [tradingview-mcp](https://github.com/atilaahmettaner/tradingview-mcp) via `uvx`, pinned to an upstream commit SHA (bump the SHA deliberately and re-verify `tools/list` — upstream reuses version numbers, so PyPI lags git).
-- `.agents/` — auto-generated mirror for agent distribution. **Do not edit directly** — this is produced from `plugins/` content.
+- `.agents/plugins/marketplace.json` — generated from the plugin inventory and manifests. **Do not edit directly** — use `npm run plugins:sync`.
 
 Users run `npx plugins add himself65/finance-skills` and select one or more plugin groups interactively; `--yes` installs every discovered group. The current `plugins` CLI has no `--plugin` flag. Individual skills can be installed via `npx skills add himself65/finance-skills --skill <name>`.
 
@@ -160,7 +165,8 @@ When a skill is invoked as a plugin, it is namespaced as `<plugin-name>:<skill-n
 
 ## CI/CD
 
-- **Release workflow** (`.github/workflows/release-skills.yml`): On tag push (`v*`), zips each skill from `plugins/*/skills/*/` and publishes them as a GitHub release. These zips can be uploaded to Claude.ai for web/desktop users.
+- **Release workflow** (`.github/workflows/release-skills.yml`): On tag push (`v*`), validates the tag against manifest versions and publishes individual skill ZIPs, six plugin ZIPs, a local marketplace ZIP, and SHA-256 checksums. `pnpm bump` synchronizes generated Codex files before committing/tagging. Prereleases do not replace the latest stable release.
+- **Plugin package checks** (`.github/workflows/plugin-packages.yml`): Runs `python3 scripts/package_plugins.py check`, packaging regression tests, and the release build. `npm run plugins:smoke` additionally checks the built archive through a locally installed Codex loader.
 - **Lint workflow** (`.github/workflows/skill-lint.yml`): Lints all `SKILL.md` files across all plugin groups. The linter caps `description` at 1024 chars and rejects angle brackets (`<` / `>`).
 - **opencli plugin tests** (`.github/workflows/opencli-plugin-test.yml`): Walks `opencli-plugins/*/` and runs `npm test` for each plugin that has a `package.json` and `tests/*.test.js`. Pure-JS unit tests only — wire-level integration (CDP attach, scanner endpoints) is out of scope and must be PoC-verified against a real desktop app.
 

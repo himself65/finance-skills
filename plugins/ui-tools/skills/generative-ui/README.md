@@ -28,7 +28,7 @@ Provides the complete Anthropic "Imagine" design system so Claude produces high-
 
 ## Platform
 
-Works on **Claude.ai** (built-in `show_widget` tool).
+Works on **Claude.ai** with its built-in `show_widget` tool, and **OpenAI Codex** with an available visualization tool or a standalone HTML file. Standalone output includes its own styles and chart dependencies; chat-only `sendPrompt` actions are omitted when no bridge is available.
 
 ## Setup
 
