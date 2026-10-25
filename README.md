@@ -117,6 +117,10 @@ Create, evaluate, and iterate on high-quality agent skills with structured guida
 |---|---|
 | [skill-creator](plugins/skill-creator/skills/skill-creator/) | Create new skills, evaluate existing ones against a 10-dimension rubric, and improve skill quality |
 
+## Contributing
+
+Contributor instructions for coding agents live in [`AGENTS.md`](AGENTS.md); `CLAUDE.md` imports it.
+
 ## License
 
 MIT
