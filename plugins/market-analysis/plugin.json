@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "finance-market-analysis",
   "description": "Stock analysis, earnings, estimates, correlations, liquidity, ETFs, options payoff, and trading strategies via yfinance.",
-  "version": "11.2.0",
+  "version": "11.2.1",
   "author": {
     "name": "himself65"
   },

@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "finance-ui-tools",
   "description": "Generative UI design system for interactive HTML/SVG widgets, with native rendering when available and standalone HTML output in Codex.",
-  "version": "11.2.0",
+  "version": "11.2.1",
   "author": {
     "name": "himself65"
   },
